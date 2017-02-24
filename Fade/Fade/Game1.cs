@@ -11,11 +11,14 @@ namespace Fade
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D player;
+        Vector2 position;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            position = new Vector2(100, 320);
         }
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace Fade
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            player = Content.Load<Texture2D>("char1sword");
             // TODO: use this.Content to load your game content here
         }
 
@@ -62,6 +65,13 @@ namespace Fade
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            KeyboardState state = new KeyboardState();
+            if(state.IsKeyDown(Keys.D))
+            {
+                position.X += 1;
+            }
+            //position.X += 1;
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -75,6 +85,13 @@ namespace Fade
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+            //spriteBatch.Draw(playerImage, new Vector2(0, 0), Color.DarkRed);
+            //spriteBatch.Draw(test, new Rectangle(100, 320, 120, 140), Color.White);
+            //spriteBatch.Draw(test, new Rectangle(400, 220, 220, 250), Color.White);
+            //spriteBatch.Draw(testSmall, new Rectangle(400, 320, 120, 140), Color.White);
+            spriteBatch.Draw(player, position);
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
