@@ -13,12 +13,15 @@ namespace Fade
         SpriteBatch spriteBatch;
         Texture2D player;
         Vector2 position;
+        KeyboardState state;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             position = new Vector2(100, 320);
+            state = new KeyboardState();
+
         }
 
         /// <summary>
@@ -65,7 +68,7 @@ namespace Fade
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            KeyboardState state = new KeyboardState();
+            
             if(state.IsKeyDown(Keys.D))
             {
                 position.X += 1;
