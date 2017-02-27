@@ -12,8 +12,11 @@ namespace Fade
         int Damage { get; set; }
         int Speed { get; set; }
         bool isDead { get; set; }
+        int XPos { get; set; }
+        int YPos { get; set; }
 
-        void Run();
+        void RunLeft();
+        void RunRight();
         void Jump();
         void Attack();
         void takeDamage();

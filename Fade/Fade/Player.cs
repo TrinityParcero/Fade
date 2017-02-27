@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Input;
 
 namespace Fade
 {
@@ -15,6 +16,20 @@ namespace Fade
         public bool isDead{ get; set; }
 
         public int Speed{ get; set; }
+
+        public int XPos { get; set; }
+
+        public int YPos { get; set; }
+
+        public Player(int x, int y)
+        {
+            Damage = 1;
+            Health = 3;
+            isDead = false;
+            Speed = 1;
+            XPos = x;
+            YPos = y;
+        }
 
         public void Attack()
         {
@@ -29,7 +44,14 @@ namespace Fade
             //jumping over tank is absolute limit of jump distance
         }
 
-        public void Run()
+        public void RunLeft()
+        {
+            throw new NotImplementedException();
+            //hit wasd to go!
+
+        }
+
+        public void RunRight()
         {
             throw new NotImplementedException();
             //hit wasd to go!

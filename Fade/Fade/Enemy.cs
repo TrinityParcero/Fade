@@ -16,6 +16,10 @@ namespace Fade
 
         public int Speed{ get; set; }
 
+        public int XPos { get; set; }
+
+        public int YPos { get; set; }
+
         public void Attack()
         {
             throw new NotImplementedException();
@@ -26,7 +30,12 @@ namespace Fade
             throw new NotImplementedException();
         }
 
-        public void Run()
+        public void RunLeft()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RunRight()
         {
             throw new NotImplementedException();
         }
