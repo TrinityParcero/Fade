@@ -73,10 +73,7 @@ namespace Fade
 
             //position.X += 1;
 
-            if(state.IsKeyDown(Keys.A))
-            {
-                p1.RunLeft();
-            }
+            p1.RunLeft(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);

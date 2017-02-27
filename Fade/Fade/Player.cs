@@ -25,6 +25,13 @@ namespace Fade
 
         public Texture2D sprite { get; set; }
 
+        private int currentFrame;
+        private int totalFrames;
+
+        //Slow down frame animation
+        private int timeSinceLastFrame = 0;
+        private int millisecondsPerFrame = 400;
+
 
         public Player(Texture2D asset, int x, int y)
         {
@@ -35,6 +42,8 @@ namespace Fade
             sprite = asset;
             XPos = x;
             YPos = y;
+            currentFrame = 0;
+            totalFrames = y * x;
         }
 
         public void Attack()
@@ -50,13 +59,32 @@ namespace Fade
             //jumping over tank is absolute limit of jump distance
         }
 
-        public void RunLeft()
+        public void RunLeft(GameTime gameTime)
         {
             //hit wasd to go!
-            XPos -= 1;
+            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
+            if (timeSinceLastFrame > millisecondsPerFrame)
+            {
+                timeSinceLastFrame -= millisecondsPerFrame;
+
+                KeyboardState keystate = Keyboard.GetState();
+
+                //Idle animation
+                if (keystate.GetPressedKeys().Length == 0)
+                    currentFrame++;
+                timeSinceLastFrame = 0;
+                if (currentFrame == 2)
+                    currentFrame = 0;
+
+                //Walking Animation
+                if (keystate.IsKeyDown(Keys.A))
+                {
+                    XPos -= 5;
+                }
+            }
         }
 
-        public void RunRight()
+        public void RunRight(GameTime gameTime)
         {
             throw new NotImplementedException();
             //hit wasd to go!
