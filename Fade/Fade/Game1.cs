@@ -13,16 +13,15 @@ namespace Fade
         SpriteBatch spriteBatch;
         Texture2D player;
         Vector2 position;
-        KeyboardState state;
+        KeyboardState state = new KeyboardState();
         Texture2D fog;
+        Player p1;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             position = new Vector2(0, 320);
-            state = new KeyboardState();
-
         }
 
         /// <summary>
@@ -34,6 +33,7 @@ namespace Fade
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            
 
             base.Initialize();
         }
@@ -48,6 +48,7 @@ namespace Fade
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player = Content.Load<Texture2D>("char1sword");
             fog = Content.Load<Texture2D>("fogfull");
+            p1 = new Player(player,150, 320);
             // TODO: use this.Content to load your game content here
         }
 
@@ -70,8 +71,12 @@ namespace Fade
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            position.X += 1;
+            //position.X += 1;
 
+            if(state.IsKeyDown(Keys.A))
+            {
+                p1.RunLeft();
+            }
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -91,7 +96,7 @@ namespace Fade
             //spriteBatch.Draw(test, new Rectangle(400, 220, 220, 250), Color.White);
             //spriteBatch.Draw(testSmall, new Rectangle(400, 320, 120, 140), Color.White);
             //spriteBatch.Draw(player, position);
-            spriteBatch.Draw(fog, position, Color.White);
+            spriteBatch.Draw(p1.sprite, new Rectangle(p1.XPos, p1.YPos, 120, 140),Color.White);
             spriteBatch.End();
             // TODO: Add your drawing code here
 

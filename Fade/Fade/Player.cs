@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Fade
@@ -21,12 +23,16 @@ namespace Fade
 
         public int YPos { get; set; }
 
-        public Player(int x, int y)
+        public Texture2D sprite { get; set; }
+
+
+        public Player(Texture2D asset, int x, int y)
         {
             Damage = 1;
             Health = 3;
             isDead = false;
             Speed = 1;
+            sprite = asset;
             XPos = x;
             YPos = y;
         }
@@ -46,9 +52,8 @@ namespace Fade
 
         public void RunLeft()
         {
-            throw new NotImplementedException();
             //hit wasd to go!
-
+            XPos -= 1;
         }
 
         public void RunRight()
