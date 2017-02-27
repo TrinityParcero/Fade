@@ -35,12 +35,7 @@ namespace Fade
             throw new NotImplementedException();
         }
 
-        public void RunLeft(GameTime gameTime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RunRight(GameTime gameTime)
+        public void Run(GameTime gameTime)
         {
             throw new NotImplementedException();
         }

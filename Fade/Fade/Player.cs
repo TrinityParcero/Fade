@@ -30,7 +30,7 @@ namespace Fade
 
         //Slow down frame animation
         private int timeSinceLastFrame = 0;
-        private int millisecondsPerFrame = 400;
+        private int millisecondsPerFrame = 0;
 
 
         public Player(Texture2D asset, int x, int y)
@@ -59,36 +59,37 @@ namespace Fade
             //jumping over tank is absolute limit of jump distance
         }
 
-        public void RunLeft(GameTime gameTime)
+        public void Run(GameTime gameTime)
         {
-            //hit wasd to go!
-            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
-            if (timeSinceLastFrame > millisecondsPerFrame)
+
+            KeyboardState keystate = Keyboard.GetState();
+
+            //Idle animation
+            if (keystate.GetPressedKeys().Length == 0)
+                currentFrame++;
+            timeSinceLastFrame = 0;
+            if (currentFrame == 2)
+                currentFrame = 0;
+
+            //Walking Animation
+            if (keystate.IsKeyDown(Keys.A))
             {
-                timeSinceLastFrame -= millisecondsPerFrame;
-
-                KeyboardState keystate = Keyboard.GetState();
-
-                //Idle animation
-                if (keystate.GetPressedKeys().Length == 0)
-                    currentFrame++;
-                timeSinceLastFrame = 0;
-                if (currentFrame == 2)
-                    currentFrame = 0;
-
-                //Walking Animation
-                if (keystate.IsKeyDown(Keys.A))
-                {
-                    XPos -= 5;
-                }
+                XPos -= 1;
             }
-        }
 
-        public void RunRight(GameTime gameTime)
-        {
-            throw new NotImplementedException();
+            if(keystate.IsKeyDown(Keys.D))
+            {
+                XPos += 1;
+            }
             //hit wasd to go!
 
+            //Idle animation
+
+            if (keystate.GetPressedKeys().Length == 0)
+                currentFrame++;
+            timeSinceLastFrame = 0;
+            if (currentFrame == 2)
+                currentFrame = 0;
         }
 
         public void takeDamage()

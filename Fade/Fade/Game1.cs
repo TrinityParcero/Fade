@@ -73,7 +73,7 @@ namespace Fade
 
             //position.X += 1;
 
-            p1.RunLeft(gameTime);
+            p1.Run(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);

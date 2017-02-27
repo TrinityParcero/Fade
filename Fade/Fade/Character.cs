@@ -19,8 +19,7 @@ namespace Fade
         int YPos { get; set; }
         Texture2D sprite { get; set; }
 
-        void RunLeft(GameTime gameTime);
-        void RunRight(GameTime gameTime);
+        void Run(GameTime gameTime);
         void Jump();
         void Attack();
         void takeDamage();
