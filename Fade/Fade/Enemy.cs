@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Fade
 {
@@ -19,6 +22,8 @@ namespace Fade
         public int XPos { get; set; }
 
         public int YPos { get; set; }
+
+        public Texture2D sprite { get; set; }
 
         public void Attack()
         {
