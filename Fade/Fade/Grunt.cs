@@ -8,6 +8,7 @@ namespace Fade
 {
     class Grunt : Enemy
     {
-
+        //one health
+        //same speed as player
     }
 }

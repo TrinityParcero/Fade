@@ -9,6 +9,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Fade
 {
+    enum PlayerState
+    {
+        FaceRight,
+        WalkRight,
+        FaceLeft,
+        WalkLeft
+    }
     class Player : Character
     {
         public int Damage{ get; set; }
@@ -25,13 +32,14 @@ namespace Fade
 
         public Texture2D sprite { get; set; }
 
+        PlayerState playerState = PlayerState.FaceRight;
+
         private int currentFrame;
         private int totalFrames;
 
         //Slow down frame animation
         private int timeSinceLastFrame = 0;
         private int millisecondsPerFrame = 0;
-
 
         public Player(Texture2D asset, int x, int y)
         {
@@ -59,6 +67,7 @@ namespace Fade
             //jumping over tank is absolute limit of jump distance
         }
 
+        KeyboardState previous = new KeyboardState();
         public void Run(GameTime gameTime)
         {
 
@@ -71,25 +80,34 @@ namespace Fade
             if (currentFrame == 2)
                 currentFrame = 0;
 
-            //Walking Animation
-            if (keystate.IsKeyDown(Keys.A))
+            var ks = Keyboard.GetState();
+            if (ks.IsKeyDown(Keys.A))
             {
-                XPos -= 1;
+                playerState = PlayerState.WalkLeft;
+                XPos -= 2;
+            }
+            else if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkLeft)
+            {
+                playerState = PlayerState.FaceLeft;
             }
 
-            if(keystate.IsKeyDown(Keys.D))
+
+            else if (ks.IsKeyDown(Keys.D))
             {
-                XPos += 1;
+                playerState = PlayerState.WalkRight;
+                XPos += 2;
             }
+            else if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkRight)
+            {
+                playerState = PlayerState.FaceRight;
+            }
+
+            // PRACTICE EXERCISE: Get the current keyboard state here
+
+
+            // PRACTICE EXERCISE: Add your finite state machine code (switch statement) here
+            previous = ks;
             //hit wasd to go!
-
-            //Idle animation
-
-            if (keystate.GetPressedKeys().Length == 0)
-                currentFrame++;
-            timeSinceLastFrame = 0;
-            if (currentFrame == 2)
-                currentFrame = 0;
         }
 
         public void takeDamage()

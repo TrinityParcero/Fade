@@ -8,6 +8,7 @@ namespace Fade
 {
     class Tank : Enemy
     {
-
+        //two or three health
+        //half player speed
     }
 }

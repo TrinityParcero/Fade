@@ -7,13 +7,13 @@ namespace Fade
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
+    /// 
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D player;
         Vector2 position;
-        KeyboardState state = new KeyboardState();
         Texture2D fog;
         Player p1;
 
@@ -70,6 +70,8 @@ namespace Fade
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            KeyboardState state = new KeyboardState();
 
             //position.X += 1;
 

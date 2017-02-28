@@ -13,15 +13,15 @@ namespace Fade
 
         public void Move()
         {
-
+            //move at about half player speed by default
         }
         public void damagePlayer()
         {
-
+            //will take 6 ticks to kill
         }
         public void consumeEnemy()
         {
-
+            //
         }
     }
 }
