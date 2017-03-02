@@ -20,17 +20,15 @@ namespace Fade
     {
         public int Damage{ get; set; }
 
-        public int Health{ get; set; }
+        public double Health{ get; set; }
 
         public bool isDead{ get; set; }
 
         public int Speed{ get; set; }
 
-        public int XPos { get; set; }
-
-        public int YPos { get; set; }
-
         public Texture2D sprite { get; set; }
+
+        public Rectangle location;
 
         PlayerState playerState = PlayerState.FaceRight;
 
@@ -41,17 +39,16 @@ namespace Fade
         private int timeSinceLastFrame = 0;
         private int millisecondsPerFrame = 0;
 
-        public Player(Texture2D asset, int x, int y)
+        public Player(Texture2D asset, Rectangle loc)
         {
             Damage = 1;
-            Health = 3;
+            Health = 3.0;
             isDead = false;
             Speed = 1;
             sprite = asset;
-            XPos = x;
-            YPos = y;
+            location = loc;
             currentFrame = 0;
-            totalFrames = y * x;
+            totalFrames = loc.X * loc.Y;
         }
 
         public void Attack()
@@ -84,7 +81,7 @@ namespace Fade
             if (ks.IsKeyDown(Keys.A))
             {
                 playerState = PlayerState.WalkLeft;
-                XPos -= 2;
+                location.X -= 2;
             }
             else if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkLeft)
             {
@@ -95,7 +92,7 @@ namespace Fade
             else if (ks.IsKeyDown(Keys.D))
             {
                 playerState = PlayerState.WalkRight;
-                XPos += 2;
+                location.X += 2;
             }
             else if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkRight)
             {

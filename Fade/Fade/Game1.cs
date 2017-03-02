@@ -48,7 +48,7 @@ namespace Fade
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player = Content.Load<Texture2D>("char1sword");
             fog = Content.Load<Texture2D>("fogfull");
-            p1 = new Player(player,150, 320);
+            p1 = new Player(player,new Rectangle(0,300,120,140));
             // TODO: use this.Content to load your game content here
         }
 
@@ -70,8 +70,6 @@ namespace Fade
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            KeyboardState state = new KeyboardState();
 
             //position.X += 1;
 
@@ -95,7 +93,7 @@ namespace Fade
             //spriteBatch.Draw(test, new Rectangle(400, 220, 220, 250), Color.White);
             //spriteBatch.Draw(testSmall, new Rectangle(400, 320, 120, 140), Color.White);
             //spriteBatch.Draw(player, position);
-            spriteBatch.Draw(p1.sprite, new Rectangle(p1.XPos, p1.YPos, 120, 140),Color.White);
+            spriteBatch.Draw(p1.sprite, new Rectangle(p1.location.X, p1.location.Y, p1.location.Width, p1.location.Height),Color.White);
             spriteBatch.End();
             // TODO: Add your drawing code here
 

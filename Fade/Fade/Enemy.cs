@@ -19,11 +19,15 @@ namespace Fade
 
         public int Speed{ get; set; }
 
-        public int XPos { get; set; }
-
-        public int YPos { get; set; }
-
         public Texture2D sprite { get; set; }
+
+        public Rectangle location;
+
+        public Enemy(Texture2D texture, Rectangle rect)
+        {
+            sprite = texture;
+            location = rect;
+        }
 
         public void Attack()
         {
