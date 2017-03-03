@@ -107,11 +107,18 @@ namespace Fade
             //hit wasd to go!
         }
 
-        public void takeDamage()
+        public void takeDamage(double dmg)
         {
-            throw new NotImplementedException();
             //if enemy is in hitbox, take const damage
             //if enemy is in attack animation and youre in hitbox- damage
+            if (Health <= 0)
+            {
+                isDead = true;
+            }
+            else
+            {
+                Health -= dmg;
+            }
         }
     }
 }

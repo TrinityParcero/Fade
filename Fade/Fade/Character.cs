@@ -11,7 +11,7 @@ namespace Fade
 {
     interface Character
     {
-        int Health { get; set; }
+        double Health { get; set; }
         int Damage { get; set; }
         int Speed { get; set; }
         bool isDead { get; set; }

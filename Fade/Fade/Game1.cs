@@ -12,16 +12,15 @@ namespace Fade
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D player;
-        Vector2 position;
-        Texture2D fog;
+        Texture2D playerSprite;
+        Texture2D fogSprite;
         Player p1;
+        Fog fog;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            position = new Vector2(0, 320);
         }
 
         /// <summary>
@@ -46,9 +45,10 @@ namespace Fade
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = Content.Load<Texture2D>("char1sword");
-            fog = Content.Load<Texture2D>("fogfull");
-            p1 = new Player(player,new Rectangle(0,300,120,140));
+            playerSprite = Content.Load<Texture2D>("char1sword");
+            fogSprite= Content.Load<Texture2D>("fogfull");
+            p1 = new Player(playerSprite,new Rectangle(200,300,120,140));
+            fog = new Fog(fogSprite, new Rectangle(-300, 40, 400, 400), 1, 0);
             // TODO: use this.Content to load your game content here
         }
 
@@ -74,6 +74,7 @@ namespace Fade
             //position.X += 1;
 
             p1.Run(gameTime);
+            fog.Move();
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -94,6 +95,7 @@ namespace Fade
             //spriteBatch.Draw(testSmall, new Rectangle(400, 320, 120, 140), Color.White);
             //spriteBatch.Draw(player, position);
             spriteBatch.Draw(p1.sprite, new Rectangle(p1.location.X, p1.location.Y, p1.location.Width, p1.location.Height),Color.White);
+            spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
             spriteBatch.End();
             // TODO: Add your drawing code here
 

@@ -13,7 +13,7 @@ namespace Fade
     {
         public int Damage{ get; set; }
 
-        public int Health{ get; set; }
+        public double Health{ get; set; }
 
         public bool isDead{ get; set; }
 
@@ -23,10 +23,10 @@ namespace Fade
 
         public Rectangle location;
 
-        public Enemy(Texture2D texture, Rectangle rect)
+        public Enemy(Texture2D texture, Rectangle loc)
         {
             sprite = texture;
-            location = rect;
+            location = loc;
         }
 
         public void Attack()

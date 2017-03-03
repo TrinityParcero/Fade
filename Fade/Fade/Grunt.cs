@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Fade
 {
@@ -10,5 +13,9 @@ namespace Fade
     {
         //one health
         //same speed as player
+        public Grunt(Texture2D asset, Rectangle loc) : base(asset,loc)
+        {
+            
+        }
     }
 }
