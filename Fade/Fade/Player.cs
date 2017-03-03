@@ -83,23 +83,33 @@ namespace Fade
             var ks = Keyboard.GetState();
             if (ks.IsKeyDown(Keys.A))
             {
-                playerState = PlayerState.WalkLeft;
-                currentX -= 2;
-                location.X -= 2;
+                if (location.X < 100)
+                {
+
+                }
+                else
+                {
+                    playerState = PlayerState.WalkLeft;
+                    currentX -= 2;
+                    location.X -= 2;
+
+                }
+                
+                
             }
-            else if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkLeft)
+            if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkLeft)
             {
                 playerState = PlayerState.FaceLeft;
             }
 
 
-            else if (ks.IsKeyDown(Keys.D))
+            if (ks.IsKeyDown(Keys.D))
             {
                 playerState = PlayerState.WalkRight;
                 currentX += 2;
                 location.X += 2;
             }
-            else if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkRight)
+            if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkRight)
             {
                 playerState = PlayerState.FaceRight;
             }

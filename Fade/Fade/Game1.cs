@@ -18,7 +18,6 @@ namespace Fade
         Player p1;
         Fog fog;
         Camera2D camera;
-        int currentX = 0;
 
         public Game1()
         {
@@ -111,7 +110,12 @@ namespace Fade
             //spriteBatch.Draw(player, position);
             spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), effects: SpriteEffects.FlipHorizontally);
-            spriteBatch.Draw(bg, new Rectangle(2 * GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            for (int i = 2; i < 50; i++) //temporary fix to bg cut off
+            {
+                spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+
+            }
+           
             spriteBatch.Draw(p1.sprite, new Rectangle(p1.location.X, p1.location.Y, p1.location.Width, p1.location.Height),Color.White);
             spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
             spriteBatch.End();
