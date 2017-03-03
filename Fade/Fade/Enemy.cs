@@ -44,7 +44,7 @@ namespace Fade
             throw new NotImplementedException();
         }
 
-        public void takeDamage()
+        public void takeDamage(double dmg)
         {
             throw new NotImplementedException();
         }

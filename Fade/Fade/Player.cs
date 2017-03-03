@@ -30,6 +30,8 @@ namespace Fade
 
         public Rectangle location;
 
+        public int currentX { get; set; }
+
         PlayerState playerState = PlayerState.FaceRight;
 
         private int currentFrame;
@@ -47,6 +49,7 @@ namespace Fade
             Speed = 1;
             sprite = asset;
             location = loc;
+            currentX = loc.X;
             currentFrame = 0;
             totalFrames = loc.X * loc.Y;
         }
@@ -81,6 +84,7 @@ namespace Fade
             if (ks.IsKeyDown(Keys.A))
             {
                 playerState = PlayerState.WalkLeft;
+                currentX -= 2;
                 location.X -= 2;
             }
             else if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkLeft)
@@ -92,6 +96,7 @@ namespace Fade
             else if (ks.IsKeyDown(Keys.D))
             {
                 playerState = PlayerState.WalkRight;
+                currentX += 2;
                 location.X += 2;
             }
             else if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkRight)

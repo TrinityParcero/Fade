@@ -20,6 +20,6 @@ namespace Fade
         void Run(GameTime gameTime);
         void Jump();
         void Attack();
-        void takeDamage();
+        void takeDamage(double dmg);
     }
 }
