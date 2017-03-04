@@ -74,7 +74,7 @@ namespace Fade
 
             //textures
             playerSprite = Content.Load<Texture2D>("char1sword");
-            fogSprite= Content.Load<Texture2D>("fogfull");
+            fogSprite = Content.Load<Texture2D>("fogfull");
             bg = Content.Load<Texture2D>("background");
             mainMenuImage = Content.Load<Texture2D>("menuprocess");
 
@@ -83,8 +83,8 @@ namespace Fade
             titleFont = Content.Load<SpriteFont>("titleFont");
 
             //objects
-            p1 = new Player(playerSprite,new Rectangle(GraphicsDevice.Viewport.Width/2,300,120,140));
-            fog = new Fog(fogSprite, new Rectangle(-300, 40, 400, 400), 1, 0);
+            p1 = new Player(playerSprite, new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140));
+            fog = new Fog(fogSprite, new Rectangle(-300, 80, 400, 400), 1, 0);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -108,23 +108,46 @@ namespace Fade
             {
                 currentState = GameState.Game;
             }
+            if (currentState == GameState.Game && SingleKeyPress(Keys.P))
+            {
+                currentState = GameState.GamePause;
+            }
+            if (currentState == GameState.Game && (p1.isDead || SingleKeyPress(Keys.B)))  //B key is temp for testing til we have damage going
+            {
+                ResetGame();
+                currentState = GameState.GameOver;
+            }
+            if (currentState == GameState.GamePause && SingleKeyPress(Keys.Enter))
+            {
+                currentState = GameState.Game;
+            }
+            if (currentState == GameState.GameOver && SingleKeyPress(Keys.Enter))
+            {
+                currentState = GameState.Menu;
+            }
 
             previousState = ks;
 
-            //MOVEMENT
-            p1.Run(gameTime);
-            fog.Move();
+            //GAMEPLAY
+            if (currentState == GameState.Game)
+            {
+                //MOVEMENT
+                p1.Run(gameTime);
+                fog.Move();
 
-            //CAMERA
-            if(ks.IsKeyDown(Keys.D))
-            {
-                camera.Position += new Vector2(250, 0) * deltaTime/2;
+                //CAMERA
+                if (ks.IsKeyDown(Keys.D))
+                {
+                    camera.Position += new Vector2(250, 0) * deltaTime / 2;
+                }
+                if (ks.IsKeyDown(Keys.A))
+                {
+                    camera.Position -= new Vector2(250, 0) * deltaTime / 2;
+                }
+
             }
-            if (ks.IsKeyDown(Keys.A))
-            {
-                camera.Position -= new Vector2(250, 0) * deltaTime / 2;
-            }
-            
+
+
 
             base.Update(gameTime);
         }
@@ -139,6 +162,7 @@ namespace Fade
 
             switch (currentState)
             {
+                //MAIN MENU
                 case GameState.Menu:
                     GraphicsDevice.Clear(Color.Black);
                     spriteBatch.Draw(mainMenuImage, new Vector2(0, 0));
@@ -148,11 +172,13 @@ namespace Fade
 
                     break;
 
+                //CONTROLS
                 case GameState.Controls:
                     GraphicsDevice.Clear(Color.Black);
                     //spriteBatch.Draw(controlsImage, new Vector2(0, 0));
                     break;
 
+                //GAMEPLAY
                 case GameState.Game:
                     GraphicsDevice.Clear(Color.Black);
                     spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
@@ -167,15 +193,48 @@ namespace Fade
                     spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
                     //spriteBatch.Draw(UI bar goes here);
+                    //spriteBatch.Draw(hearts go here);
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 20), Color.White);
-                    spriteBatch.DrawString(titleFont, "0", new Vector2(camera.Position.X + 380, 20), Color.White);
+                    spriteBatch.DrawString(textFont, "0", new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
+                    spriteBatch.DrawString(titleFont, "0", new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
                     break;
 
+                //GAME PAUSE
                 case GameState.GamePause:
+                    GraphicsDevice.Clear(Color.Black);
+                    spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), effects: SpriteEffects.FlipHorizontally);
+                    for (int i = 2; i < 50; i++) //temporary fix to bg cut off
+                    {
+                        spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
 
+                    }
+
+                    spriteBatch.Draw(p1.sprite, new Rectangle(p1.location.X, p1.location.Y, p1.location.Width, p1.location.Height), Color.White);
+                    spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
+
+                    //spriteBatch.Draw(UI bar goes here);
+                    //spriteBatch.Draw(hearts go here);
+                    spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 20), Color.White);
+                    spriteBatch.DrawString(textFont, "0", new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
+                    spriteBatch.DrawString(titleFont, "0", new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
+
+                    //spriteBatch.Draw(pauseImage);
+                    spriteBatch.DrawString(titleFont, "PAUSE", new Vector2(GraphicsDevice.Viewport.Width / 2, 200), Color.White);
+                    spriteBatch.DrawString(textFont, "CONTINUE", new Vector2(GraphicsDevice.Viewport.Width / 2, 250), Color.White);
+                    spriteBatch.DrawString(textFont, "MAIN MENU", new Vector2(GraphicsDevice.Viewport.Width / 2, 300), Color.White);
                     break;
 
+                //GAME OVER
                 case GameState.GameOver:
+
+                    GraphicsDevice.Clear(Color.Black);
+                    //spriteBatch.Draw(gameOverImage);
+                    spriteBatch.DrawString(textFont, "RETRY", new Vector2(350, 250), Color.White);
+                    spriteBatch.DrawString(textFont, "MAIN MENU", new Vector2(350, 300), Color.White);
+                    spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(625, 20), Color.White);
+                    spriteBatch.DrawString(textFont, "0", new Vector2(625, 60), Color.White); //high score num
+                    spriteBatch.DrawString(titleFont, "0", new Vector2(20, 20), Color.White); //current score num
 
                     break;
 
@@ -183,15 +242,15 @@ namespace Fade
                     break;
             }
 
-                    spriteBatch.End();
+            spriteBatch.End();
 
-                    base.Draw(gameTime);
-            
+            base.Draw(gameTime);
+
 
         }
 
         //METHODS
-        //SingleKeyPress. check if key is pressed
+        //SingleKeyPress. check if key is pressed, useful for menu navigation
         public bool SingleKeyPress(Keys key)
         {
             if (ks.IsKeyDown(key) && previousState.IsKeyUp(key))
@@ -205,6 +264,13 @@ namespace Fade
             }
         }
 
+        //ResetGame. resets game to initial state
+        public void ResetGame()
+        {
+            camera.Position = new Vector2(0, 0); //reset camera so it doesnt stay off-centered in other states
+            p1.location = new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140);
+            fog.location = new Rectangle(-300, 80, 400, 400);
+        }
+
     }
 }
-
