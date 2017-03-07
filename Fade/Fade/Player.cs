@@ -14,7 +14,8 @@ namespace Fade
         FaceRight,
         WalkRight,
         FaceLeft,
-        WalkLeft
+        WalkLeft,
+        Jump
     }
     class Player : Character
     {
@@ -73,14 +74,16 @@ namespace Fade
             var jp = Keyboard.GetState();
             if (true)
             {
+                playerState = PlayerState.Jump;
                 //jumping = true;
                 //have some variable that starts at 0 and goes to 6
-                for (int i = 1; i < 6; i++)
-                {
+                int i = 0;
+                
                     //this should be a parabola
-                    location.Y = -(i * i) + 122 * (i);
-                }
+                    location.Y -= -(i * i) + 122 * (i);
+                i++;
             }
+
             previous = jp;
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
 
 namespace Fade
 {
@@ -137,6 +138,7 @@ namespace Fade
                 {
                    // p1.location.Y += 2;
                     p1.Jump();
+
                 }
                 fog.Move();
 
