@@ -133,6 +133,11 @@ namespace Fade
             {
                 //MOVEMENT
                 p1.Run(gameTime);
+                if(ks.IsKeyDown(Keys.Space))
+                {
+                   // p1.location.Y += 2;
+                    p1.Jump();
+                }
                 fog.Move();
 
                 //CAMERA

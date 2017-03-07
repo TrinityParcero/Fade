@@ -32,6 +32,8 @@ namespace Fade
 
         public int currentX { get; set; }
 
+        public bool jumping { get; set; }
+
         PlayerState playerState = PlayerState.FaceRight;
 
         private int currentFrame;
@@ -63,8 +65,23 @@ namespace Fade
 
         public void Jump()
         {
-            throw new NotImplementedException();
+
             //jumping over tank is absolute limit of jump distance
+            //use a loop to perform parabola of jump
+            //havea a variable to hold keyboard input for jumping, when the loop is done set this attribute back to the empty attribute
+            //named previous
+            var jp = Keyboard.GetState();
+            if (true)
+            {
+                //jumping = true;
+                //have some variable that starts at 0 and goes to 6
+                for (int i = 1; i < 6; i++)
+                {
+                    //this should be a parabola
+                    location.Y = -(i * i) + 122 * (i);
+                }
+            }
+            previous = jp;
         }
 
         KeyboardState previous = new KeyboardState();
