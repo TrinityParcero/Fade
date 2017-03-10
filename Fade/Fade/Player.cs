@@ -17,6 +17,7 @@ namespace Fade
         WalkLeft,
         Jump
     }
+
     class Player : Character
     {
         public int Damage{ get; set; }
@@ -35,8 +36,8 @@ namespace Fade
 
         public bool jumping { get; set; }
 
-        PlayerState playerState = PlayerState.FaceRight;
-
+        public PlayerState playerState = PlayerState.FaceRight;
+        public PlayerState prevPlayerState;
         private int currentFrame;
         private int totalFrames;
 
@@ -55,6 +56,7 @@ namespace Fade
             currentX = loc.X;
             currentFrame = 0;
             totalFrames = loc.X * loc.Y;
+            
         }
 
         public void Attack()
@@ -129,17 +131,14 @@ namespace Fade
                 currentX += 2;
                 location.X += 2;
             }
+
             if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkRight)
             {
                 playerState = PlayerState.FaceRight;
             }
-
-            // PRACTICE EXERCISE: Get the current keyboard state here
-
-
-            // PRACTICE EXERCISE: Add your finite state machine code (switch statement) here
+            
             previous = ks;
-            //hit wasd to go!
+            prevPlayerState = playerState;
         }
 
         public void takeDamage(double dmg)

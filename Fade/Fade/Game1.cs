@@ -39,6 +39,7 @@ namespace Fade
         Texture2D playerSprite; //will be replaced by a spritesheet
         Texture2D fogSprite;
         Texture2D bg;
+        Texture2D spriteSheet;
 
         //OBJECTS
         Player p1;
@@ -52,6 +53,20 @@ namespace Fade
         KeyboardState ks;
         KeyboardState previousState = Keyboard.GetState();
 
+        //ANIMATION
+        int frame;              // The current animation frame
+        double timeCounter;     // The amount of time that has passed
+        double fps;             // The speed of the animation
+        double timePerFrame;    // The amount of time (in fractional seconds) per frame
+        Vector2 playerLoc;
+
+        // Constants for "source" rectangle (inside the image)
+        const int WALK_FRAME_COUNT = 6;         // The number of frames in the animation
+        const int PLAYER_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
+        const int PLAYER_RECT_HEIGHT = 140;       // The height of a single frame
+        const int PLAYER_RECT_WIDTH = 135;        // The width of a single frame
+
+
         // CONSTRUCTOR ///////////////////////////////////
         public Game1()
         {
@@ -64,7 +79,8 @@ namespace Fade
         {
             // TODO: Add your initialization logic here
             camera = new Camera2D(GraphicsDevice.Viewport);
-
+            fps = 8.0;
+            timePerFrame = 1.0 / fps;
             base.Initialize();
         }
 
@@ -78,6 +94,7 @@ namespace Fade
             fogSprite = Content.Load<Texture2D>("fogfull");
             bg = Content.Load<Texture2D>("background");
             mainMenuImage = Content.Load<Texture2D>("menuprocess");
+            spriteSheet = Content.Load<Texture2D>("charsprite");
 
             //type
             textFont = Content.Load<SpriteFont>("textFont");
@@ -85,6 +102,7 @@ namespace Fade
 
             //objects
             p1 = new Player(playerSprite, new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140));
+            
             fog = new Fog(fogSprite, new Rectangle(-300, 80, 400, 400), 1, 0);
         }
 
@@ -134,7 +152,9 @@ namespace Fade
             {
                 //MOVEMENT
                 p1.Run(gameTime);
-                if(ks.IsKeyDown(Keys.Space))
+                playerLoc.X = p1.location.X;
+                playerLoc.Y = p1.location.Y;
+                if (ks.IsKeyDown(Keys.Space))
                 {
                    // p1.location.Y += 2;
                     p1.Jump();
@@ -142,6 +162,21 @@ namespace Fade
                 }
                 fog.Move();
 
+                //Handle animation timing
+                // - Add to the time counter
+                // - Check if we have enough "time" to advance the frame
+                timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                if (timeCounter >= timePerFrame)
+                {
+                    frame += 1;                     // Adjust the frame
+
+                    if (frame > WALK_FRAME_COUNT)   // Check the bounds
+                        frame = 1;                  // Back to 1 (since 0 is the "standing" frame)
+
+                    timeCounter -= timePerFrame;    // Remove the time we "used"
+                }
+
+                
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
@@ -154,10 +189,46 @@ namespace Fade
 
             }
 
-
-
+            
             base.Update(gameTime);
         }
+
+        private void DrawPlayerStanding(SpriteEffects flipSprite)
+        {
+            spriteBatch.Draw(
+                spriteSheet,                    // - The texture to draw
+                playerLoc,                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    0,                          //   - This rectangle specifies
+                    PLAYER_RECT_Y_OFFSET,        //	   where "inside" the texture
+                    PLAYER_RECT_WIDTH,           //     to get pixels (We don't want to
+                    PLAYER_RECT_HEIGHT),         //     draw the whole thing)
+                Color.White,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
+
+        private void DrawPlayerWalking(SpriteEffects flipSprite)
+        {
+            spriteBatch.Draw(
+                spriteSheet,                    // - The texture to draw
+                playerLoc,                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    frame * PLAYER_RECT_WIDTH,   //   - This rectangle specifies
+                    PLAYER_RECT_Y_OFFSET,        //	   where "inside" the texture
+                    PLAYER_RECT_WIDTH,           //     to get pixels (We don't want to
+                    PLAYER_RECT_HEIGHT),         //     draw the whole thing)
+                Color.White,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
+
 
         //DRAW ///////////////////////////////////////////
         protected override void Draw(GameTime gameTime)
@@ -196,7 +267,45 @@ namespace Fade
 
                     }
 
-                    spriteBatch.Draw(p1.sprite, new Rectangle(p1.location.X, p1.location.Y, p1.location.Width, p1.location.Height), Color.White);
+                    switch (p1.playerState)
+                    {
+                        //FACELEFT
+                        case PlayerState.FaceLeft:
+                            if ((p1.prevPlayerState == PlayerState.FaceRight) || (p1.prevPlayerState == PlayerState.WalkRight))
+                            {
+                                DrawPlayerStanding(SpriteEffects.FlipHorizontally); //if he was facing or walking right, flip so he faces left
+                            }
+                            else
+                            {
+                                DrawPlayerStanding(SpriteEffects.FlipHorizontally); //if he wasnt facing or walking right, draw him standing facing left
+                            }
+                            break;
+
+                        //WALKLEFT
+                        case PlayerState.WalkLeft:
+                            DrawPlayerWalking(SpriteEffects.FlipHorizontally);
+                            break;
+
+                        //FACERIGHT
+                        case PlayerState.FaceRight:
+                            if ((p1.prevPlayerState == PlayerState.FaceLeft) || (p1.prevPlayerState == PlayerState.WalkLeft))
+                            {
+                                DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                            }
+                            else
+                            {
+                                DrawPlayerStanding(0);
+                            }
+                            break;
+
+                        //WALKRIGHT
+                        case PlayerState.WalkRight:
+                            DrawPlayerWalking(0);
+                            break;
+                        default:
+                            break;
+                    }
+                    
                     spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
                     //spriteBatch.Draw(UI bar goes here);
@@ -278,6 +387,7 @@ namespace Fade
             p1.location = new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140);
             fog.location = new Rectangle(-300, 80, 400, 400);
         }
+
 
     }
 }
