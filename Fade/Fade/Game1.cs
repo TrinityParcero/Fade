@@ -156,7 +156,6 @@ namespace Fade
                 playerLoc.Y = p1.location.Y;
                 if (ks.IsKeyDown(Keys.Space))
                 {
-                   // p1.location.Y += 2;
                     p1.Jump();
 
                 }
@@ -302,6 +301,12 @@ namespace Fade
                         case PlayerState.WalkRight:
                             DrawPlayerWalking(0);
                             break;
+                        
+                        //JUMP
+                        case PlayerState.Jump:
+                            DrawPlayerStanding(0);
+                            break;
+                            
                         default:
                             break;
                     }

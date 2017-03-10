@@ -41,6 +41,11 @@ namespace Fade
         private int currentFrame;
         private int totalFrames;
 
+        int jumpSpeed = 0;
+        int startY = 300;
+
+        int i = 1;
+
         //Slow down frame animation
         private int timeSinceLastFrame = 0;
         private int millisecondsPerFrame = 0;
@@ -79,11 +84,19 @@ namespace Fade
                 playerState = PlayerState.Jump;
                 //jumping = true;
                 //have some variable that starts at 0 and goes to 6
-                int i = 0;
                 
-                    //this should be a parabola
-                    location.Y -= -(i * i) + 122 * (i);
-                i++;
+                    jumpSpeed = -200;
+                    location.Y += jumpSpeed;
+                    
+                    if(location.Y <= 300)
+                    {
+                        jumpSpeed += 1;
+                        location.Y += jumpSpeed;
+                    }
+                        location.Y = 300;
+                        jumping = false;
+                      
+                playerState = prevPlayerState;
             }
 
             previous = jp;
