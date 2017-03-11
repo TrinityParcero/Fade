@@ -35,17 +35,23 @@ namespace Fade
         public int currentX { get; set; }
 
         public bool jumping { get; set; }
-
+        public bool falling { get; set; }
         public PlayerState playerState = PlayerState.FaceRight;
         public PlayerState prevPlayerState;
         private int currentFrame;
         private int totalFrames;
-
+        int MAX_HEIGHT = 150;
         int jumpSpeed = 0;
         int startY = 300;
 
-        int i = 1;
+        //attributes for jumping
+         
+         
+         int g;
+         
+         int ground;
 
+       
         //Slow down frame animation
         private int timeSinceLastFrame = 0;
         private int millisecondsPerFrame = 0;
@@ -62,6 +68,11 @@ namespace Fade
             currentFrame = 0;
             totalFrames = loc.X * loc.Y;
             
+            
+            jumping = false;
+            g = location.Y;
+            
+            ground = location.Y;
         }
 
         public void Attack()
@@ -78,29 +89,61 @@ namespace Fade
             //use a loop to perform parabola of jump
             //havea a variable to hold keyboard input for jumping, when the loop is done set this attribute back to the empty attribute
             //named previous
-            var jp = Keyboard.GetState();
-            if (true)
+            
+            if (!jumping && !falling)
             {
                 playerState = PlayerState.Jump;
-                //jumping = true;
-                //have some variable that starts at 0 and goes to 6
+                jumping = true;
                 
-                    jumpSpeed = -200;
-                    location.Y += jumpSpeed;
-                    
-                    if(location.Y <= 300)
-                    {
-                        jumpSpeed += 1;
-                        location.Y += jumpSpeed;
-                    }
-                        location.Y = 300;
-                        jumping = false;
-                      
-                playerState = prevPlayerState;
+
+
+            }
+            
+           
+        }
+
+
+
+        /// <summary>
+        /// jump update will checki to see if the player is jumping and/or falling, if it is nit falling, and not jumping then it is on ground, if it is jumping then it is  incrementing by 5(this is the rate), once the player reaches the max height(280 above the player height, which is 300, which in monogame is 20)
+        /// jumping is set to false, and falling is set to true, if the player is then falling the location is moved down by the same amount as it was raised, then if the location of the character is greater than or equal to the ground (since the ground is 300, and anything below the ground would be more than 300)
+        /// then the player is not falling or jumping, and the location of the player is set to the ground again
+        /// </summary>
+        public void JumpUpdate()
+        {
+            if (jumping == true)
+            {
+                location.Y -= 5;
+                /*
+                g -= -(i * i) + 10 * i;
+                i += 1;
+
+                location.Y = g;*/
+
+                //if we want a parbola then we will need an attribute, which we will change with another attribute, to increment the player height
             }
 
-            previous = jp;
+            if (location.Y <= MAX_HEIGHT)
+            {
+                jumping = false;
+                //falling will be set once the player jumps
+                falling = true;
+
+            }
+            if (falling)
+            {
+                location.Y += 5;
+            }
+
+            if (location.Y >= ground)
+            {
+                jumping = false;
+                falling = false;
+                location.Y = ground;
+            }
+
         }
+
 
         KeyboardState previous = new KeyboardState();
         public void Run(GameTime gameTime)

@@ -154,11 +154,16 @@ namespace Fade
                 p1.Run(gameTime);
                 playerLoc.X = p1.location.X;
                 playerLoc.Y = p1.location.Y;
+                //checks to see if spacebar is pressed
                 if (ks.IsKeyDown(Keys.Space))
                 {
-                    p1.Jump();
+                    //below method sets player class bool jumping = true
+                     p1.Jump();
+                   
 
                 }
+                //if the bool jumping frmo the player class is true then the below method will move the player
+                p1.JumpUpdate();
                 fog.Move();
 
                 //Handle animation timing
