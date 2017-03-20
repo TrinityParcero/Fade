@@ -70,7 +70,7 @@ namespace Fade
             
             
             jumping = false;
-            g = location.Y;
+            
             
             ground = location.Y;
         }
