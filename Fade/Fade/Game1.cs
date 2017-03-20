@@ -34,6 +34,7 @@ namespace Fade
 
         //IMAGES
         Texture2D mainMenuImage;
+        Texture2D pauseImage;
         Texture2D controlsImage;
         Texture2D player;
         Texture2D playerSprite; //will be replaced by a spritesheet
@@ -94,6 +95,7 @@ namespace Fade
             fogSprite = Content.Load<Texture2D>("fogfull");
             bg = Content.Load<Texture2D>("background");
             mainMenuImage = Content.Load<Texture2D>("menuprocess");
+            pauseImage = Content.Load<Texture2D>("pausebg");
             spriteSheet = Content.Load<Texture2D>("charsprite");
 
             //type
@@ -345,10 +347,9 @@ namespace Fade
                     spriteBatch.DrawString(textFont, "0", new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, "0", new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
 
-                    //spriteBatch.Draw(pauseImage);
-                    spriteBatch.DrawString(titleFont, "PAUSE", new Vector2(GraphicsDevice.Viewport.Width / 2, 200), Color.White);
-                    spriteBatch.DrawString(textFont, "CONTINUE", new Vector2(GraphicsDevice.Viewport.Width / 2, 250), Color.White);
-                    spriteBatch.DrawString(textFont, "MAIN MENU", new Vector2(GraphicsDevice.Viewport.Width / 2, 300), Color.White);
+                    spriteBatch.Draw(pauseImage, new Vector2(camera.Position.X, 0));
+                    spriteBatch.DrawString(textFont, "CONTINUE", new Vector2(camera.Position.X + 335, 205), Color.Black);
+                    spriteBatch.DrawString(textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 245), Color.Black);
                     break;
 
                 //GAME OVER
