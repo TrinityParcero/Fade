@@ -105,7 +105,7 @@ namespace Fade
             //objects
             p1 = new Player(playerSprite, new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140));
             
-            fog = new Fog(fogSprite, new Rectangle(-400, 80, 400, 400), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-400, 0, 700, 700), 1, 0);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -190,13 +190,13 @@ namespace Fade
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    if(camera.Position == new Vector2(0,0))
+                    if(camera.Position == Vector2.Zero)
                     {
-
+                        camera.Position -= new Vector2(0, 0) * deltaTime / 2;
                     }
                     else
                     {
-                        camera.Position -= new Vector2(150, 0) * deltaTime / 2;
+                        camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                     }
                 }
 
