@@ -146,22 +146,13 @@ namespace Fade
 
 
         KeyboardState previous = new KeyboardState();
-        public void Run(GameTime gameTime)
+        public void Run(Rectangle fogLoc)
         {
-
             KeyboardState keystate = Keyboard.GetState();
-
-            //Idle animation
-            if (keystate.GetPressedKeys().Length == 0)
-                currentFrame++;
-            timeSinceLastFrame = 0;
-            if (currentFrame == 2)
-                currentFrame = 0;
-
             var ks = Keyboard.GetState();
             if (ks.IsKeyDown(Keys.A))
             {
-                if (location.X < 100)
+                if (location.X < fogLoc.X)
                 {
 
                 }

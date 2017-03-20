@@ -105,7 +105,7 @@ namespace Fade
             //objects
             p1 = new Player(playerSprite, new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140));
             
-            fog = new Fog(fogSprite, new Rectangle(-300, 80, 400, 400), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-400, 80, 400, 400), 1, 0);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -153,7 +153,7 @@ namespace Fade
             if (currentState == GameState.Game)
             {
                 //MOVEMENT
-                p1.Run(gameTime);
+                p1.Run(fog.location);
                 playerLoc.X = p1.location.X;
                 playerLoc.Y = p1.location.Y;
                 //checks to see if spacebar is pressed
@@ -190,7 +190,14 @@ namespace Fade
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    camera.Position -= new Vector2(250, 0) * deltaTime / 2;
+                    if(camera.Position == new Vector2(0,0))
+                    {
+
+                    }
+                    else
+                    {
+                        camera.Position -= new Vector2(150, 0) * deltaTime / 2;
+                    }
                 }
 
             }

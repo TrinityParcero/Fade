@@ -39,7 +39,7 @@ namespace Fade
             throw new NotImplementedException();
         }
 
-        public void Run(GameTime gameTime)
+        public void Run(Rectangle fogLoc)
         {
             throw new NotImplementedException();
         }
