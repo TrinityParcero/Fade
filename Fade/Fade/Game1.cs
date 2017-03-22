@@ -24,8 +24,14 @@ namespace Fade
         //TEXT
         SpriteFont titleFont;
         SpriteFont textFont;
-        bool isSelected;  //used for menus where...
-        Color typeColor; //text color changes when selected
+        //SELECTABLES
+        SelectText mStart;
+        SelectText mControls;
+        SelectText mQuit;
+        SelectText pContinue;
+        SelectText pMenu;
+        SelectText gRetry;
+        SelectText gMenu;
 
         //SOUND
         //Song backgroundMusic;
@@ -104,7 +110,9 @@ namespace Fade
 
             //objects
             p1 = new Player(playerSprite, new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140));
-            
+            mStart = new SelectText(true, Color.White, Color.Black);
+            mControls = new SelectText();
+            mQuit = new SelectText();
             fog = new Fog(fogSprite, new Rectangle(-400, 0, 700, 700), 1, 0);
         }
 
@@ -125,7 +133,7 @@ namespace Fade
             //position.X += 1;
 
             //GAMESTATE CHANGES
-            if (currentState == GameState.Menu && SingleKeyPress(Keys.Enter))
+            if (currentState == GameState.Menu && mStart.IsSelected && SingleKeyPress(Keys.Enter))
             {
                 currentState = GameState.Game;
             }
@@ -148,6 +156,47 @@ namespace Fade
             }
 
             previousState = ks;
+
+            //MAIN MENU
+            if(currentState == GameState.Menu)
+            {
+                if(mStart.IsSelected && SingleKeyPress(Keys.S))
+                {
+                    mControls.IsSelected = true;
+                    mQuit.IsSelected = false;
+                    mStart.IsSelected = false;
+                }
+                else if(mControls.IsSelected && SingleKeyPress(Keys.S))
+                {
+                    mControls.IsSelected = false;
+                    mStart.IsSelected = false;
+                    mQuit.IsSelected = true;
+                }
+                else if(mQuit.IsSelected && SingleKeyPress(Keys.S))
+                {
+                    mQuit.IsSelected = false;
+                    mControls.IsSelected = false;
+                    mStart.IsSelected = true;
+                }
+                else if(mStart.IsSelected && SingleKeyPress(Keys.W))
+                {
+                    mStart.IsSelected = false;
+                    mControls.IsSelected = false;
+                    mQuit.IsSelected = true;
+                }
+                else if(mControls.IsSelected && SingleKeyPress(Keys.W))
+                {
+                    mControls.IsSelected = false;
+                    mQuit.IsSelected = false;
+                    mStart.IsSelected = true;
+                }
+                else if(mQuit.IsSelected && SingleKeyPress(Keys.W))
+                {
+                    mQuit.IsSelected = false;
+                    mStart.IsSelected = false;
+                    mControls.IsSelected = true;
+                }
+            }
 
             //GAMEPLAY
             if (currentState == GameState.Game)
@@ -257,9 +306,9 @@ namespace Fade
                 case GameState.Menu:
                     GraphicsDevice.Clear(Color.Black);
                     spriteBatch.Draw(mainMenuImage, new Vector2(0, 0));
-                    spriteBatch.DrawString(textFont, "START", new Vector2(350, 250), Color.White);
-                    spriteBatch.DrawString(textFont, "CONTROLS", new Vector2(350, 300), Color.White);
-                    spriteBatch.DrawString(textFont, "QUIT", new Vector2(350, 350), Color.White);
+                    mStart.DrawSelectText(spriteBatch, textFont, "START", new Vector2(350, 250));
+                    mControls.DrawSelectText(spriteBatch, textFont, "CONTROLS", new Vector2(350, 300));
+                    mQuit.DrawSelectText(spriteBatch, textFont, "QUIT", new Vector2(350, 350));
 
                     break;
 
