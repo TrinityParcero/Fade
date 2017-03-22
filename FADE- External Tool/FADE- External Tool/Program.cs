@@ -26,9 +26,9 @@ namespace FADE__External_Tool
 
             writer.WriteLine("5");//enemy amount, int
 
-            writer.WriteLine("2");//spawn amount, dependent on distance travelled, determines wave #
+            //writer.WriteLine("2");//spawn amount, dependent on distance travelled, determines wave #
 
-            writer.WriteLine("1");//spawn speed, timing between waves
+            //writer.WriteLine("1");//spawn speed, timing between waves
             writer.Close();
         }
     }

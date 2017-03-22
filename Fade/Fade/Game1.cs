@@ -210,7 +210,6 @@ namespace Fade
                 {
                     //below method sets player class bool jumping = true
                      p1.Jump();
-                   
 
                 }
                 //if the bool jumping frmo the player class is true then the below method will move the player
@@ -235,7 +234,8 @@ namespace Fade
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    camera.Position += new Vector2(250, 0) * deltaTime / 2;
+                    camera.LookAt(new Vector2(p1.location.X,p1.location.Y-60));
+                    //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
@@ -245,7 +245,8 @@ namespace Fade
                     }
                     else
                     {
-                        camera.Position -= new Vector2(250, 0) * deltaTime / 2;
+                        camera.LookAt(new Vector2(p1.location.X, p1.location.Y - 60));
+                        //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                     }
                 }
 
