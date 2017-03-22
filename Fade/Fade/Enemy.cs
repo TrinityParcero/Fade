@@ -39,7 +39,7 @@ namespace Fade
             throw new NotImplementedException();
         }
 
-        public void Run(Rectangle fogLoc)
+        public void Run(Rectangle fogBounds)
         {
             throw new NotImplementedException();
         }

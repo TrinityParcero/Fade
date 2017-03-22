@@ -17,7 +17,7 @@ namespace Fade
         bool isDead { get; set; }
         Texture2D sprite { get; set; }
 
-        void Run(Rectangle fogLoc);
+        void Run(Rectangle fogBounds);
         void Jump();
         void Attack();
         void takeDamage(double dmg);

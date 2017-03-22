@@ -113,7 +113,7 @@ namespace Fade
             mStart = new SelectText(true, Color.White, Color.Black);
             mControls = new SelectText();
             mQuit = new SelectText();
-            fog = new Fog(fogSprite, new Rectangle(-400, 0, 700, 700), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-400, 0, 900, 900), new Rectangle(-400, 0, 500, 700), 1, 0);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -202,7 +202,7 @@ namespace Fade
             if (currentState == GameState.Game)
             {
                 //MOVEMENT
-                p1.Run(fog.location);
+                p1.Run(fog.bounds);
                 playerLoc.X = p1.location.X;
                 playerLoc.Y = p1.location.Y;
                 //checks to see if spacebar is pressed
@@ -215,7 +215,7 @@ namespace Fade
                 }
                 //if the bool jumping frmo the player class is true then the below method will move the player
                 p1.JumpUpdate();
-                fog.Move();
+                fog.Move(p1);
 
                 //Handle animation timing
                 // - Add to the time counter
@@ -239,7 +239,7 @@ namespace Fade
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    if(camera.Position == Vector2.Zero)
+                    if(p1.location.Intersects(fog.bounds))
                     {
                         camera.Position -= new Vector2(0, 0) * deltaTime / 2;
                     }

@@ -146,13 +146,13 @@ namespace Fade
 
 
         KeyboardState previous = new KeyboardState();
-        public void Run(Rectangle fogLoc)
+        public void Run(Rectangle fogBounds)
         {
             KeyboardState keystate = Keyboard.GetState();
             var ks = Keyboard.GetState();
             if (ks.IsKeyDown(Keys.A))
             {
-                if (location.X < fogLoc.X)
+                if (fogBounds.Intersects(location))
                 {
 
                 }
@@ -161,10 +161,7 @@ namespace Fade
                     playerState = PlayerState.WalkLeft;
                     currentX -= 2;
                     location.X -= 2;
-
                 }
-                
-                
             }
             if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkLeft)
             {
