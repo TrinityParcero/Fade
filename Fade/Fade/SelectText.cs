@@ -12,10 +12,7 @@ namespace Fade
 {
     class SelectText
     {
-        //ATTRIBUTES
-        private Color defaultColor;
-        private Color selectColor;
-
+        //PROPS
         public bool IsSelected { get; set; }
         public Color DefaultColor { get; set; }
         public Color SelectColor { get; set; }

@@ -24,6 +24,10 @@ namespace Fade
         //TEXT
         SpriteFont titleFont;
         SpriteFont textFont;
+
+        int hiScore = 0;
+        int currentScore = 0;
+
         //SELECTABLES
         SelectText mStart;
         SelectText mControls;
@@ -130,12 +134,19 @@ namespace Fade
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             ks = Keyboard.GetState();
-            //position.X += 1;
 
             //GAMESTATE CHANGES
             if (currentState == GameState.Menu && mStart.IsSelected && SingleKeyPress(Keys.Enter))
             {
                 currentState = GameState.Game;
+            }
+            if (currentState == GameState.Menu && mControls.IsSelected && SingleKeyPress(Keys.Enter))
+            {
+                currentState = GameState.Controls;
+            }
+            if (currentState == GameState.Menu && mQuit.IsSelected && SingleKeyPress(Keys.Enter))
+            {
+                Exit(); 
             }
             if (currentState == GameState.Game && SingleKeyPress(Keys.P))
             {
@@ -155,8 +166,7 @@ namespace Fade
                 currentState = GameState.Menu;
             }
 
-            previousState = ks;
-
+            
             //MAIN MENU
             if(currentState == GameState.Menu)
             {
@@ -197,6 +207,8 @@ namespace Fade
                     mControls.IsSelected = true;
                 }
             }
+
+            previousState = ks;
 
             //GAMEPLAY
             if (currentState == GameState.Game)
@@ -379,8 +391,8 @@ namespace Fade
                     //spriteBatch.Draw(UI bar goes here);
                     //spriteBatch.Draw(hearts go here);
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 20), Color.White);
-                    spriteBatch.DrawString(textFont, "0", new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
-                    spriteBatch.DrawString(titleFont, "0", new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
+                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
+                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
                     break;
 
                 //GAME PAUSE
