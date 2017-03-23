@@ -113,11 +113,11 @@ namespace Fade
             titleFont = Content.Load<SpriteFont>("titleFont");
 
             //objects
-            p1 = new Player(playerSprite, new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140));
+            p1 = new Player(playerSprite, new Rectangle(200, 300, 120, 140));
             mStart = new SelectText(true, Color.White, Color.Black);
             mControls = new SelectText();
             mQuit = new SelectText();
-            fog = new Fog(fogSprite, new Rectangle(-400, 0, 900, 900), new Rectangle(-400, 0, 500, 700), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-800, 0, 700, 700), new Rectangle(-800, 0, 300, 700), 1, 0);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -246,7 +246,7 @@ namespace Fade
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    camera.LookAt(new Vector2(p1.location.X,p1.location.Y-60));
+                    camera.LookAt(new Vector2(p1.location.X+200,240));
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
@@ -257,7 +257,7 @@ namespace Fade
                     }
                     else
                     {
-                        camera.LookAt(new Vector2(p1.location.X, p1.location.Y - 60));
+                        camera.LookAt(new Vector2(p1.location.X+200, 240));
                         //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                     }
                 }
