@@ -32,6 +32,7 @@ namespace Fade
         SelectText mStart;
         SelectText mControls;
         SelectText mQuit;
+        SelectText cReturn;
         SelectText pContinue;
         SelectText pMenu;
         SelectText gRetry;
@@ -115,8 +116,13 @@ namespace Fade
             //objects
             p1 = new Player(playerSprite, new Rectangle(200, 300, 120, 140));
             mStart = new SelectText(true, Color.White, Color.Black);
-            mControls = new SelectText();
             mQuit = new SelectText();
+            mControls = new SelectText();
+            cReturn = new SelectText(true, Color.White, Color.Magenta);
+            pContinue = new SelectText(true, Color.Black, Color.Magenta);
+            pMenu = new SelectText(false, Color.Black, Color.Magenta);
+            gRetry = new SelectText(true, Color.White, Color.Magenta);
+            gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-800, 0, 700, 700), new Rectangle(-800, 0, 300, 700), 1, 0);
         }
 
@@ -140,28 +146,37 @@ namespace Fade
             {
                 currentState = GameState.Game;
             }
-            if (currentState == GameState.Menu && mControls.IsSelected && SingleKeyPress(Keys.Enter))
+            else if (currentState == GameState.Menu && mControls.IsSelected && SingleKeyPress(Keys.Enter))
             {
-                currentState = GameState.Controls; //doing this is not recommended since the controls page is a black void rn
+                currentState = GameState.Controls; 
             }
-            if (currentState == GameState.Menu && mQuit.IsSelected && SingleKeyPress(Keys.Enter))
+            else if (currentState == GameState.Menu && mQuit.IsSelected && SingleKeyPress(Keys.Enter))
             {
                 Exit(); 
             }
-            if (currentState == GameState.Game && SingleKeyPress(Keys.P))
+            else if(currentState == GameState.Controls && SingleKeyPress(Keys.Enter))
+            {
+                currentState = GameState.Menu;
+            }
+            else if (currentState == GameState.Game && SingleKeyPress(Keys.P))
             {
                 currentState = GameState.GamePause;
             }
-            if (currentState == GameState.Game && (p1.isDead || SingleKeyPress(Keys.B)))  //B key is temp for testing til we have damage going
+            else if (currentState == GameState.Game && (p1.isDead || SingleKeyPress(Keys.B)))  //B key is temp for testing til we have damage going
             {
                 ResetGame();
                 currentState = GameState.GameOver;
             }
-            if (currentState == GameState.GamePause && SingleKeyPress(Keys.Enter))
+            else if (currentState == GameState.GamePause && pContinue.IsSelected && SingleKeyPress(Keys.Enter))
             {
                 currentState = GameState.Game;
             }
-            if (currentState == GameState.GameOver && SingleKeyPress(Keys.Enter))
+            else if (currentState == GameState.GamePause && pMenu.IsSelected && SingleKeyPress(Keys.Enter))
+            {
+                ResetGame();
+                currentState = GameState.Menu;
+            }
+            else if (currentState == GameState.GameOver && SingleKeyPress(Keys.Enter))
             {
                 currentState = GameState.Menu;
             }
@@ -208,43 +223,33 @@ namespace Fade
                 }
             }
 
+            //PAUSE MENU
             if (currentState == GameState.GamePause)
             {
-                if (pContinue.IsSelected && SingleKeyPress(Keys.S)) //down start to controls
+                if (pContinue.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W))) 
                 {
-                    mControls.IsSelected = true;
-                    mQuit.IsSelected = false;
-                    mStart.IsSelected = false;
+                    pContinue.IsSelected = false;
+                    pMenu.IsSelected = true;
                 }
-                else if (mControls.IsSelected && SingleKeyPress(Keys.S)) //down controls to quit
+                else if (pMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W))) 
                 {
-                    mControls.IsSelected = false;
-                    mStart.IsSelected = false;
-                    mQuit.IsSelected = true;
+                    pMenu.IsSelected = false;
+                    pContinue.IsSelected = true;
                 }
-                else if (mQuit.IsSelected && SingleKeyPress(Keys.S)) //down quit to start
+            }
+
+            //GAME OVER MENU
+            if(currentState == GameState.GameOver)
+            {
+                if(gRetry.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
-                    mQuit.IsSelected = false;
-                    mControls.IsSelected = false;
-                    mStart.IsSelected = true;
+                    gRetry.IsSelected = false;
+                    gMenu.IsSelected = true;
                 }
-                else if (mStart.IsSelected && SingleKeyPress(Keys.W)) //up start to quit
+                else if(gMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
-                    mStart.IsSelected = false;
-                    mControls.IsSelected = false;
-                    mQuit.IsSelected = true;
-                }
-                else if (mControls.IsSelected && SingleKeyPress(Keys.W)) //up controls to start
-                {
-                    mControls.IsSelected = false;
-                    mQuit.IsSelected = false;
-                    mStart.IsSelected = true;
-                }
-                else if (mQuit.IsSelected && SingleKeyPress(Keys.W)) //up quit to controls
-                {
-                    mQuit.IsSelected = false;
-                    mStart.IsSelected = false;
-                    mControls.IsSelected = true;
+                    gMenu.IsSelected = false;
+                    gRetry.IsSelected = true;
                 }
             }
 
@@ -358,10 +363,10 @@ namespace Fade
                 //MAIN MENU
                 case GameState.Menu:
                     GraphicsDevice.Clear(Color.Black);
-                    spriteBatch.Draw(mainMenuImage, new Vector2(0, 0));
-                    mStart.DrawSelectText(spriteBatch, textFont, "START", new Vector2(350, 250));
-                    mControls.DrawSelectText(spriteBatch, textFont, "CONTROLS", new Vector2(350, 300));
-                    mQuit.DrawSelectText(spriteBatch, textFont, "QUIT", new Vector2(350, 350));
+                    spriteBatch.Draw(mainMenuImage, new Vector2(camera.Position.X, 0));
+                    mStart.DrawSelectText(spriteBatch, textFont, "START", new Vector2(camera.Position.X + 350, 250));
+                    mControls.DrawSelectText(spriteBatch, textFont, "CONTROLS", new Vector2(camera.Position.X + 350, 300));
+                    mQuit.DrawSelectText(spriteBatch, textFont, "QUIT", new Vector2(camera.Position.X + 350, 350));
 
                     break;
 
@@ -369,6 +374,7 @@ namespace Fade
                 case GameState.Controls:
                     GraphicsDevice.Clear(Color.Black);
                     //spriteBatch.Draw(controlsImage, new Vector2(0, 0));
+                    cReturn.DrawSelectText(spriteBatch, textFont, "RETURN", new Vector2(camera.Position.X + 600, 20));
                     break;
 
                 //GAMEPLAY
@@ -457,8 +463,8 @@ namespace Fade
                     spriteBatch.DrawString(titleFont, "0", new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
 
                     spriteBatch.Draw(pauseImage, new Vector2(camera.Position.X, 0));
-                    spriteBatch.DrawString(textFont, "CONTINUE", new Vector2(camera.Position.X + 335, 205), Color.Black);
-                    spriteBatch.DrawString(textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 245), Color.Black);
+                    pContinue.DrawSelectText(spriteBatch, textFont, "CONTINUE", new Vector2(camera.Position.X + 335, 205));
+                    pMenu.DrawSelectText(spriteBatch, textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 245));
                     break;
 
                 //GAME OVER
@@ -466,8 +472,8 @@ namespace Fade
 
                     GraphicsDevice.Clear(Color.Black);
                     //spriteBatch.Draw(gameOverImage);
-                    spriteBatch.DrawString(textFont, "RETRY", new Vector2(350, 250), Color.White);
-                    spriteBatch.DrawString(textFont, "MAIN MENU", new Vector2(350, 300), Color.White);
+                    gRetry.DrawSelectText(spriteBatch, textFont, "RETRY", new Vector2(camera.Position.X + 330, 250));
+                    gMenu.DrawSelectText(spriteBatch, textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 300));
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(625, 20), Color.White);
                     spriteBatch.DrawString(textFont, "0", new Vector2(625, 60), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, "0", new Vector2(20, 20), Color.White); //current score num
