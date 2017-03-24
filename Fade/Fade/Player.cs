@@ -30,6 +30,9 @@ namespace Fade
 
         public Texture2D sprite { get; set; }
 
+        public Texture2D sword { get; set; } 
+        //We'll use a seperate sprite for the sword, this will get make it easier to detect collisions with enemy hitboxes
+
         public Rectangle location;
 
         public int currentX { get; set; }
@@ -75,11 +78,16 @@ namespace Fade
             ground = location.Y;
         }
 
+        private MouseState oldState;
         public void Attack()
         {
-            throw new NotImplementedException();
             //if char is in attack pose-check for it
             //if enemy is in hitbox while char is attacking-deal damage
+            var ms = Mouse.GetState();
+            if(ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+            {
+
+            }
         }
 
         public void Jump()
