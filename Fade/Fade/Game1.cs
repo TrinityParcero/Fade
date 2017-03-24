@@ -57,6 +57,7 @@ namespace Fade
         Player p1;
         Fog fog;
         Camera2D camera;
+        ExternalTool tool;
 
         //ENUMS
         GameState currentState = GameState.Menu;
