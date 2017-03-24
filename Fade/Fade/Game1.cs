@@ -94,6 +94,8 @@ namespace Fade
             camera = new Camera2D(GraphicsDevice.Viewport);
             fps = 8.0;
             timePerFrame = 1.0 / fps;
+            tool = new ExternalTool();
+            tool.writeFile();
             base.Initialize();
         }
 
