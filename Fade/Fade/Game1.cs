@@ -57,6 +57,7 @@ namespace Fade
         Player p1;
         Fog fog;
         Camera2D camera;
+        ExternalTool tool;
 
         //ENUMS
         GameState currentState = GameState.Menu;
@@ -95,6 +96,8 @@ namespace Fade
             camera = new Camera2D(GraphicsDevice.Viewport);
             fps = 8.0;
             timePerFrame = 1.0 / fps;
+            tool = new ExternalTool();
+            tool.writeFile();
             base.Initialize();
         }
 
@@ -125,7 +128,7 @@ namespace Fade
             pMenu = new SelectText(false, Color.Black, Color.Magenta);
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
-            fog = new Fog(fogSprite, new Rectangle(-800, 0, 700, 700), new Rectangle(-800, 0, 300, 700), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-500, 0, 700, 700), new Rectangle(-500, 0, 300, 700), 1, 0);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -274,6 +277,7 @@ namespace Fade
                 }
                 //if the bool jumping frmo the player class is true then the below method will move the player
                 p1.JumpUpdate();
+                p1.Attack();
                 fog.Move(p1);
 
                 //Handle animation timing
