@@ -15,7 +15,8 @@ namespace Fade
         WalkRight,
         FaceLeft,
         WalkLeft,
-        Jump
+        JumpRight,
+        JumpLeft
     }
 
     class Player : Character
@@ -48,7 +49,7 @@ namespace Fade
          
          
          int g;
-         
+         int jumpIncrement;
          int ground;
 
        
@@ -70,7 +71,7 @@ namespace Fade
             
             
             jumping = false;
-            
+            jumpIncrement = 5;
             
             ground = location.Y;
         }
@@ -90,22 +91,33 @@ namespace Fade
             //havea a variable to hold keyboard input for jumping, when the loop is done set this attribute back to the empty attribute
             //named previous
             
-            if (!jumping && !falling)
+            if (!jumping && !falling && playerState == PlayerState.FaceLeft || playerState == PlayerState.WalkLeft)
             {
-                playerState = PlayerState.Jump;
-                jumping = true;
+                playerState = PlayerState.JumpLeft;
+               
+               
                 
 
 
             }
-            
-           
+            else if (!jumping && !falling && playerState == PlayerState.FaceRight || playerState == PlayerState.WalkRight)
+            {
+                playerState = PlayerState.JumpRight;
+
+                
+
+
+
+            }
+
+            jumping = true;
+
         }
 
 
 
         /// <summary>
-        /// jump update will checki to see if the player is jumping and/or falling, if it is nit falling, and not jumping then it is on ground, if it is jumping then it is  incrementing by 5(this is the rate), once the player reaches the max height(280 above the player height, which is 300, which in monogame is 20)
+        /// jump update will check to see if the player is jumping and/or falling, if it is nit falling, and not jumping then it is on ground, if it is jumping then it is  incrementing by 5(this is the rate), once the player reaches the max height(280 above the player height, which is 300, which in monogame is 20)
         /// jumping is set to false, and falling is set to true, if the player is then falling the location is moved down by the same amount as it was raised, then if the location of the character is greater than or equal to the ground (since the ground is 300, and anything below the ground would be more than 300)
         /// then the player is not falling or jumping, and the location of the player is set to the ground again
         /// </summary>
@@ -113,7 +125,9 @@ namespace Fade
         {
             if (jumping == true)
             {
-                location.Y -= 5;
+                location.Y -= jumpIncrement;
+                
+              
                 /*
                 g -= -(i * i) + 10 * i;
                 i += 1;
@@ -132,6 +146,7 @@ namespace Fade
             }
             if (falling)
             {
+                
                 location.Y += 5;
             }
 

@@ -79,6 +79,8 @@ namespace Fade
         const int PLAYER_RECT_WIDTH = 135;        // The width of a single frame
 
 
+        
+
         // CONSTRUCTOR ///////////////////////////////////
         public Game1()
         {
@@ -262,8 +264,9 @@ namespace Fade
                 p1.Run(fog.bounds);
                 playerLoc.X = p1.location.X;
                 playerLoc.Y = p1.location.Y;
-                //checks to see if spacebar is pressed
-                if (ks.IsKeyDown(Keys.Space))
+                //checks to see if spacebar is pressed, as well as if the player is not falling, 
+                //as to only allow the spacebar to be pressed when the player is on the grounf or "not falling"
+                if (ks.IsKeyDown(Keys.Space) && !p1.falling)
                 {
                     //below method sets player class bool jumping = true
                      p1.Jump();
@@ -424,8 +427,12 @@ namespace Fade
                             DrawPlayerWalking(0);
                             break;
                         
-                        //JUMP
-                        case PlayerState.Jump:
+                        //JUMP_LEFT
+                        case PlayerState.JumpLeft:
+                            DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                            break;
+                            //JUMP_RIGHT
+                        case PlayerState.JumpRight:
                             DrawPlayerStanding(0);
                             break;
                             
