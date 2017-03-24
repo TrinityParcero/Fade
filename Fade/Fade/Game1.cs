@@ -142,7 +142,7 @@ namespace Fade
             }
             if (currentState == GameState.Menu && mControls.IsSelected && SingleKeyPress(Keys.Enter))
             {
-                currentState = GameState.Controls;
+                currentState = GameState.Controls; //doing this is not recommended since the controls page is a black void rn
             }
             if (currentState == GameState.Menu && mQuit.IsSelected && SingleKeyPress(Keys.Enter))
             {
@@ -170,37 +170,77 @@ namespace Fade
             //MAIN MENU
             if(currentState == GameState.Menu)
             {
-                if(mStart.IsSelected && SingleKeyPress(Keys.S))
+                if(mStart.IsSelected && SingleKeyPress(Keys.S)) //down start to controls
                 {
                     mControls.IsSelected = true;
                     mQuit.IsSelected = false;
                     mStart.IsSelected = false;
                 }
-                else if(mControls.IsSelected && SingleKeyPress(Keys.S))
+                else if(mControls.IsSelected && SingleKeyPress(Keys.S)) //down controls to quit
                 {
                     mControls.IsSelected = false;
                     mStart.IsSelected = false;
                     mQuit.IsSelected = true;
                 }
-                else if(mQuit.IsSelected && SingleKeyPress(Keys.S))
+                else if(mQuit.IsSelected && SingleKeyPress(Keys.S)) //down quit to start
                 {
                     mQuit.IsSelected = false;
                     mControls.IsSelected = false;
                     mStart.IsSelected = true;
                 }
-                else if(mStart.IsSelected && SingleKeyPress(Keys.W))
+                else if(mStart.IsSelected && SingleKeyPress(Keys.W)) //up start to quit
                 {
                     mStart.IsSelected = false;
                     mControls.IsSelected = false;
                     mQuit.IsSelected = true;
                 }
-                else if(mControls.IsSelected && SingleKeyPress(Keys.W))
+                else if(mControls.IsSelected && SingleKeyPress(Keys.W)) //up controls to start
                 {
                     mControls.IsSelected = false;
                     mQuit.IsSelected = false;
                     mStart.IsSelected = true;
                 }
-                else if(mQuit.IsSelected && SingleKeyPress(Keys.W))
+                else if(mQuit.IsSelected && SingleKeyPress(Keys.W)) //up quit to controls
+                {
+                    mQuit.IsSelected = false;
+                    mStart.IsSelected = false;
+                    mControls.IsSelected = true;
+                }
+            }
+
+            if (currentState == GameState.GamePause)
+            {
+                if (pContinue.IsSelected && SingleKeyPress(Keys.S)) //down start to controls
+                {
+                    mControls.IsSelected = true;
+                    mQuit.IsSelected = false;
+                    mStart.IsSelected = false;
+                }
+                else if (mControls.IsSelected && SingleKeyPress(Keys.S)) //down controls to quit
+                {
+                    mControls.IsSelected = false;
+                    mStart.IsSelected = false;
+                    mQuit.IsSelected = true;
+                }
+                else if (mQuit.IsSelected && SingleKeyPress(Keys.S)) //down quit to start
+                {
+                    mQuit.IsSelected = false;
+                    mControls.IsSelected = false;
+                    mStart.IsSelected = true;
+                }
+                else if (mStart.IsSelected && SingleKeyPress(Keys.W)) //up start to quit
+                {
+                    mStart.IsSelected = false;
+                    mControls.IsSelected = false;
+                    mQuit.IsSelected = true;
+                }
+                else if (mControls.IsSelected && SingleKeyPress(Keys.W)) //up controls to start
+                {
+                    mControls.IsSelected = false;
+                    mQuit.IsSelected = false;
+                    mStart.IsSelected = true;
+                }
+                else if (mQuit.IsSelected && SingleKeyPress(Keys.W)) //up quit to controls
                 {
                     mQuit.IsSelected = false;
                     mStart.IsSelected = false;
