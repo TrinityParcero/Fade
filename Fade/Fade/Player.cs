@@ -95,26 +95,17 @@ namespace Fade
         {
 
             //jumping over tank is absolute limit of jump distance
-            //use a loop to perform parabola of jump
-            //havea a variable to hold keyboard input for jumping, when the loop is done set this attribute back to the empty attribute
-            //named previous
+            
+            
             
             if (!jumping && !falling && playerState == PlayerState.FaceLeft || playerState == PlayerState.WalkLeft)
             {
                 playerState = PlayerState.JumpLeft;
-               
-               
-                
-
-
+         
             }
             else if (!jumping && !falling && playerState == PlayerState.FaceRight || playerState == PlayerState.WalkRight)
             {
                 playerState = PlayerState.JumpRight;
-
-                
-
-
 
             }
 
