@@ -52,6 +52,8 @@ namespace Fade
         Texture2D fogSprite;
         Texture2D bg;
         Texture2D spriteSheet;
+        Texture2D sword;
+        Texture2D swordSprite;
 
         //OBJECTS
         Player p1;
@@ -68,20 +70,26 @@ namespace Fade
         MouseState oldState = Mouse.GetState();
 
         //ANIMATION
-        int frame;              // The current animation frame
-        double timeCounter;     // The amount of time that has passed
-        double fps;             // The speed of the animation
-        double timePerFrame;    // The amount of time (in fractional seconds) per frame
+        int frame;
+        int swordFrame;
+        double timeCounter;     
+        double fps;             
+        double timePerFrame;    
         Vector2 playerLoc;
 
-        // Constants for "source" rectangle (inside the image)
+        // player rectangle
         const int WALK_FRAME_COUNT = 6;         // The number of frames in the animation
         const int PLAYER_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
-        const int PLAYER_RECT_HEIGHT = 140;       // The height of a single frame
-        const int PLAYER_RECT_WIDTH = 135;        // The width of a single frame
+        const int PLAYER_RECT_HEIGHT = 142;       // The height of a single frame
+        const int PLAYER_RECT_WIDTH = 138;        // The width of a single frame
+
+        //sword rectangle
+        const int SWORD_FRAME_COUNT = 3;         // The number of frames in the animation
+        const int SWORD_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
+        const int SWORD_RECT_HEIGHT = 140;       // The height of a single frame
+        const int SWORD_RECT_WIDTH = 180;        // The width of a single frame
 
 
-        
 
         // CONSTRUCTOR ///////////////////////////////////
         public Game1()
@@ -114,6 +122,8 @@ namespace Fade
             mainMenuImage = Content.Load<Texture2D>("menuprocess");
             pauseImage = Content.Load<Texture2D>("pausebg");
             spriteSheet = Content.Load<Texture2D>("charsprite");
+            swordSprite = Content.Load<Texture2D>("swordSprite2");
+            sword = Content.Load<Texture2D>("sword");
 
             //type
             textFont = Content.Load<SpriteFont>("textFont");
@@ -287,9 +297,7 @@ namespace Fade
                     p1.Attack();
                 }
 
-                //Handle animation timing
-                // - Add to the time counter
-                // - Check if we have enough "time" to advance the frame
+               //walk animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
                 if (timeCounter >= timePerFrame)
                 {
@@ -297,6 +305,17 @@ namespace Fade
 
                     if (frame > WALK_FRAME_COUNT)   // Check the bounds
                         frame = 1;                  // Back to 1 (since 0 is the "standing" frame)
+
+                    timeCounter -= timePerFrame;    // Remove the time we "used"
+                }
+
+                if (timeCounter >= timePerFrame)
+                {
+                    swordFrame += 1;                     // Adjust the frame
+
+                    if (swordFrame > SWORD_FRAME_COUNT)   // Check the bounds
+                        swordFrame = 1;
+                        p1.attacking = false;   
 
                     timeCounter -= timePerFrame;    // Remove the time we "used"
                 }
@@ -326,6 +345,7 @@ namespace Fade
             
             base.Update(gameTime);
         }
+        //ANIMATION
 
         private void DrawPlayerStanding(SpriteEffects flipSprite)
         {
@@ -362,8 +382,36 @@ namespace Fade
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
-
-
+        private void DrawSword(SpriteEffects flipSprite)
+        {
+            spriteBatch.Draw(
+                sword,
+                new Vector2(playerLoc.X + 10, playerLoc.Y - 40),
+                new Rectangle(0, 0, 140, 140),
+                Color.White,
+                0,
+                Vector2.Zero,
+                1.0f,
+                flipSprite,
+                0);
+        }
+        private void SwordSwing(SpriteEffects flipSprite)
+        {
+            spriteBatch.Draw(
+                swordSprite,                    // - The texture to draw
+                new Vector2(playerLoc.X + 10, playerLoc.Y - 40), // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    frame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
+                    SWORD_RECT_Y_OFFSET,        //	   where "inside" the texture
+                    SWORD_RECT_WIDTH,           //     to get pixels (We don't want to
+                    SWORD_RECT_HEIGHT),         //     draw the whole thing)
+                Color.White,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
         //DRAW ///////////////////////////////////////////
         protected override void Draw(GameTime gameTime)
         {
@@ -442,7 +490,7 @@ namespace Fade
                         case PlayerState.JumpLeft:
                             DrawPlayerStanding(SpriteEffects.FlipHorizontally);
                             break;
-                            //JUMP_RIGHT
+                        //JUMP_RIGHT
                         case PlayerState.JumpRight:
                             DrawPlayerStanding(0);
                             break;
@@ -450,7 +498,27 @@ namespace Fade
                         default:
                             break;
                     }
-                    
+
+                    if (p1.attacking && (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft))
+                    {
+                        SwordSwing(SpriteEffects.FlipHorizontally);
+                        p1.attacking = false;
+                    }
+                    else if (p1.attacking && (p1.playerState == PlayerState.FaceRight || p1.playerState == PlayerState.WalkRight))
+                    {
+                        SwordSwing(0);
+                        p1.attacking = false;
+                    }
+                    else
+                    {
+                        if (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft)
+                            DrawSword(SpriteEffects.FlipHorizontally);
+                        else
+                        {
+                            DrawSword(0);
+                        }
+                    }
+
                     spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
                     //spriteBatch.Draw(UI bar goes here);

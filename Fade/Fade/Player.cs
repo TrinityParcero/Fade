@@ -39,11 +39,19 @@ namespace Fade
         public int currentX { get; set; }
 
         public bool jumping { get; set; }
+
         public bool falling { get; set; }
+        
+        public bool attacking { get; set; }
+
         public PlayerState playerState = PlayerState.FaceRight;
+
         public PlayerState prevPlayerState;
+
         private int currentFrame;
+
         private int totalFrames;
+
         int MAX_HEIGHT = 150;
         int jumpSpeed = 0;
         int startY = 300;
@@ -83,6 +91,7 @@ namespace Fade
         {
             //if char is in attack pose-check for it
             //if enemy is in hitbox while char is attacking-deal damage
+            attacking = true;
             location.Y += 5;
         }
 
