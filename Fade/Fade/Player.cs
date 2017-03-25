@@ -79,16 +79,11 @@ namespace Fade
             ground = location.Y;
         }
 
-        private MouseState oldState;
         public void Attack()
         {
             //if char is in attack pose-check for it
             //if enemy is in hitbox while char is attacking-deal damage
-            var ms = Mouse.GetState();
-            if(ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
-            {
-
-            }
+            location.Y += 5;
         }
 
         public void Jump()

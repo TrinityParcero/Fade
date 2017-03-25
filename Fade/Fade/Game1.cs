@@ -62,9 +62,10 @@ namespace Fade
         //ENUMS
         GameState currentState = GameState.Menu;
 
-        //KBSTATES
+        //KBSTATES & MState
         KeyboardState ks;
         KeyboardState previousState = Keyboard.GetState();
+        MouseState oldState = Mouse.GetState();
 
         //ANIMATION
         int frame;              // The current animation frame
@@ -277,8 +278,14 @@ namespace Fade
                 }
                 //if the bool jumping frmo the player class is true then the below method will move the player
                 p1.JumpUpdate();
-                p1.Attack();
                 fog.Move(p1);
+
+                //Player Attack
+                var ms = Mouse.GetState();
+                if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+                {
+                    p1.Attack();
+                }
 
                 //Handle animation timing
                 // - Add to the time counter
