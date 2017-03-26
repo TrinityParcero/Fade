@@ -14,6 +14,9 @@ namespace FADE__External_Tool
             //Should write a file for all variables FADE might need
             StreamWriter writer = new StreamWriter("values.txt");
             writer.WriteLine("280");//distance between each enemy spawn, int
+            
+            writer.WriteLine("6");//sets health value for player
+            writer.WriteLine("3");//sets player speed;
 
             //random value for choosing an enemy wave
             Random rng = new Random();
