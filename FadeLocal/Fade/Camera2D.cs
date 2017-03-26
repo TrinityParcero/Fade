@@ -36,11 +36,5 @@ namespace Fade
                 Matrix.CreateScale(Zoom, Zoom, 1) *
                 Matrix.CreateTranslation(new Vector3(Origin, 0.0f));
         }
-
-        public void LookAt(Vector2 position)
-        {
-            Position = position - new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
-        }
-
     }
 }

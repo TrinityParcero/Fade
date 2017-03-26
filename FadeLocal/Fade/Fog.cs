@@ -16,37 +16,24 @@ namespace Fade
 
         public Texture2D sprite { get; set; }
         public Rectangle location;
-        public Rectangle bounds;
 
-        public Fog(Texture2D texture, Rectangle loc, Rectangle bound, int speed, int consumed)
+        public Fog(Texture2D texture, Rectangle rec, int speed, int consumed)
         {
             sprite = texture;
-            location = loc;
-            bounds = bound;
+            location = rec;
             Speed = speed;
             enemiesConsumed = consumed;
         }
 
-        public void Move(Player player)
+        public void Move()
         {
             //move at about half player speed by default
-            if(bounds.Intersects(player.location))
-            {
-                //for now the fog stops but i want to change this
-                location.X += Speed / 2;
-                bounds.X += Speed / 2;
-            }
-            else
-            {
-                location.X += Speed;
-                bounds.X += Speed;
-            }
-            
+            location.X += Speed;
         }
         public void damagePlayer(Player player)
         {
             //will take 6 ticks to kill
-            if(bounds.Intersects(player.location))
+            if(location.Intersects(player.location))
             {
                 player.Health -= 0.5;
             }

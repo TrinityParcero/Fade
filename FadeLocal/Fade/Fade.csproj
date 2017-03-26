@@ -41,8 +41,6 @@
     <Compile Include="Camera2D.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Enemy.cs" />
-    <Compile Include="EnemySpawner.cs" />
-    <Compile Include="ExternalTool.cs" />
     <Compile Include="FadeData.cs" />
     <Compile Include="Fog.cs" />
     <Compile Include="Game1.cs" />
@@ -50,7 +48,6 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelectText.cs" />
     <Compile Include="Tank.cs" />
   </ItemGroup>
   <ItemGroup>

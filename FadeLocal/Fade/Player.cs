@@ -21,17 +21,17 @@ namespace Fade
 
     class Player : Character
     {
-        public int Damage{ get; set; }
+        public int Damage { get; set; }
 
-        public double Health{ get; set; }
+        public double Health { get; set; }
 
-        public bool isDead{ get; set; }
+        public bool isDead { get; set; }
 
-        public int Speed{ get; set; }
+        public int Speed { get; set; }
 
         public Texture2D sprite { get; set; }
 
-        public Texture2D sword { get; set; } 
+        public Texture2D sword { get; set; }
         //We'll use a seperate sprite for the sword, this will get make it easier to detect collisions with enemy hitboxes
 
         public Rectangle location;
@@ -41,7 +41,7 @@ namespace Fade
         public bool jumping { get; set; }
 
         public bool falling { get; set; }
-        
+
         public bool attacking { get; set; }
 
         public PlayerState playerState = PlayerState.FaceRight;
@@ -57,13 +57,13 @@ namespace Fade
         int startY = 300;
 
         //attributes for jumping
-         
-         
-         int g;
-         int jumpIncrement;
-         int ground;
 
-       
+
+        int g;
+        int jumpIncrement;
+        int ground;
+
+
         //Slow down frame animation
         private int timeSinceLastFrame = 0;
         private int millisecondsPerFrame = 0;
@@ -79,11 +79,11 @@ namespace Fade
             currentX = loc.X;
             currentFrame = 0;
             totalFrames = loc.X * loc.Y;
-            
-            
+
+
             jumping = false;
             jumpIncrement = 5;
-            
+
             ground = location.Y;
         }
 
@@ -99,13 +99,13 @@ namespace Fade
         {
 
             //jumping over tank is absolute limit of jump distance
-            
-            
-            
+
+
+
             if (!jumping && !falling && playerState == PlayerState.FaceLeft || playerState == PlayerState.WalkLeft)
             {
                 playerState = PlayerState.JumpLeft;
-         
+
             }
             else if (!jumping && !falling && playerState == PlayerState.FaceRight || playerState == PlayerState.WalkRight)
             {
@@ -129,8 +129,8 @@ namespace Fade
             if (jumping == true)
             {
                 location.Y -= jumpIncrement;
-                
-              
+
+
                 /*
                 g -= -(i * i) + 10 * i;
                 i += 1;
@@ -149,7 +149,7 @@ namespace Fade
             }
             if (falling)
             {
-                
+
                 location.Y += 5;
             }
 
@@ -198,7 +198,7 @@ namespace Fade
             {
                 playerState = PlayerState.FaceRight;
             }
-            
+
             previous = ks;
             prevPlayerState = playerState;
         }
@@ -218,3 +218,4 @@ namespace Fade
         }
     }
 }
+
