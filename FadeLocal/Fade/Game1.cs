@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Threading;
 
 namespace Fade
 {
@@ -47,6 +46,7 @@ namespace Fade
         Texture2D mainMenuImage;
         Texture2D pauseImage;
         Texture2D controlsImage;
+        Texture2D player;
         Texture2D playerSprite; //will be replaced by a spritesheet
         Texture2D fogSprite;
         Texture2D bg;
@@ -71,9 +71,9 @@ namespace Fade
         //ANIMATION
         int frame;
         int swordFrame;
-        double timeCounter;     
-        double fps;             
-        double timePerFrame;    
+        double timeCounter;
+        double fps;
+        double timePerFrame;
         Vector2 playerLoc;
 
         // player rectangle
@@ -163,13 +163,13 @@ namespace Fade
             }
             else if (currentState == GameState.Menu && mControls.IsSelected && SingleKeyPress(Keys.Enter))
             {
-                currentState = GameState.Controls; 
+                currentState = GameState.Controls;
             }
             else if (currentState == GameState.Menu && mQuit.IsSelected && SingleKeyPress(Keys.Enter))
             {
-                Exit(); 
+                Exit();
             }
-            else if(currentState == GameState.Controls && SingleKeyPress(Keys.Enter))
+            else if (currentState == GameState.Controls && SingleKeyPress(Keys.Enter))
             {
                 currentState = GameState.Menu;
             }
@@ -196,41 +196,41 @@ namespace Fade
                 currentState = GameState.Menu;
             }
 
-            
+
             //MAIN MENU
-            if(currentState == GameState.Menu)
+            if (currentState == GameState.Menu)
             {
-                if(mStart.IsSelected && SingleKeyPress(Keys.S)) //down start to controls
+                if (mStart.IsSelected && SingleKeyPress(Keys.S)) //down start to controls
                 {
                     mControls.IsSelected = true;
                     mQuit.IsSelected = false;
                     mStart.IsSelected = false;
                 }
-                else if(mControls.IsSelected && SingleKeyPress(Keys.S)) //down controls to quit
+                else if (mControls.IsSelected && SingleKeyPress(Keys.S)) //down controls to quit
                 {
                     mControls.IsSelected = false;
                     mStart.IsSelected = false;
                     mQuit.IsSelected = true;
                 }
-                else if(mQuit.IsSelected && SingleKeyPress(Keys.S)) //down quit to start
+                else if (mQuit.IsSelected && SingleKeyPress(Keys.S)) //down quit to start
                 {
                     mQuit.IsSelected = false;
                     mControls.IsSelected = false;
                     mStart.IsSelected = true;
                 }
-                else if(mStart.IsSelected && SingleKeyPress(Keys.W)) //up start to quit
+                else if (mStart.IsSelected && SingleKeyPress(Keys.W)) //up start to quit
                 {
                     mStart.IsSelected = false;
                     mControls.IsSelected = false;
                     mQuit.IsSelected = true;
                 }
-                else if(mControls.IsSelected && SingleKeyPress(Keys.W)) //up controls to start
+                else if (mControls.IsSelected && SingleKeyPress(Keys.W)) //up controls to start
                 {
                     mControls.IsSelected = false;
                     mQuit.IsSelected = false;
                     mStart.IsSelected = true;
                 }
-                else if(mQuit.IsSelected && SingleKeyPress(Keys.W)) //up quit to controls
+                else if (mQuit.IsSelected && SingleKeyPress(Keys.W)) //up quit to controls
                 {
                     mQuit.IsSelected = false;
                     mStart.IsSelected = false;
@@ -241,12 +241,12 @@ namespace Fade
             //PAUSE MENU
             if (currentState == GameState.GamePause)
             {
-                if (pContinue.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W))) 
+                if (pContinue.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
                     pContinue.IsSelected = false;
                     pMenu.IsSelected = true;
                 }
-                else if (pMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W))) 
+                else if (pMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
                     pMenu.IsSelected = false;
                     pContinue.IsSelected = true;
@@ -254,14 +254,14 @@ namespace Fade
             }
 
             //GAME OVER MENU
-            if(currentState == GameState.GameOver)
+            if (currentState == GameState.GameOver)
             {
-                if(gRetry.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
+                if (gRetry.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
                     gRetry.IsSelected = false;
                     gMenu.IsSelected = true;
                 }
-                else if(gMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
+                else if (gMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
                     gMenu.IsSelected = false;
                     gRetry.IsSelected = true;
@@ -282,7 +282,7 @@ namespace Fade
                 if (ks.IsKeyDown(Keys.Space) && !p1.falling)
                 {
                     //below method sets player class bool jumping = true
-                     p1.Jump();
+                    p1.Jump();
 
                 }
                 //if the bool jumping frmo the player class is true then the below method will move the player
@@ -296,7 +296,7 @@ namespace Fade
                     p1.Attack();
                 }
 
-               //walk animation timing
+                //walk animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
                 if (timeCounter >= timePerFrame)
                 {
@@ -314,34 +314,34 @@ namespace Fade
 
                     if (swordFrame > SWORD_FRAME_COUNT)   // Check the bounds
                         swordFrame = 1;
-                        p1.attacking = false;   
+                    p1.attacking = false;
 
                     timeCounter -= timePerFrame;    // Remove the time we "used"
                 }
 
-                
+
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    camera.LookAt(new Vector2(p1.location.X+200,240));
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    if(p1.location.Intersects(fog.bounds))
+                    if (p1.location.Intersects(fog.bounds))
                     {
                         camera.Position -= new Vector2(0, 0) * deltaTime / 2;
                     }
                     else
                     {
-                        camera.LookAt(new Vector2(p1.location.X+200, 240));
+                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
                         //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                     }
                 }
 
             }
 
-            
+
             base.Update(gameTime);
         }
         //ANIMATION
@@ -484,7 +484,7 @@ namespace Fade
                         case PlayerState.WalkRight:
                             DrawPlayerWalking(0);
                             break;
-                        
+
                         //JUMP_LEFT
                         case PlayerState.JumpLeft:
                             DrawPlayerStanding(SpriteEffects.FlipHorizontally);
@@ -493,7 +493,7 @@ namespace Fade
                         case PlayerState.JumpRight:
                             DrawPlayerStanding(0);
                             break;
-                            
+
                         default:
                             break;
                     }
