@@ -313,8 +313,7 @@ namespace Fade
                     swordFrame += 1;                     // Adjust the frame
 
                     if (swordFrame > SWORD_FRAME_COUNT)   // Check the bounds
-                        swordFrame = 1;
-                        p1.attacking = false;   
+                        swordFrame = 1; 
 
                     timeCounter -= timePerFrame;    // Remove the time we "used"
                 }
@@ -497,8 +496,21 @@ namespace Fade
                         default:
                             break;
                     }
-
-                    if (p1.attacking && (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft))
+                    
+                    //sword swing animation
+                    if (p1.attacking && ( p1.playerState == PlayerState.FaceRight 
+                        && (p1.prevPlayerState == PlayerState.FaceLeft) || (p1.prevPlayerState == PlayerState.WalkLeft)))
+                    {
+                        SwordSwing(SpriteEffects.FlipHorizontally);
+                        p1.attacking = false;
+                    }
+                    else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft
+                        && (p1.prevPlayerState == PlayerState.FaceRight) || (p1.prevPlayerState == PlayerState.WalkRight)))
+                    {
+                        SwordSwing(SpriteEffects.FlipHorizontally);
+                        p1.attacking = false;
+                    }
+                    else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft))
                     {
                         SwordSwing(SpriteEffects.FlipHorizontally);
                         p1.attacking = false;
@@ -508,6 +520,8 @@ namespace Fade
                         SwordSwing(0);
                         p1.attacking = false;
                     }
+
+                    //sword is not swinging, just draw the sword
                     else
                     {
                         if (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft)
