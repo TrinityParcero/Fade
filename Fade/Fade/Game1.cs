@@ -64,9 +64,10 @@ namespace Fade
         //ENUMS
         GameState currentState = GameState.Menu;
 
-        //KBSTATES & MState
+        //KB & MOUSE
         KeyboardState ks;
         KeyboardState previousState = Keyboard.GetState();
+        MouseState ms;
         MouseState oldState = Mouse.GetState();
 
         //ANIMATION
@@ -86,8 +87,8 @@ namespace Fade
         //sword rectangle
         const int SWORD_FRAME_COUNT = 3;         // The number of frames in the animation
         const int SWORD_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
-        const int SWORD_RECT_HEIGHT = 140;       // The height of a single frame
-        const int SWORD_RECT_WIDTH = 180;        // The width of a single frame
+        const int SWORD_RECT_HEIGHT = 182;       // The height of a single frame
+        const int SWORD_RECT_WIDTH = 114;        // The width of a single frame
 
 
 
@@ -122,7 +123,7 @@ namespace Fade
             mainMenuImage = Content.Load<Texture2D>("menuprocess");
             pauseImage = Content.Load<Texture2D>("pausebg");
             spriteSheet = Content.Load<Texture2D>("charsprite");
-            swordSprite = Content.Load<Texture2D>("swordSprite2");
+            swordSprite = Content.Load<Texture2D>("swordBoxes");
             sword = Content.Load<Texture2D>("sword");
 
             //type
@@ -270,7 +271,7 @@ namespace Fade
                 }
             }
 
-            previousState = ks;
+            
 
             //GAMEPLAY
             if (currentState == GameState.Game)
@@ -293,7 +294,7 @@ namespace Fade
                 enemy.Run(fog.location,p1);
 
                 //Player Attack
-                var ms = Mouse.GetState();
+                ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
                     p1.Attack();
@@ -343,7 +344,9 @@ namespace Fade
 
             }
 
-            
+            previousState = ks;
+            oldState = ms;
+
             base.Update(gameTime);
         }
         //ANIMATION
@@ -400,7 +403,7 @@ namespace Fade
         {
             spriteBatch.Draw(
                 swordSprite,                    // - The texture to draw
-                new Vector2(playerLoc.X + 10, playerLoc.Y - 40), // - The location to draw on the screen
+                new Vector2(playerLoc.X + 45, playerLoc.Y - 40), // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
                     SWORD_RECT_Y_OFFSET,        //	   where "inside" the texture
@@ -506,23 +509,19 @@ namespace Fade
                         && (p1.prevPlayerState == PlayerState.FaceLeft) || (p1.prevPlayerState == PlayerState.WalkLeft)))
                     {
                         SwordSwing(SpriteEffects.FlipHorizontally);
-                        p1.attacking = false;
                     }
                     else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft
                         && (p1.prevPlayerState == PlayerState.FaceRight) || (p1.prevPlayerState == PlayerState.WalkRight)))
                     {
                         SwordSwing(SpriteEffects.FlipHorizontally);
-                        p1.attacking = false;
                     }
                     else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft))
                     {
                         SwordSwing(SpriteEffects.FlipHorizontally);
-                        p1.attacking = false;
                     }
                     else if (p1.attacking && (p1.playerState == PlayerState.FaceRight || p1.playerState == PlayerState.WalkRight))
                     {
                         SwordSwing(0);
-                        p1.attacking = false;
                     }
 
                     //sword is not swinging, just draw the sword
