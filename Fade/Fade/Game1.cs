@@ -59,6 +59,7 @@ namespace Fade
         Fog fog;
         Camera2D camera;
         ExternalTool tool;
+        Enemy enemy;
 
         //ENUMS
         GameState currentState = GameState.Menu;
@@ -104,8 +105,8 @@ namespace Fade
             camera = new Camera2D(GraphicsDevice.Viewport);
             fps = 8.0;
             timePerFrame = 1.0 / fps;
-            tool = new ExternalTool();
-            tool.writeFile();
+            //tool = new ExternalTool();
+            //tool.writeFile();
             base.Initialize();
         }
 
@@ -139,6 +140,7 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-500, 0, 700, 700), new Rectangle(-500, 0, 300, 700), 1, 0);
+            enemy = new Enemy(sword, new Rectangle(600,300,100,100), 1, 3, 1);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -288,6 +290,7 @@ namespace Fade
                 //if the bool jumping frmo the player class is true then the below method will move the player
                 p1.JumpUpdate();
                 fog.Move(p1);
+                enemy.Run(fog.location,p1);
 
                 //Player Attack
                 var ms = Mouse.GetState();
@@ -447,6 +450,7 @@ namespace Fade
                         spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
 
                     }
+                    spriteBatch.Draw(enemy.sprite,enemy.location,Color.White);
 
                     switch (p1.playerState)
                     {

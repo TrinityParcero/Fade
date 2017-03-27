@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Fade
 {
-    class Enemy : Character
+    class Enemy
     {
-        public int Damage{ get; set; }
+        public double Damage{ get; set; }
 
         public double Health{ get; set; }
 
@@ -23,10 +23,14 @@ namespace Fade
 
         public Rectangle location;
 
-        public Enemy(Texture2D texture, Rectangle loc)
+        public Enemy(Texture2D texture, Rectangle loc, int speed, double hp, double dmg)
         {
             sprite = texture;
             location = loc;
+            isDead = false;
+            Speed = speed;
+            Health = hp;
+            Damage = dmg;
         }
 
         public void Attack()
@@ -39,9 +43,17 @@ namespace Fade
             throw new NotImplementedException();
         }
 
-        public void Run(Rectangle fogBounds)
+        public void Run(Rectangle fogBounds, Player p)
         {
-            throw new NotImplementedException();
+            //basic idea of motion
+            if(location.X > p.location.X)
+            {
+                location.X -= Speed;
+            }
+            else if(location.X < p.location.X-50)
+            {
+                location.X += Speed;
+            }
         }
 
         public void takeDamage(double dmg)

@@ -13,7 +13,7 @@ namespace Fade
     {
         //one health
         //same speed as player
-        public Grunt(Texture2D asset, Rectangle loc) : base(asset,loc)
+        public Grunt(Texture2D asset, Rectangle loc, int speed, double hp, double dmg) : base(asset,loc,speed,hp,dmg)
         {
             
         }

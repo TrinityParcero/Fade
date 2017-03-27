@@ -13,7 +13,7 @@ namespace Fade
     {
         //two or three health
         //half player speed
-        public Tank(Texture2D asset, Rectangle loc) : base(asset,loc)
+        public Tank(Texture2D asset, Rectangle loc, int speed, double hp, double dmg) : base(asset,loc,speed,hp,dmg)
         {
 
         }
