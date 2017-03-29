@@ -13,9 +13,36 @@ namespace Fade
     {
         //one health
         //same speed as player
+        //int gMaxHeight (the largest height the grunt will ever get to)
+        //int ground
+        //bool isSpawn
         public Grunt(Texture2D asset, Rectangle loc, int speed, double hp, double dmg) : base(asset,loc,speed,hp,dmg)
         {
-            
+          //isSpawn = false;
+          //gMaxHeight = 1/2 of playerHeight
+          //ground = the same ground as the one the player starts at
+
+
         }
+
+        ///public void move()
+        ///{
+        /// if(isSpawn == false)
+        /// {
+        ///   isSpawn = true;
+        ///   
+        /// }
+        /// 
+        ///}
+        ///
+        /// 
+        /// public void moveUpdate()
+        /// {
+        ///    if(isSpawn == true)
+        /// 
+        /// }
+        ///
+
+
     }
 }
