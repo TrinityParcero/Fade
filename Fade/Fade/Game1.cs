@@ -110,8 +110,8 @@ namespace Fade
             camera = new Camera2D(GraphicsDevice.Viewport);
             fps = 8.0;
             timePerFrame = 1.0 / fps;
-            startPoint = 120;
-            farPoint = 120;
+            startPoint = 200;
+            farPoint = 200;
             //tool = new ExternalTool();
             //tool.writeFile();
             base.Initialize();
@@ -298,6 +298,13 @@ namespace Fade
                 p1.JumpUpdate();
                 fog.Move(p1);
                 enemy.Run(fog.location,p1);
+                fog.consumeEnemy(enemy);
+
+                if(p1.location.Intersects(enemy.location))
+                {
+                    p1.takeDamage(enemy.Damage);
+                    p1.location.X -= 10;
+                }
 
                 //Player Attack
                 ms = Mouse.GetState();
@@ -626,7 +633,12 @@ namespace Fade
         public void ResetGame()
         {
             camera.Position = new Vector2(0, 0); //reset camera so it doesnt stay off-centered in other states
-            p1.location = new Rectangle(GraphicsDevice.Viewport.Width / 2, 300, 120, 140);
+            p1.location = new Rectangle(200, 300, 120, 140);
+            p1.isDead = false;
+            p1.Health = 3;
+            currentScore = 0;
+            farPoint = 0;
+            enemy.location = new Rectangle(600,300,100,100);
             fog.location = new Rectangle(-300, 80, 400, 400);
         }
 

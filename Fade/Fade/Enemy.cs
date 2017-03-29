@@ -50,7 +50,7 @@ namespace Fade
             {
                 location.X -= Speed;
             }
-            else if(location.X < p.location.X-50)
+            else if(location.X < p.location.X-20)
             {
                 location.X += Speed;
             }
@@ -58,7 +58,14 @@ namespace Fade
 
         public void takeDamage(double dmg)
         {
-            throw new NotImplementedException();
+            if (Health <= 0)
+            {
+                isDead = true;
+            }
+            else
+            {
+                Health -= dmg;
+            }
         }
     }
 }
