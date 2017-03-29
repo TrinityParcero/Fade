@@ -90,6 +90,10 @@ namespace Fade
         const int SWORD_RECT_HEIGHT = 182;       // The height of a single frame
         const int SWORD_RECT_WIDTH = 114;        // The width of a single frame
 
+        //DISTANCE
+        int startPoint;
+        int farPoint;
+        //current distance traveled is the currentScore variable
 
 
         // CONSTRUCTOR ///////////////////////////////////
@@ -106,6 +110,8 @@ namespace Fade
             camera = new Camera2D(GraphicsDevice.Viewport);
             fps = 8.0;
             timePerFrame = 1.0 / fps;
+            startPoint = 120;
+            farPoint = 120;
             //tool = new ExternalTool();
             //tool.writeFile();
             base.Initialize();
@@ -322,6 +328,13 @@ namespace Fade
                     timeCounter -= timePerFrame;    // Remove the time we "used"
                 }
 
+                //DISTANCE AND SCORE UPDATE
+                if(p1.location.X > farPoint)
+                {
+                    farPoint = p1.location.X;
+                }
+                currentScore = farPoint;
+
                 
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
@@ -416,6 +429,7 @@ namespace Fade
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
+
         //DRAW ///////////////////////////////////////////
         protected override void Draw(GameTime gameTime)
         {
@@ -561,8 +575,8 @@ namespace Fade
                     //spriteBatch.Draw(UI bar goes here);
                     //spriteBatch.Draw(hearts go here);
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 20), Color.White);
-                    spriteBatch.DrawString(textFont, "0", new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
-                    spriteBatch.DrawString(titleFont, "0", new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
+                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
+                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
 
                     spriteBatch.Draw(pauseImage, new Vector2(camera.Position.X, 0));
                     pContinue.DrawSelectText(spriteBatch, textFont, "CONTINUE", new Vector2(camera.Position.X + 335, 205));
