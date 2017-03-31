@@ -135,13 +135,14 @@ namespace Fade
             //playerSprite = Content.Load<Texture2D>("char1sword");
             fogSprite = Content.Load<Texture2D>("fogfull");
             bg = Content.Load<Texture2D>("background");
-            mainMenuImage = Content.Load<Texture2D>("menuprocess");
-            pauseImage = Content.Load<Texture2D>("pausebg");
-            gameOverImage = Content.Load<Texture2D>("gameoverbg");
-            spriteSheet = Content.Load<Texture2D>("charsprite");
-            enemySheet = Content.Load<Texture2D>("gruntHop");
-            swordSprite = Content.Load<Texture2D>("swordBoxes");
-            sword = Content.Load<Texture2D>("sword");
+            mainMenuImage = Content.Load<Texture2D>("menus/menu2");
+            pauseImage = Content.Load<Texture2D>("menus/pausebg");
+            controlsImage = Content.Load<Texture2D>("menus/controls");
+            gameOverImage = Content.Load<Texture2D>("menus/gameoverbg");
+            spriteSheet = Content.Load<Texture2D>("characters/charsprite");
+            enemySheet = Content.Load<Texture2D>("characters/gruntHop");
+            swordSprite = Content.Load<Texture2D>("characters/swordBoxes");
+            sword = Content.Load<Texture2D>("characters/sword");
 
             //type
             textFont = Content.Load<SpriteFont>("textFont");
@@ -500,7 +501,7 @@ namespace Fade
                 //CONTROLS
                 case GameState.Controls:
                     GraphicsDevice.Clear(Color.Black);
-                    //spriteBatch.Draw(controlsImage, new Vector2(0, 0));
+                    spriteBatch.Draw(controlsImage, new Vector2(0, 0));
                     cReturn.DrawSelectText(spriteBatch, textFont, "RETURN", new Vector2(camera.Position.X + 600, 20));
                     break;
 
