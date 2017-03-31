@@ -43,6 +43,8 @@ namespace Fade
             }
             
         }
+
+
         public void damagePlayer(Player player)
         {
             //will take 6 ticks to kill

@@ -677,7 +677,9 @@ namespace Fade
             currentScore = 0;
             farPoint = 0;
             enemy.location = new Rectangle(600,300,100,100);
-            fog.location = new Rectangle(-300, 80, 400, 400);
+            fog.location = new Rectangle(-500, 0, 700, 700);
+            fog.bounds = new Rectangle(-500, 0, 300, 700);
+            fog.Speed = 1;
         }
 
 
