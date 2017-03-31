@@ -47,10 +47,11 @@ namespace Fade
         Texture2D mainMenuImage;
         Texture2D pauseImage;
         Texture2D controlsImage;
-        Texture2D playerSprite; //will be replaced by a spritesheet
+        //Texture2D playerSprite;
         Texture2D fogSprite;
         Texture2D bg;
         Texture2D spriteSheet;
+        Texture2D enemySheet;
         Texture2D sword;
         Texture2D swordSprite;
 
@@ -73,6 +74,7 @@ namespace Fade
         //ANIMATION
         int frame;
         int swordFrame;
+        int gruntFrame;
         double timeCounter;     
         double fps;             
         double timePerFrame;    
@@ -83,6 +85,12 @@ namespace Fade
         const int PLAYER_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
         const int PLAYER_RECT_HEIGHT = 142;       // The height of a single frame
         const int PLAYER_RECT_WIDTH = 138;        // The width of a single frame
+
+        // grunt rectangle
+        const int GRUNT_FRAME_COUNT = 7;         // The number of frames in the animation
+        const int GRUNT_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
+        const int GRUNT_RECT_HEIGHT = 110;       // The height of a single frame
+        const int GRUNT_RECT_WIDTH = 138;        // The width of a single frame
 
         //sword rectangle
         const int SWORD_FRAME_COUNT = 3;         // The number of frames in the animation
@@ -123,12 +131,13 @@ namespace Fade
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //textures
-            playerSprite = Content.Load<Texture2D>("char1sword");
+            //playerSprite = Content.Load<Texture2D>("char1sword");
             fogSprite = Content.Load<Texture2D>("fogfull");
             bg = Content.Load<Texture2D>("background");
             mainMenuImage = Content.Load<Texture2D>("menuprocess");
             pauseImage = Content.Load<Texture2D>("pausebg");
             spriteSheet = Content.Load<Texture2D>("charsprite");
+            enemySheet = Content.Load<Texture2D>("gruntHop");
             swordSprite = Content.Load<Texture2D>("swordBoxes");
             sword = Content.Load<Texture2D>("sword");
 
@@ -137,7 +146,7 @@ namespace Fade
             titleFont = Content.Load<SpriteFont>("titleFont");
 
             //objects
-            p1 = new Player(playerSprite, new Rectangle(200, 300, 120, 140));
+            p1 = new Player(spriteSheet, new Rectangle(200, 300, 120, 140));
             mStart = new SelectText(true, Color.White, Color.Black);
             mQuit = new SelectText();
             mControls = new SelectText();
@@ -147,7 +156,7 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-500, 0, 700, 700), new Rectangle(-500, 0, 300, 700), 1, 0);
-            enemy = new Enemy(sword, new Rectangle(600,300,100,100), 1, 3, 1);
+            enemy = new Enemy(enemySheet, new Rectangle(600,328,100,100), 1, 3, 1);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -335,8 +344,18 @@ namespace Fade
                     timeCounter -= timePerFrame;    // Remove the time we "used"
                 }
 
+                if (timeCounter >= timePerFrame)
+                {
+                    gruntFrame += 1;                     // Adjust the frame
+
+                    if (gruntFrame > GRUNT_FRAME_COUNT)   // Check the bounds
+                        gruntFrame = 1;
+
+                    timeCounter -= timePerFrame;    // Remove the time we "used"
+                }
+
                 //DISTANCE AND SCORE UPDATE
-                if(p1.location.X > farPoint)
+                if (p1.location.X > farPoint)
                 {
                     farPoint = p1.location.X;
                 }
@@ -437,6 +456,24 @@ namespace Fade
                 0);                             // - Layer depth (unused)
         }
 
+        private void DrawGruntHopping(SpriteEffects flipSprite, Enemy grunt)
+        {
+            spriteBatch.Draw(
+                enemySheet,                    // - The texture to draw
+                new Vector2(grunt.location.X, grunt.location.Y),                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    frame * GRUNT_RECT_WIDTH,   //   - This rectangle specifies
+                    GRUNT_RECT_Y_OFFSET,        //	   where "inside" the texture
+                    GRUNT_RECT_WIDTH,           //     to get pixels (We don't want to
+                    GRUNT_RECT_HEIGHT),         //     draw the whole thing)
+                Color.White,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
+
         //DRAW ///////////////////////////////////////////
         protected override void Draw(GameTime gameTime)
         {
@@ -474,7 +511,8 @@ namespace Fade
                         spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
 
                     }
-                    spriteBatch.Draw(enemy.sprite,enemy.location,Color.White);
+
+                    DrawGruntHopping(0, enemy);
 
                     switch (p1.playerState)
                     {
