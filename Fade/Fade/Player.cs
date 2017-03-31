@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
 
 namespace Fade
 {
@@ -31,10 +32,15 @@ namespace Fade
 
         public Texture2D sprite { get; set; }
 
-        public Texture2D sword { get; set; } 
+        public Texture2D sword { get; set; }
         //We'll use a seperate sprite for the sword, this will get make it easier to detect collisions with enemy hitboxes
 
+        public bool isHit { get; set; }
+        //will be used for iframes
+
         public Rectangle location;
+
+        public Color color { get; set; }
 
         public int currentX { get; set; }
 
@@ -79,7 +85,9 @@ namespace Fade
             currentX = loc.X;
             currentFrame = 0;
             totalFrames = loc.X * loc.Y;
-            
+            color = Color.White;
+
+            isHit = false;
             
             jumping = false;
             jumpIncrement = 5;
@@ -202,17 +210,32 @@ namespace Fade
             prevPlayerState = playerState;
         }
 
-        public void takeDamage(double dmg)
+        public void takeDamage(double dmg,SpriteBatch batch)
         {
             //if enemy is in hitbox, take const damage
             //if enemy is in attack animation and youre in hitbox- damage
+            isHit = true;
             if (Health <= 0)
             {
                 isDead = true;
             }
             else
             {
+                isHit = true;
                 Health -= dmg;
+                
+                
+                /*int cnt = 0;
+                
+                //batch.Begin();
+                while ((isHit == true)&&(cnt<2))
+                {
+                    //blink three times
+                    location.Y += 150;
+                    //batch.Draw(sprite,Color.Black);
+                    cnt++;
+                }
+                //batch.End();*/
             }
         }
     }

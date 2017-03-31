@@ -311,8 +311,10 @@ namespace Fade
 
                 if(p1.location.Intersects(enemy.location))
                 {
-                    p1.takeDamage(enemy.Damage);
+                    p1.takeDamage(enemy.Damage,spriteBatch);
                     p1.location.X -= 10;
+                    
+
                 }
 
                 //Player Attack
@@ -400,7 +402,7 @@ namespace Fade
                     PLAYER_RECT_Y_OFFSET,        //	   where "inside" the texture
                     PLAYER_RECT_WIDTH,           //     to get pixels (We don't want to
                     PLAYER_RECT_HEIGHT),         //     draw the whole thing)
-                Color.White,                    // - The color
+                p1.color,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 1.0f,                           // - Scale (100% - no change)
@@ -418,7 +420,7 @@ namespace Fade
                     PLAYER_RECT_Y_OFFSET,        //	   where "inside" the texture
                     PLAYER_RECT_WIDTH,           //     to get pixels (We don't want to
                     PLAYER_RECT_HEIGHT),         //     draw the whole thing)
-                Color.White,                    // - The color
+                p1.color,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 1.0f,                           // - Scale (100% - no change)
@@ -431,7 +433,7 @@ namespace Fade
                 sword,
                 new Vector2(playerLoc.X + 10, playerLoc.Y - 40),
                 new Rectangle(0, 0, 140, 140),
-                Color.White,
+                p1.color,
                 0,
                 Vector2.Zero,
                 1.0f,
@@ -473,6 +475,28 @@ namespace Fade
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
+
+        private void DrawPlayerDMG(SpriteEffects flipSprite)
+        {
+            spriteBatch.Draw(
+                spriteSheet,                    // - The texture to draw
+                playerLoc,                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    0,                          //   - This rectangle specifies
+                    PLAYER_RECT_Y_OFFSET,        //	   where "inside" the texture
+                    PLAYER_RECT_WIDTH,           //     to get pixels (We don't want to
+                    PLAYER_RECT_HEIGHT),         //     draw the whole thing)
+                Color.Red,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
+
+
+
+
 
         //DRAW ///////////////////////////////////////////
         protected override void Draw(GameTime gameTime)
@@ -561,6 +585,12 @@ namespace Fade
                             
                         default:
                             break;
+                            //TAKE_DAMAGE
+                            if (p1.isHit == true)
+                            {
+                                DrawPlayerDMG(0);
+                                p1.isHit = false;
+                            }
                     }
                     
                     //sword swing animation
