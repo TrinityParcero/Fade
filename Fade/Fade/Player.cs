@@ -62,7 +62,7 @@ namespace Fade
         int jumpSpeed = 0;
         int startY = 300;
 
-        public int invincibilityFrame = 300;
+        public int invincibilityFrame = 180;
 
         //attributes for jumping
 
@@ -223,21 +223,6 @@ namespace Fade
             else
             {
                 Health -= dmg;
-                //invincibilityFrame--;
-                
-                
-                
-                /*int cnt = 0;
-                
-                //batch.Begin();
-                while ((isHit == true)&&(cnt<2))
-                {
-                    //blink three times
-                    location.Y += 150;
-                    //batch.Draw(sprite,Color.Black);
-                    cnt++;
-                }
-                //batch.End();*/
             }
         }
     }
