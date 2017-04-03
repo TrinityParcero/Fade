@@ -48,9 +48,11 @@ namespace Fade
         Texture2D pauseImage;
         Texture2D controlsImage;
         Texture2D gameOverImage;
+        Texture2D uIBar;
         //Texture2D playerSprite;
         Texture2D fogSprite;
         Texture2D bg;
+        Texture2D floor;
         Texture2D spriteSheet;
         Texture2D enemySheet;
         Texture2D sword;
@@ -85,19 +87,19 @@ namespace Fade
         const int WALK_FRAME_COUNT = 6;         // The number of frames in the animation
         const int PLAYER_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
         const int PLAYER_RECT_HEIGHT = 142;       // The height of a single frame
-        const int PLAYER_RECT_WIDTH = 138;        // The width of a single frame
+        const int PLAYER_RECT_WIDTH = 137;        // The width of a single frame
 
         // grunt rectangle
         const int GRUNT_FRAME_COUNT = 7;         // The number of frames in the animation
         const int GRUNT_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
-        const int GRUNT_RECT_HEIGHT = 110;       // The height of a single frame
-        const int GRUNT_RECT_WIDTH = 140;        // The width of a single frame
+        const int GRUNT_RECT_HEIGHT = 102;       // The height of a single frame
+        const int GRUNT_RECT_WIDTH = 150;        // The width of a single frame
 
         //sword rectangle
         const int SWORD_FRAME_COUNT = 3;         // The number of frames in the animation
         const int SWORD_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
-        const int SWORD_RECT_HEIGHT = 182;       // The height of a single frame
-        const int SWORD_RECT_WIDTH = 114;        // The width of a single frame
+        const int SWORD_RECT_HEIGHT = 200;       // The height of a single frame
+        const int SWORD_RECT_WIDTH = 132;        // The width of a single frame
 
         //DISTANCE
         int startPoint;
@@ -134,22 +136,24 @@ namespace Fade
             //textures
             //playerSprite = Content.Load<Texture2D>("char1sword");
             fogSprite = Content.Load<Texture2D>("fogfull");
-            bg = Content.Load<Texture2D>("background");
+            bg = Content.Load<Texture2D>("bg");
             mainMenuImage = Content.Load<Texture2D>("menus/menu2");
             pauseImage = Content.Load<Texture2D>("menus/pausebg");
             controlsImage = Content.Load<Texture2D>("menus/controls");
             gameOverImage = Content.Load<Texture2D>("menus/gameoverbg");
+            uIBar = Content.Load<Texture2D>("menus/uiBar");
             spriteSheet = Content.Load<Texture2D>("characters/charsprite");
-            enemySheet = Content.Load<Texture2D>("characters/gruntHop");
-            swordSprite = Content.Load<Texture2D>("characters/swordBoxes");
+            enemySheet = Content.Load<Texture2D>("characters/grunt2");
+            swordSprite = Content.Load<Texture2D>("characters/swordSprite2");
             sword = Content.Load<Texture2D>("characters/sword");
+            floor = Content.Load<Texture2D>("floor");
 
             //type
             textFont = Content.Load<SpriteFont>("textFont");
             titleFont = Content.Load<SpriteFont>("titleFont");
 
             //objects
-            p1 = new Player(spriteSheet, new Rectangle(200, 300, 120, 140));
+            p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140));
             mStart = new SelectText(true, Color.White, Color.Black);
             mQuit = new SelectText();
             mControls = new SelectText();
@@ -159,7 +163,7 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 300, 700), 1, 0);
-            enemy = new Enemy(enemySheet, new Rectangle(600,328,100,100), 1, 3, 1);
+            enemy = new Enemy(enemySheet, new Rectangle(600,380,0,0), 1, 3, 1);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -532,14 +536,16 @@ namespace Fade
                 //GAMEPLAY
                 case GameState.Game:
                     GraphicsDevice.Clear(Color.Black);
-                    spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-                    spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), effects: SpriteEffects.FlipHorizontally);
+                    spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX + 20, 0, 2000, GraphicsDevice.Viewport.Height));
+         
                     for (int i = 2; i < 50; i++) //temporary fix to bg cut off
                     {
-                        spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                        spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
 
                     }
 
+                    spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X, 450, 861, 30), Color.White);
                     DrawGruntHopping(0, enemy);
 
                     switch (p1.playerState)
@@ -630,21 +636,21 @@ namespace Fade
 
                     spriteBatch.Draw(fogSprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
-                    //spriteBatch.Draw(UI bar goes here);
+                    spriteBatch.Draw(uIBar, new Rectangle((int)camera.Position.X -20, 0, 888, 50), Color.White);
                     //spriteBatch.Draw(hearts go here);
-                    spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 20), Color.White);
-                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
-                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
+                    spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 500, 10), Color.White);
+                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 40), Color.White); //high score num
+                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
                     break;
 
                 //GAME PAUSE
                 case GameState.GamePause:
                     GraphicsDevice.Clear(Color.Black);
-                    spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-                    spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), effects: SpriteEffects.FlipHorizontally);
+                    spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height));
                     for (int i = 2; i < 50; i++) //temporary fix to bg cut off
                     {
-                        spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                        spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
 
                     }
 
@@ -653,9 +659,9 @@ namespace Fade
 
                     //spriteBatch.Draw(UI bar goes here);
                     //spriteBatch.Draw(hearts go here);
-                    spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 20), Color.White);
-                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
-                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
+                    spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 0), Color.White);
+                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 0), Color.White); //high score num
+                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 0), Color.White); //current score num
 
                     spriteBatch.Draw(pauseImage, new Vector2(camera.Position.X, 0));
                     pContinue.DrawSelectText(spriteBatch, textFont, "CONTINUE", new Vector2(camera.Position.X + 335, 205));
@@ -704,12 +710,12 @@ namespace Fade
         public void ResetGame()
         {
             camera.Position = new Vector2(0, 0); //reset camera so it doesnt stay off-centered in other states
-            p1.location = new Rectangle(200, 300, 120, 140);
+            p1.location = new Rectangle(200, 350, 120, 140);
             p1.isDead = false;
             p1.Health = 3;
             currentScore = 0;
             farPoint = 0;
-            enemy.location = new Rectangle(600, 328, 100, 100);
+            enemy.location = new Rectangle(600, 360, 100, 100);
             fog.location = new Rectangle(-600, 0, 800, 480);
             fog.bounds = new Rectangle(-500, 0, 300, 700);
             fog.Speed = 1;
