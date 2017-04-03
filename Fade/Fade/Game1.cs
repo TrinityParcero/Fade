@@ -316,12 +316,25 @@ namespace Fade
                 enemy.Run(fog.location,p1);
                 fog.consumeEnemy(enemy);
 
-                if(p1.location.Intersects(enemy.location))
-                {
-                    p1.takeDamage(enemy.Damage,spriteBatch);
-                    p1.location.X -= 10;
-                    
+                
 
+                if (p1.location.Intersects(enemy.location))
+                {
+                    if (p1.invincibilityFrame <= 0)
+                    {
+                        p1.takeDamage(enemy.Damage, spriteBatch);
+                        p1.location.X -= 10;
+                        p1.invincibilityFrame = 180;
+                    }
+                }
+                if (p1.invincibilityFrame > 0)
+                {
+                    p1.invincibilityFrame--;
+                    p1.color = Color.Yellow;
+                }
+                else
+                {
+                    p1.color = Color.White;
                 }
 
                 //Player Attack
