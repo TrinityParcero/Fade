@@ -62,9 +62,11 @@ namespace Fade
         int jumpSpeed = 0;
         int startY = 300;
 
+        public int invincibilityFrame = 300;
+
         //attributes for jumping
-         
-         
+
+
          int g;
          int jumpIncrement;
          int ground;
@@ -214,15 +216,15 @@ namespace Fade
         {
             //if enemy is in hitbox, take const damage
             //if enemy is in attack animation and youre in hitbox- damage
-            isHit = true;
             if (Health <= 0)
             {
                 isDead = true;
             }
             else
             {
-                isHit = true;
                 Health -= dmg;
+                //invincibilityFrame--;
+                
                 
                 
                 /*int cnt = 0;
