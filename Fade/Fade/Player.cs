@@ -223,6 +223,7 @@ namespace Fade
             else
             {
                 Health -= dmg;
+                color = Color.Red;
             }
         }
     }

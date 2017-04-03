@@ -319,14 +319,12 @@ namespace Fade
                     if (p1.invincibilityFrame <= 0)
                     {
                         p1.takeDamage(enemy.Damage, spriteBatch);
-                        p1.location.X -= 10;
                         p1.invincibilityFrame = 180;
                     }
                 }
                 if (p1.invincibilityFrame > 0)
                 {
                     p1.invincibilityFrame--;
-                    p1.color = Color.Yellow;
                 }
                 else
                 {
