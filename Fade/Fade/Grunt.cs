@@ -44,7 +44,7 @@ namespace Fade
             isSpawn = false;
             gMaxHeight = grd.Height / 2;
             gruntJI = 1;
-            location.Y = loc.Y;
+            location = loc;
             ground = location.Y;
             sprite = asset;
             jumping = false;

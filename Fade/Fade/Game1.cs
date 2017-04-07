@@ -62,8 +62,9 @@ namespace Fade
         Player p1;
         Fog fog;
         Camera2D camera;
-        ExternalTool tool;
+        ExternalTool tool = new ExternalTool();
         Enemy enemy;
+        EnemySpawner spawner = new EnemySpawner();
 
         //ENUMS
         GameState currentState = GameState.Menu;
@@ -123,6 +124,7 @@ namespace Fade
             timePerFrame = 1.0 / fps;
             startPoint = 200;
             farPoint = 200;
+            tool.writeFile();
             //tool = new ExternalTool();
             //tool.writeFile();
             base.Initialize();
@@ -171,6 +173,8 @@ namespace Fade
         {
             // TODO: Unload any non ContentManager content here
         }
+
+        bool startSpawn = false;
 
         // UPDATE ////////////////////////////////////////
         protected override void Update(GameTime gameTime)
@@ -315,9 +319,10 @@ namespace Fade
                 fog.Move(p1);
                 enemy.Run(fog.location,p1);
                 fog.consumeEnemy(enemy);
+                fog.damagePlayer(p1);
 
                 
-
+                //player taking damage
                 if (p1.location.Intersects(enemy.location))
                 {
                     if (p1.invincibilityFrame <= 0)
@@ -381,7 +386,10 @@ namespace Fade
                 }
                 
                 currentScore = (farPoint/4) - 50;
-
+                if(currentScore == 200)
+                {
+                    startSpawn = true;
+                }
                 
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
@@ -408,6 +416,15 @@ namespace Fade
             oldState = ms;
 
             base.Update(gameTime);
+        }
+
+        private void DrawWave()
+        {
+            spawner.CreateSpawn("values.txt", p1.sprite, sword, p1.location);
+            foreach (var item in spawner.EnemyList)
+            {
+                spriteBatch.Draw(item.sprite,item.location,Color.White);
+            }
         }
         //ANIMATION
 
@@ -512,10 +529,6 @@ namespace Fade
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
-
-
-
-
 
         //DRAW ///////////////////////////////////////////
         protected override void Draw(GameTime gameTime)
@@ -652,6 +665,13 @@ namespace Fade
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 500, 10), Color.White);
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 40), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
+
+                    if(startSpawn == true)
+                    {
+                        DrawWave();
+                        startSpawn = false;
+                    }
+                    
                     break;
 
                 //GAME PAUSE
