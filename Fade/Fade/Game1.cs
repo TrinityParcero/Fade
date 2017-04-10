@@ -390,26 +390,18 @@ namespace Fade
                 {
                     startSpawn = true;
                 }
-                
+
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    camera.LookAt(new Vector2(p1.location.X+200,240));
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    if(p1.location.Intersects(fog.bounds))
-                    {
-                        camera.Position -= new Vector2(0, 0) * deltaTime / 2;
-                    }
-                    else
-                    {
-                        camera.LookAt(new Vector2(p1.location.X+200, 240));
-                        //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
-                    }
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
+                    //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
-
             }
 
             previousState = ks;
@@ -421,9 +413,9 @@ namespace Fade
         private void DrawWave()
         {
             spawner.CreateSpawn("values.txt", p1.sprite, sword, p1.location);
-            foreach (var item in spawner.EnemyList)
+            foreach (Enemy enemy in spawner.EnemyList)
             {
-                spriteBatch.Draw(item.sprite,item.location,Color.White);
+                spriteBatch.Draw(enemy.sprite, enemy.location, Color.White);
             }
         }
         //ANIMATION
