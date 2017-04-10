@@ -14,6 +14,7 @@ namespace Fade
         GameOver
     }
 
+
     public class Game1 : Game
     //Trinity Parcero, Shawn Clark, Grant Terdoslavich, Ian Davis
     //FADE main game class
@@ -49,7 +50,6 @@ namespace Fade
         Texture2D controlsImage;
         Texture2D gameOverImage;
         Texture2D uIBar;
-        //Texture2D playerSprite;
         Texture2D fogSprite;
         Texture2D bg;
         Texture2D floor;
@@ -57,6 +57,7 @@ namespace Fade
         Texture2D enemySheet;
         Texture2D sword;
         Texture2D swordSprite;
+        Texture2D heart;
 
         //OBJECTS
         Player p1;
@@ -149,6 +150,7 @@ namespace Fade
             swordSprite = Content.Load<Texture2D>("characters/swordSprite2");
             sword = Content.Load<Texture2D>("characters/sword");
             floor = Content.Load<Texture2D>("floor");
+            heart = Content.Load<Texture2D>("menus/hearts");
 
             //type
             textFont = Content.Load<SpriteFont>("textFont");
@@ -392,26 +394,18 @@ namespace Fade
                 {
                     startSpawn = true;
                 }
-                
+
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    camera.LookAt(new Vector2(p1.location.X+200,240));
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    if(p1.location.Intersects(fog.bounds))
-                    {
-                        camera.Position -= new Vector2(0, 0) * deltaTime / 2;
-                    }
-                    else
-                    {
-                        camera.LookAt(new Vector2(p1.location.X+200, 240));
-                        //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
-                    }
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
+                    //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
-
             }
 
             previousState = ks;
@@ -423,9 +417,9 @@ namespace Fade
         private void DrawWave()
         {
             spawner.CreateSpawn("values.txt", p1.sprite, sword, p1.location);
-            foreach (var item in spawner.EnemyList)
+            foreach (Enemy enemy in spawner.EnemyList)
             {
-                spriteBatch.Draw(item.sprite,item.location,Color.White);
+                spriteBatch.Draw(enemy.sprite, enemy.location, Color.White);
             }
         }
         //ANIMATION
@@ -530,6 +524,34 @@ namespace Fade
                 1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
+        }
+
+        private void DrawFullHeart(Vector2 location)
+        {
+
+            spriteBatch.Draw(
+                heart,         
+                location, 
+                new Rectangle(    
+                    0,       
+                    0,      
+                    36,    
+                    36),     
+                Color.White);
+        }
+
+        private void DrawHalfHeart(Vector2 location)
+        {
+
+            spriteBatch.Draw(
+                heart,
+                location,
+                new Rectangle(
+                    36,
+                    0,
+                    36,
+                    36),
+                Color.White);
         }
 
         //DRAW ///////////////////////////////////////////
@@ -663,7 +685,41 @@ namespace Fade
                     spriteBatch.Draw(fogSprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
                     spriteBatch.Draw(uIBar, new Rectangle((int)camera.Position.X -20, 0, 888, 50), Color.White);
-                    //spriteBatch.Draw(hearts go here);
+
+                    //check health state and draw hearts
+                    switch (p1.healthState)
+                    {
+                        case HealthState.ThreeFull:
+                            DrawFullHeart(new Vector2(camera.Position.X+20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 100, 5));
+                            break;
+
+                        case HealthState.FiveHalves:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            DrawHalfHeart(new Vector2(camera.Position.X + 100, 5));
+                            break;
+
+                        case HealthState.TwoFull:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            break;
+
+                        case HealthState.ThreeHalves:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawHalfHeart(new Vector2(camera.Position.X + 60, 5));
+                            break;
+
+                        case HealthState.OneFull:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            break;
+
+                        case HealthState.OneHalf:
+                            DrawHalfHeart(new Vector2(camera.Position.X + 20, 5));
+                            break;
+
+                    }
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 500, 10), Color.White);
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 40), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
@@ -690,7 +746,7 @@ namespace Fade
                     spriteBatch.Draw(p1.sprite, new Rectangle(p1.location.X, p1.location.Y, p1.location.Width, p1.location.Height), Color.White);
                     spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
-                    //spriteBatch.Draw(UI bar goes here);
+                    spriteBatch.Draw(uIBar, new Rectangle((int)camera.Position.X - 20, 0, 888, 50), Color.White);
                     //spriteBatch.Draw(hearts go here);
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 0), Color.White);
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 0), Color.White); //high score num
