@@ -317,7 +317,9 @@ namespace Fade
                 //if the bool jumping frmo the player class is true then the below method will move the player
                 p1.JumpUpdate();
                 fog.Move(p1);
+                //
                 enemy.Run(fog.location,p1);
+                //
                 fog.consumeEnemy(enemy);
                 fog.damagePlayer(p1);
 
