@@ -398,12 +398,25 @@ namespace Fade
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
+                    if(startSpawn == true)
+                    {
+                        
+                    }
+                    else
+                    {
+                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
+                    }
+                        
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
+                    if (startSpawn == true)
+                    {
+                        
+                    }
+                    else
+                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
             }
@@ -416,11 +429,12 @@ namespace Fade
 
         private void DrawWave()
         {
-            spawner.CreateSpawn("values.txt", p1.sprite, sword, p1.location);
+            spawner.CreateSpawn("values.txt", sword, sword, p1.location);
             foreach (Enemy enemy in spawner.EnemyList)
             {
                 spriteBatch.Draw(enemy.sprite, enemy.location, Color.White);
             }
+            //startSpawn = false;
         }
         //ANIMATION
 
@@ -727,7 +741,6 @@ namespace Fade
                     if(startSpawn == true)
                     {
                         DrawWave();
-                        startSpawn = false;
                     }
                     
                     break;
