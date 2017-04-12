@@ -100,8 +100,8 @@ namespace Fade
         //sword rectangle
         const int SWORD_FRAME_COUNT = 3;         // The number of frames in the animation
         const int SWORD_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
-        const int SWORD_RECT_HEIGHT = 200;       // The height of a single frame
-        const int SWORD_RECT_WIDTH = 132;        // The width of a single frame
+        const int SWORD_RECT_HEIGHT = 180;       // The height of a single frame
+        const int SWORD_RECT_WIDTH = 180;        // The width of a single frame
 
         //DISTANCE
         int startPoint;
@@ -147,7 +147,7 @@ namespace Fade
             uIBar = Content.Load<Texture2D>("menus/uiBar");
             spriteSheet = Content.Load<Texture2D>("characters/charsprite");
             enemySheet = Content.Load<Texture2D>("characters/grunt2");
-            swordSprite = Content.Load<Texture2D>("characters/swordSprite2");
+            swordSprite = Content.Load<Texture2D>("characters/swordSprite");
             sword = Content.Load<Texture2D>("characters/sword");
             floor = Content.Load<Texture2D>("floor");
             heart = Content.Load<Texture2D>("menus/hearts");
@@ -395,6 +395,32 @@ namespace Fade
                     startSpawn = true;
                 }
 
+                //update healthstate based on player health
+                if(p1.Health == 3.0)
+                {
+                    p1.healthState = HealthState.ThreeFull;
+                }
+                if(p1.Health == 2.5)
+                {
+                    p1.healthState = HealthState.FiveHalves;
+                }
+                if(p1.Health == 2.0)
+                {
+                    p1.healthState = HealthState.TwoFull;
+                }
+                if(p1.Health == 1.5)
+                {
+                    p1.healthState = HealthState.ThreeHalves;
+                }
+                if(p1.Health == 1.0)
+                {
+                    p1.healthState = HealthState.OneFull;
+                }
+                if(p1.Health == 0.5)
+                {
+                    p1.healthState = HealthState.OneHalf;
+                }
+
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
@@ -420,7 +446,7 @@ namespace Fade
                     //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
             }
-
+            
             previousState = ks;
             oldState = ms;
 
@@ -488,9 +514,20 @@ namespace Fade
         }
         private void SwordSwing(SpriteEffects flipSprite)
         {
+            Vector2 swordPos = new Vector2();
+            if(flipSprite != 0)
+            {
+                swordPos.X = (playerLoc.X - 10);
+                swordPos.Y = (playerLoc.Y - 10);
+            }
+            else
+            {
+                swordPos.X = (playerLoc.X + 45);
+                swordPos.Y = (playerLoc.Y - 40);
+            }
             spriteBatch.Draw(
                 swordSprite,                    // - The texture to draw
-                new Vector2(playerLoc.X + 45, playerLoc.Y - 40), // - The location to draw on the screen
+                swordPos, // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
                     SWORD_RECT_Y_OFFSET,        //	   where "inside" the texture
@@ -678,7 +715,7 @@ namespace Fade
                     }
                     else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft))
                     {
-                        SwordSwing(SpriteEffects.FlipHorizontally);
+                        SwordSwing(0);
                     }
                     else if (p1.attacking && (p1.playerState == PlayerState.FaceRight || p1.playerState == PlayerState.WalkRight))
                     {
