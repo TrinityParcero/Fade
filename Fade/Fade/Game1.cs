@@ -456,10 +456,11 @@ namespace Fade
         private void DrawWave()
         {
             spawner.CreateSpawn("values.txt", sword, sword, p1.location);
-            foreach (Enemy enemy in spawner.EnemyList)
-            {
-                spriteBatch.Draw(enemy.sprite, enemy.location, Color.White);
-            }
+            DrawGruntHopping(0, spawner.EnemyList[0]);
+            DrawGruntHopping(0, spawner.EnemyList[1]);
+            DrawGruntHopping(0, spawner.EnemyList[2]);
+            DrawGruntHopping(0, spawner.EnemyList[3]);
+            DrawGruntHopping(0, spawner.EnemyList[4]);
             //startSpawn = false;
         }
         //ANIMATION
@@ -775,7 +776,7 @@ namespace Fade
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 40), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
 
-                    if(startSpawn == true)
+                    if (startSpawn == true)
                     {
                         DrawWave();
                     }
