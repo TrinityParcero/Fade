@@ -43,13 +43,13 @@ namespace Fade
         {
             isSpawn = false;
             //gMaxHeight = loc.Height / 2;
-            gMaxHeight = 150;
-            gruntJI = 1;
+            //gMaxHeight = 150;
+            //gruntJI = 1;
             location = loc;
-            ground = location.Y;
+            //ground = location.Y;
             sprite = asset;
-            jumping = false;
-            falling = false;
+            //jumping = false;
+            //falling = false;
 
 
         }
@@ -115,7 +115,9 @@ namespace Fade
             }
          
          }
-
+        /// <summary>
+        /// check if dead
+        /// </summary>
         public void isDead( )
         {
             if (true)

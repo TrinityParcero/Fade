@@ -9,6 +9,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Fade
 {
+    enum EnemyState
+    {
+        FaceRight,
+        FaceLeft
+    }
     class Enemy
     {
         public double Damage{ get; set; }
@@ -22,6 +27,7 @@ namespace Fade
         public Texture2D sprite { get; set; }
 
         public Rectangle location;
+        public EnemyState eState = EnemyState.FaceLeft;
 
         public Enemy(Texture2D texture, Rectangle loc, int speed, double hp, double dmg)
         {
@@ -49,10 +55,12 @@ namespace Fade
             if(location.X > p.location.X)
             {
                 location.X -= Speed;
+                eState = EnemyState.FaceLeft;
             }
             else if(location.X < p.location.X-20)
             {
                 location.X += Speed;
+                eState = EnemyState.FaceRight;
             }
         }
 

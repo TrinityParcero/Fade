@@ -65,6 +65,7 @@ namespace Fade
         Camera2D camera;
         ExternalTool tool;
         Enemy enemy;
+        
 
         //ENUMS
         GameState currentState = GameState.Menu;
@@ -166,7 +167,8 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 300, 700), 1, 0);
-            enemy = new Grunt(enemySheet, new Rectangle(600,380,0,0), 1, 3, 1);
+            //enemy = new Grunt(enemySheet, new Rectangle(600,380,0,0), 1, 3, 1);
+            
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -319,7 +321,7 @@ namespace Fade
                 p1.JumpUpdate();
                 fog.Move(p1);
                 enemy.Run(fog.location,p1);
-                //
+                                //
                 fog.consumeEnemy(enemy);
 
                 
