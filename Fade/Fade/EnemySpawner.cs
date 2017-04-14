@@ -52,7 +52,7 @@ namespace Fade
                     {
                         if (line[i] == 'g')
                         {
-                            enemyList.Add(new Grunt(grunt, new Rectangle(playerLoc.X+(Distance*(i+1)), playerLoc.Y, 100, 100),1,1,1,new Rectangle(100,100,100,100)));
+                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance*(i+1)), (playerLoc.Y), 100, 100),1,1,1));
                         }
                         else if (line[i] == 't')
                         {
