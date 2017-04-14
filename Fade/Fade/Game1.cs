@@ -63,9 +63,8 @@ namespace Fade
         Player p1;
         Fog fog;
         Camera2D camera;
-        ExternalTool tool = new ExternalTool();
+        ExternalTool tool;
         Enemy enemy;
-        EnemySpawner spawner = new EnemySpawner();
 
         //ENUMS
         GameState currentState = GameState.Menu;
@@ -167,7 +166,7 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 300, 700), 1, 0);
-            enemy = new Enemy(enemySheet, new Rectangle(600,380,0,0), 1, 3, 1);
+            enemy = new Grunt(enemySheet, new Rectangle(600,380,0,0), 1, 3, 1);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -319,11 +318,9 @@ namespace Fade
                 //if the bool jumping frmo the player class is true then the below method will move the player
                 p1.JumpUpdate();
                 fog.Move(p1);
-                //
                 enemy.Run(fog.location,p1);
                 //
                 fog.consumeEnemy(enemy);
-                fog.damagePlayer(p1);
 
                 
                 //player taking damage
@@ -532,7 +529,7 @@ namespace Fade
                 new Rectangle(                  // - The "source" rectangle
                     frame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
                     SWORD_RECT_Y_OFFSET,        //	   where "inside" the texture
-                    SWORD_RECT_WIDTH,           //     to get pixels (We don't want to
+                    SWORD_RECT_WIDTH,           //     to get pixels (We don't want to                      
                     SWORD_RECT_HEIGHT),         //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
