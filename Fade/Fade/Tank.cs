@@ -9,61 +9,26 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Fade
 {
-    enum TankState
-    {
-        TankFaceRight,
-        TankFaceLeft,
-        TankBRight,
-        TankbLeft
-    }
 
+    //tank states
+    /// <summary>
+    /// enum TankState
+    /// {
+    ///  FaceRight
+    ///  FaceLeft
+    ///  ChargeUpR
+    ///  ChargeUpL
+    /// }
+    /// </summary>
     class Tank : Enemy
     {
-       
         //two or three health
         //half player speed
-        Rectangle foglocation;
+
+        //int ground;
+
         public Tank(Texture2D asset, Rectangle loc, int speed, double hp, double dmg) : base(asset,loc,speed,hp,dmg)
         {
-
-            //call run method from enemy class
-            ///Run(foglocation, );
-           ///{
-           ///  if(tank location.x less than player location)
-           ///  {
-           ///     TankState = TankFaceRight;
-           ///     tanklocation.x += speed
-           ///  }
-           ///  if(tank location.x > player location)
-           ///  {
-           ///     TankState = TankFaceLeft;
-           ///     tanklocation.x -= speed;
-           ///  }
-           /// if (playerlocation.x - tanklocation.x == absolute value of 5)
-           /// {
-           ///   if(tanklocation.x less than playerlocation.x)
-           ///   {
-           ///     tanklocation.x += 0; or doesnt move
-           ///     tankstate = tankBright;
-           ///   }
-           ///   if(tanklocation.x > playerlocation.x)
-           ///   {
-           ///     tanklocation += 0;
-           ///     tankstate = tankBleft;
-           ///   }
-           /// }
-           ///}
-          
-
-
-
-
-
-
-          
-
-
-
 
         }
     }
