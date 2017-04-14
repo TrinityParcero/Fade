@@ -115,6 +115,7 @@ namespace Fade
             //if char is in attack pose-check for it
             //if enemy is in hitbox while char is attacking-deal damage
             attacking = true;
+            //deal damage here
         }
 
         public void Jump()

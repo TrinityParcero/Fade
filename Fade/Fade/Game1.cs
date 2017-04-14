@@ -182,7 +182,7 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 300, 700), 1, 0);
-            enemy = new Enemy(gruntSheet, new Rectangle(600,380,0,0), 1, 3, 1);
+            enemy = new Enemy(gruntSheet, new Rectangle(600,380,0,0), 1, 3, 0.5);
             testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
         }
 
@@ -380,11 +380,16 @@ namespace Fade
                         frame = 1;
                     }
 
-                    swordFrame += 1;                     // Adjust the frame
-
-                    if (swordFrame > SWORD_FRAME_COUNT)
+                    if (p1.attacking)
                     {
-                        swordFrame = 1;
+                        swordFrame += 1;                     // Adjust the frame
+
+                        if (swordFrame > SWORD_FRAME_COUNT)
+                        {
+                            p1.attacking = false;
+                            swordFrame = 1;
+
+                        }
                     }
 
                     gruntFrame += 1;                     // Adjust the frame
@@ -529,6 +534,17 @@ namespace Fade
         }
         private void DrawSword(SpriteEffects flipSprite)
         {
+            Vector2 swordPos = new Vector2();
+            if (flipSprite != 0)
+            {
+                swordPos.X = (playerLoc.X - 40);
+                swordPos.Y = (playerLoc.Y - 30);
+            }
+            else
+            {
+                swordPos.X = (playerLoc.X + 30);
+                swordPos.Y = (playerLoc.Y - 30);
+            }
             spriteBatch.Draw(
                 sword,
                 new Vector2(playerLoc.X + 10, playerLoc.Y - 40),
@@ -545,13 +561,13 @@ namespace Fade
             Vector2 swordPos = new Vector2();
             if(flipSprite != 0)
             {
-                swordPos.X = (playerLoc.X - 10);
-                swordPos.Y = (playerLoc.Y - 10);
+                swordPos.X = (playerLoc.X - 40);
+                swordPos.Y = (playerLoc.Y - 30);
             }
             else
             {
-                swordPos.X = (playerLoc.X + 45);
-                swordPos.Y = (playerLoc.Y - 40);
+                swordPos.X = (playerLoc.X + 30);
+                swordPos.Y = (playerLoc.Y - 30);
             }
             spriteBatch.Draw(
                 swordSprite,                    // - The texture to draw
@@ -633,7 +649,7 @@ namespace Fade
                     0,       
                     0,      
                     36,    
-                    36),     
+                    34),     
                 Color.White);
         }
 
@@ -644,10 +660,10 @@ namespace Fade
                 heart,
                 location,
                 new Rectangle(
-                    36,
+                    0,
                     0,
                     36,
-                    36),
+                    34),
                 Color.White);
         }
 
@@ -700,17 +716,41 @@ namespace Fade
                         case PlayerState.FaceLeft:
                             if ((p1.prevPlayerState == PlayerState.FaceRight) || (p1.prevPlayerState == PlayerState.WalkRight))
                             {
-                                DrawPlayerStanding(SpriteEffects.FlipHorizontally); //if he was facing or walking right, flip so he faces left
+                                DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(SpriteEffects.FlipHorizontally);
+                                }
+                                else
+                                {
+                                    DrawSword(SpriteEffects.FlipHorizontally);
+                                }
                             }
                             else
                             {
                                 DrawPlayerStanding(SpriteEffects.FlipHorizontally); //if he wasnt facing or walking right, draw him standing facing left
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(SpriteEffects.FlipHorizontally);
+                                }
+                                else
+                                {
+                                    DrawSword(SpriteEffects.FlipHorizontally);
+                                }
                             }
                             break;
 
                         //WALKLEFT
                         case PlayerState.WalkLeft:
                             DrawPlayerWalking(SpriteEffects.FlipHorizontally);
+                            if (p1.attacking)
+                            {
+                                SwordSwing(SpriteEffects.FlipHorizontally);
+                            }
+                            else
+                            {
+                                DrawSword(SpriteEffects.FlipHorizontally);
+                            }
                             break;
 
                         //FACERIGHT
@@ -718,25 +758,65 @@ namespace Fade
                             if ((p1.prevPlayerState == PlayerState.FaceLeft) || (p1.prevPlayerState == PlayerState.WalkLeft))
                             {
                                 DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(SpriteEffects.FlipHorizontally);
+                                }
+                                else
+                                {
+                                    DrawSword(SpriteEffects.FlipHorizontally);
+                                }
                             }
                             else
                             {
                                 DrawPlayerStanding(0);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(0);
+                                }
+                                else
+                                {
+                                    DrawSword(0);
+                                }
                             }
                             break;
 
                         //WALKRIGHT
                         case PlayerState.WalkRight:
                             DrawPlayerWalking(0);
+                            if (p1.attacking)
+                            {
+                                SwordSwing(0);
+                            }
+                            else
+                            {
+                                DrawSword(0);
+                            }
                             break;
                         
                         //JUMP_LEFT
                         case PlayerState.JumpLeft:
                             DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                            if (p1.attacking)
+                            {
+                                SwordSwing(SpriteEffects.FlipHorizontally);
+                            }
+                            else
+                            {
+                                DrawSword(SpriteEffects.FlipHorizontally);
+                            }
                             break;
                         //JUMP_RIGHT
                         case PlayerState.JumpRight:
                             DrawPlayerStanding(0);
+                            if (p1.attacking)
+                            {
+                                SwordSwing(0);
+                            }
+                            else
+                            {
+                                DrawSword(0);
+                            }
                             break;
                             
                         default:
@@ -747,37 +827,6 @@ namespace Fade
                                 DrawPlayerDMG(0);
                                 p1.isHit = false;
                             }
-                    }
-                    
-                    //sword swing animation
-                    if (p1.attacking && ( p1.playerState == PlayerState.FaceRight 
-                        && (p1.prevPlayerState == PlayerState.FaceLeft) || (p1.prevPlayerState == PlayerState.WalkLeft)))
-                    {
-                        SwordSwing(SpriteEffects.FlipHorizontally);
-                    }
-                    else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft
-                        && (p1.prevPlayerState == PlayerState.FaceRight) || (p1.prevPlayerState == PlayerState.WalkRight)))
-                    {
-                        SwordSwing(SpriteEffects.FlipHorizontally);
-                    }
-                    else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft))
-                    {
-                        SwordSwing(0);
-                    }
-                    else if (p1.attacking && (p1.playerState == PlayerState.FaceRight || p1.playerState == PlayerState.WalkRight))
-                    {
-                        SwordSwing(0);
-                    }
-
-                    //sword is not swinging, just draw the sword
-                    else
-                    {
-                        if (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft)
-                            DrawSword(SpriteEffects.FlipHorizontally);
-                        else
-                        {
-                            DrawSword(0);
-                        }
                     }
 
                     spriteBatch.Draw(fogSprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
