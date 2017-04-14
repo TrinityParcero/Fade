@@ -54,7 +54,9 @@ namespace Fade
         Texture2D bg;
         Texture2D floor;
         Texture2D spriteSheet;
-        Texture2D enemySheet;
+        Texture2D gruntSheet;
+        Texture2D tankSheet;
+        Texture2D tankRoar;
         Texture2D sword;
         Texture2D swordSprite;
         Texture2D heart;
@@ -63,9 +65,10 @@ namespace Fade
         Player p1;
         Fog fog;
         Camera2D camera;
-        ExternalTool tool;
+        ExternalTool tool = new ExternalTool();
         Enemy enemy;
-        
+        Tank testTank;
+        EnemySpawner spawner = new EnemySpawner();
 
         //ENUMS
         GameState currentState = GameState.Menu;
@@ -80,9 +83,12 @@ namespace Fade
         int frame;
         int swordFrame;
         int gruntFrame;
+        int tankFrame;
         double timeCounter;     
-        double fps;             
-        double timePerFrame;    
+        double fps;
+        int count;          
+        double timePerFrame;
+        double longTimePerFrame; //longer time per frame for slow animations    
         Vector2 playerLoc;
 
         // player rectangle
@@ -96,6 +102,12 @@ namespace Fade
         const int GRUNT_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
         const int GRUNT_RECT_HEIGHT = 102;       // The height of a single frame
         const int GRUNT_RECT_WIDTH = 150;        // The width of a single frame
+
+        // tank rectangle
+        const int TANK_FRAME_COUNT = 3;         // The number of frames in the animation
+        const int TANK_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
+        const int TANK_RECT_HEIGHT = 120;       // The height of a single frame
+        const int TANK_RECT_WIDTH = 275;        // The width of a single frame
 
         //sword rectangle
         const int SWORD_FRAME_COUNT = 3;         // The number of frames in the animation
@@ -125,6 +137,7 @@ namespace Fade
             timePerFrame = 1.0 / fps;
             startPoint = 200;
             farPoint = 200;
+            count = 0;
             tool.writeFile();
             //tool = new ExternalTool();
             //tool.writeFile();
@@ -146,7 +159,9 @@ namespace Fade
             gameOverImage = Content.Load<Texture2D>("menus/gameoverbg");
             uIBar = Content.Load<Texture2D>("menus/uiBar");
             spriteSheet = Content.Load<Texture2D>("characters/charsprite");
-            enemySheet = Content.Load<Texture2D>("characters/grunt2");
+            gruntSheet = Content.Load<Texture2D>("characters/grunt2");
+            tankSheet = Content.Load<Texture2D>("characters/tank");
+            tankRoar = Content.Load<Texture2D>("characters/tankRoar");
             swordSprite = Content.Load<Texture2D>("characters/swordSprite");
             sword = Content.Load<Texture2D>("characters/sword");
             floor = Content.Load<Texture2D>("floor");
@@ -167,8 +182,8 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 300, 700), 1, 0);
-            //enemy = new Grunt(enemySheet, new Rectangle(600,380,0,0), 1, 3, 1);
-            
+            enemy = new Enemy(gruntSheet, new Rectangle(600,380,0,0), 1, 3, 0.5);
+            testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -320,9 +335,12 @@ namespace Fade
                 //if the bool jumping frmo the player class is true then the below method will move the player
                 p1.JumpUpdate();
                 fog.Move(p1);
+                //
                 enemy.Run(fog.location,p1);
-                                //
+                testTank.Run(fog.location, p1);
+                //
                 fog.consumeEnemy(enemy);
+                fog.damagePlayer(p1);
 
                 
                 //player taking damage
@@ -350,36 +368,51 @@ namespace Fade
                     p1.Attack();
                 }
 
-               //walk animation timing
+               //animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                
                 if (timeCounter >= timePerFrame)
                 {
                     frame += 1;                     // Adjust the frame
 
-                    if (frame > WALK_FRAME_COUNT)   // Check the bounds
-                        frame = 1;                  // Back to 1 (since 0 is the "standing" frame)
+                    if (frame > WALK_FRAME_COUNT)
+                    {
+                        frame = 1;
+                    }
 
-                    timeCounter -= timePerFrame;    // Remove the time we "used"
-                }
+                    if (p1.attacking)
+                    {
+                        swordFrame += 1;                     // Adjust the frame
 
-                if (timeCounter >= timePerFrame)
-                {
-                    swordFrame += 1;                     // Adjust the frame
+                        if (swordFrame > SWORD_FRAME_COUNT)
+                        {
+                            p1.attacking = false;
+                            swordFrame = 1;
 
-                    if (swordFrame > SWORD_FRAME_COUNT)   // Check the bounds
-                        swordFrame = 1; 
+                        }
+                    }
 
-                    timeCounter -= timePerFrame;    // Remove the time we "used"
-                }
-
-                if (timeCounter >= timePerFrame)
-                {
                     gruntFrame += 1;                     // Adjust the frame
 
-                    if (gruntFrame > GRUNT_FRAME_COUNT)   // Check the bounds
+                    if (gruntFrame > GRUNT_FRAME_COUNT)
+                    {
                         gruntFrame = 1;
+                    }
 
+                    if (count == 2)//makes this go slower
+                    {
+                        tankFrame += 1;                     // Adjust the frame
+
+                        if (tankFrame >= TANK_FRAME_COUNT)
+                        {
+                            tankFrame = 1;
+                        }
+                        count = 0;
+                    }
+
+                    count++;
                     timeCounter -= timePerFrame;    // Remove the time we "used"
+
                 }
 
                 //DISTANCE AND SCORE UPDATE
@@ -501,6 +534,17 @@ namespace Fade
         }
         private void DrawSword(SpriteEffects flipSprite)
         {
+            Vector2 swordPos = new Vector2();
+            if (flipSprite != 0)
+            {
+                swordPos.X = (playerLoc.X - 40);
+                swordPos.Y = (playerLoc.Y - 30);
+            }
+            else
+            {
+                swordPos.X = (playerLoc.X + 30);
+                swordPos.Y = (playerLoc.Y - 30);
+            }
             spriteBatch.Draw(
                 sword,
                 new Vector2(playerLoc.X + 10, playerLoc.Y - 40),
@@ -517,21 +561,21 @@ namespace Fade
             Vector2 swordPos = new Vector2();
             if(flipSprite != 0)
             {
-                swordPos.X = (playerLoc.X - 10);
-                swordPos.Y = (playerLoc.Y - 10);
+                swordPos.X = (playerLoc.X - 40);
+                swordPos.Y = (playerLoc.Y - 30);
             }
             else
             {
-                swordPos.X = (playerLoc.X + 45);
-                swordPos.Y = (playerLoc.Y - 40);
+                swordPos.X = (playerLoc.X + 30);
+                swordPos.Y = (playerLoc.Y - 30);
             }
             spriteBatch.Draw(
                 swordSprite,                    // - The texture to draw
                 swordPos, // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
+                    swordFrame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
                     SWORD_RECT_Y_OFFSET,        //	   where "inside" the texture
-                    SWORD_RECT_WIDTH,           //     to get pixels (We don't want to                      
+                    SWORD_RECT_WIDTH,           //     to get pixels (We don't want to
                     SWORD_RECT_HEIGHT),         //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -544,13 +588,31 @@ namespace Fade
         private void DrawGruntHopping(SpriteEffects flipSprite, Enemy grunt)
         {
             spriteBatch.Draw(
-                enemySheet,                    // - The texture to draw
+                gruntSheet,                    // - The texture to draw
                 new Vector2(grunt.location.X, grunt.location.Y),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * GRUNT_RECT_WIDTH,   //   - This rectangle specifies
+                    gruntFrame * GRUNT_RECT_WIDTH,   //   - This rectangle specifies
                     GRUNT_RECT_Y_OFFSET,        //	   where "inside" the texture
                     GRUNT_RECT_WIDTH,           //     to get pixels (We don't want to
                     GRUNT_RECT_HEIGHT),         //     draw the whole thing)
+                Color.White,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
+
+        private void DrawTankRunning(SpriteEffects flipSprite, Enemy tank)
+        {
+            spriteBatch.Draw(
+                tankSheet,                    // - The texture to draw
+                new Vector2(tank.location.X, tank.location.Y),                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    tankFrame * TANK_RECT_WIDTH,   //   - This rectangle specifies
+                    TANK_RECT_Y_OFFSET,        //	   where "inside" the texture
+                    TANK_RECT_WIDTH,           //     to get pixels (We don't want to
+                    TANK_RECT_HEIGHT),         //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
@@ -587,7 +649,7 @@ namespace Fade
                     0,       
                     0,      
                     36,    
-                    36),     
+                    34),     
                 Color.White);
         }
 
@@ -598,10 +660,10 @@ namespace Fade
                 heart,
                 location,
                 new Rectangle(
-                    36,
+                    0,
                     0,
                     36,
-                    36),
+                    34),
                 Color.White);
         }
 
@@ -646,6 +708,7 @@ namespace Fade
 
                     spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X, 450, 861, 30), Color.White);
                     DrawGruntHopping(0, enemy);
+                    DrawTankRunning(0, testTank);
 
                     switch (p1.playerState)
                     {
@@ -653,17 +716,41 @@ namespace Fade
                         case PlayerState.FaceLeft:
                             if ((p1.prevPlayerState == PlayerState.FaceRight) || (p1.prevPlayerState == PlayerState.WalkRight))
                             {
-                                DrawPlayerStanding(SpriteEffects.FlipHorizontally); //if he was facing or walking right, flip so he faces left
+                                DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(SpriteEffects.FlipHorizontally);
+                                }
+                                else
+                                {
+                                    DrawSword(SpriteEffects.FlipHorizontally);
+                                }
                             }
                             else
                             {
                                 DrawPlayerStanding(SpriteEffects.FlipHorizontally); //if he wasnt facing or walking right, draw him standing facing left
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(SpriteEffects.FlipHorizontally);
+                                }
+                                else
+                                {
+                                    DrawSword(SpriteEffects.FlipHorizontally);
+                                }
                             }
                             break;
 
                         //WALKLEFT
                         case PlayerState.WalkLeft:
                             DrawPlayerWalking(SpriteEffects.FlipHorizontally);
+                            if (p1.attacking)
+                            {
+                                SwordSwing(SpriteEffects.FlipHorizontally);
+                            }
+                            else
+                            {
+                                DrawSword(SpriteEffects.FlipHorizontally);
+                            }
                             break;
 
                         //FACERIGHT
@@ -671,25 +758,65 @@ namespace Fade
                             if ((p1.prevPlayerState == PlayerState.FaceLeft) || (p1.prevPlayerState == PlayerState.WalkLeft))
                             {
                                 DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(SpriteEffects.FlipHorizontally);
+                                }
+                                else
+                                {
+                                    DrawSword(SpriteEffects.FlipHorizontally);
+                                }
                             }
                             else
                             {
                                 DrawPlayerStanding(0);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(0);
+                                }
+                                else
+                                {
+                                    DrawSword(0);
+                                }
                             }
                             break;
 
                         //WALKRIGHT
                         case PlayerState.WalkRight:
                             DrawPlayerWalking(0);
+                            if (p1.attacking)
+                            {
+                                SwordSwing(0);
+                            }
+                            else
+                            {
+                                DrawSword(0);
+                            }
                             break;
                         
                         //JUMP_LEFT
                         case PlayerState.JumpLeft:
                             DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                            if (p1.attacking)
+                            {
+                                SwordSwing(SpriteEffects.FlipHorizontally);
+                            }
+                            else
+                            {
+                                DrawSword(SpriteEffects.FlipHorizontally);
+                            }
                             break;
                         //JUMP_RIGHT
                         case PlayerState.JumpRight:
                             DrawPlayerStanding(0);
+                            if (p1.attacking)
+                            {
+                                SwordSwing(0);
+                            }
+                            else
+                            {
+                                DrawSword(0);
+                            }
                             break;
                             
                         default:
@@ -700,37 +827,6 @@ namespace Fade
                                 DrawPlayerDMG(0);
                                 p1.isHit = false;
                             }
-                    }
-                    
-                    //sword swing animation
-                    if (p1.attacking && ( p1.playerState == PlayerState.FaceRight 
-                        && (p1.prevPlayerState == PlayerState.FaceLeft) || (p1.prevPlayerState == PlayerState.WalkLeft)))
-                    {
-                        SwordSwing(SpriteEffects.FlipHorizontally);
-                    }
-                    else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft
-                        && (p1.prevPlayerState == PlayerState.FaceRight) || (p1.prevPlayerState == PlayerState.WalkRight)))
-                    {
-                        SwordSwing(SpriteEffects.FlipHorizontally);
-                    }
-                    else if (p1.attacking && (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft))
-                    {
-                        SwordSwing(0);
-                    }
-                    else if (p1.attacking && (p1.playerState == PlayerState.FaceRight || p1.playerState == PlayerState.WalkRight))
-                    {
-                        SwordSwing(0);
-                    }
-
-                    //sword is not swinging, just draw the sword
-                    else
-                    {
-                        if (p1.playerState == PlayerState.FaceLeft || p1.playerState == PlayerState.WalkLeft)
-                            DrawSword(SpriteEffects.FlipHorizontally);
-                        else
-                        {
-                            DrawSword(0);
-                        }
                     }
 
                     spriteBatch.Draw(fogSprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
@@ -772,7 +868,7 @@ namespace Fade
 
                     }
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 500, 10), Color.White);
-                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 40), Color.White); //high score num
+                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 10), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
 
                     if (startSpawn == true)
