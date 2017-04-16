@@ -11,25 +11,32 @@ namespace Fade
     {
         public void writeFile()
         {
-            //Should write a file for all variables FADE might need
-            StreamWriter writer = new StreamWriter("values.txt");
-            writer.WriteLine("280");//distance between each enemy spawn, int
+            try
+            {
+                //Should write a file for all variables FADE might need
+                StreamWriter writer = new StreamWriter("values.txt");
+                writer.WriteLine("280");//distance between each enemy spawn, int
 
-            //random value for choosing an enemy wave
-            Random rng = new Random();
-            int rngValue = rng.Next(1, 4);
-            writer.WriteLine(rngValue);
+                //random value for choosing an enemy wave
+                Random rng = new Random();
+                int rngValue = rng.Next(1, 4);
+                writer.WriteLine(rngValue);
 
-            writer.WriteLine("gggtg");//enemy pattern1, string of chars
-            writer.WriteLine("ggtgt");//enemy pattern2, string of chars
-            writer.WriteLine("tgtgg");//enemy pattern3, string of chars
+                writer.WriteLine("gggtg");//enemy pattern1, string of chars
+                writer.WriteLine("ggtgt");//enemy pattern2, string of chars
+                writer.WriteLine("tgtgg");//enemy pattern3, string of chars
 
-            writer.WriteLine("5");//enemy amount, int
+                writer.WriteLine("5");//enemy amount, int
 
-            //writer.WriteLine("2");//spawn amount, dependent on distance travelled, determines wave #
+                //writer.WriteLine("2");//spawn amount, dependent on distance travelled, determines wave #
 
-            //writer.WriteLine("1");//spawn speed, timing between waves
-            writer.Close();
+                //writer.WriteLine("1");//spawn speed, timing between waves
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

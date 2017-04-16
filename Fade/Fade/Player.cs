@@ -20,6 +20,17 @@ namespace Fade
         JumpLeft
     }
 
+    enum HealthState
+    {
+        ThreeFull,
+        FiveHalves,
+        TwoFull,
+        ThreeHalves,
+        OneFull,
+        OneHalf
+
+    }
+
     class Player : Character
     {
         public int Damage{ get; set; }
@@ -49,6 +60,8 @@ namespace Fade
         public bool falling { get; set; }
         
         public bool attacking { get; set; }
+
+        public HealthState healthState = HealthState.ThreeFull;
 
         public PlayerState playerState = PlayerState.FaceRight;
 
@@ -102,6 +115,7 @@ namespace Fade
             //if char is in attack pose-check for it
             //if enemy is in hitbox while char is attacking-deal damage
             attacking = true;
+            //deal damage here
         }
 
         public void Jump()
