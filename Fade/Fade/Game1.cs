@@ -98,7 +98,7 @@ namespace Fade
         const int PLAYER_RECT_WIDTH = 137;        // The width of a single frame
 
         // grunt rectangle
-        const int GRUNT_FRAME_COUNT = 7;         // The number of frames in the animation
+        const int GRUNT_FRAME_COUNT = 6;         // The number of frames in the animation
         const int GRUNT_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
         const int GRUNT_RECT_HEIGHT = 102;       // The height of a single frame
         const int GRUNT_RECT_WIDTH = 150;        // The width of a single frame
@@ -707,9 +707,24 @@ namespace Fade
                     }
 
                     spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X, 450, 861, 30), Color.White);
-                    DrawGruntHopping(0, enemy);
-                    DrawTankRunning(0, testTank);
 
+                    if(enemy.eState == EnemyState.FaceRight)
+                    {
+                        DrawGruntHopping(SpriteEffects.FlipHorizontally, enemy);
+                    }
+                    else
+                    {
+                        DrawGruntHopping(0, enemy);
+                    }
+                    if(testTank.eState == EnemyState.FaceRight)
+                    {
+                        DrawTankRunning(SpriteEffects.FlipHorizontally, testTank);
+                    }
+                    else
+                    {
+                        DrawTankRunning(0, testTank);
+                    }
+                    
                     switch (p1.playerState)
                     {
                         //FACELEFT
