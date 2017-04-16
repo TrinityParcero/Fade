@@ -303,7 +303,7 @@ namespace Fade
                 playerLoc.X = p1.location.X;
                 playerLoc.Y = p1.location.Y;
                 //checks to see if spacebar is pressed, as well as if the player is not falling, 
-                //as to only allow the spacebar to be pressed when the player is on the grounf or "not falling"
+                //as to only allow the spacebar to be pressed when the player is on the ground or "not falling"
                 if (ks.IsKeyDown(Keys.Space) && !p1.falling)
                 {
                     //below method sets player class bool jumping = true
@@ -606,7 +606,8 @@ namespace Fade
                             
                         default:
                             break;
-                            //TAKE_DAMAGE
+
+                         //TAKE_DAMAGE
                             if (p1.isHit == true)
                             {
                                 DrawPlayerDMG(0);
