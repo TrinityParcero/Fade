@@ -370,7 +370,7 @@ namespace Fade
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
-                    p1.Attack();
+                    p1.Attack(enemy);
                 }
 
                //animation timing
@@ -467,9 +467,7 @@ namespace Fade
                         
                     }
                     else
-                    {
                         camera.LookAt(new Vector2(p1.location.X + 200, 240));
-                    }
                         
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
@@ -493,13 +491,57 @@ namespace Fade
 
         private void DrawWave()
         {
-            spawner.CreateSpawn("values.txt", sword, sword, p1.location);
-            DrawGruntHopping(0, spawner.EnemyList[0]);
-            DrawGruntHopping(0, spawner.EnemyList[1]);
-            DrawGruntHopping(0, spawner.EnemyList[2]);
-            DrawGruntHopping(0, spawner.EnemyList[3]);
-            DrawGruntHopping(0, spawner.EnemyList[4]);
-            //startSpawn = false;
+            spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
+            if (spawner.EnemyList[0] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[0]);
+            }
+            else if (spawner.EnemyList[0] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[0]);
+            }
+
+            if (spawner.EnemyList[1] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[1]);
+            }
+            else if (spawner.EnemyList[1] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[1]);
+            }
+
+            if (spawner.EnemyList[2] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[2]);
+            }
+            else if (spawner.EnemyList[2] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[2]);
+            }
+
+            if (spawner.EnemyList[3] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[3]);
+            }
+            else if (spawner.EnemyList[3] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[3]);
+            }
+
+            if (spawner.EnemyList[4] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[4]);
+            }
+            else if (spawner.EnemyList[4] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[4]);
+            }
+
+            if (spawner.EnemyList[0].isDead == true && spawner.EnemyList[1].isDead == true && spawner.EnemyList[2].isDead == true && 
+                spawner.EnemyList[3].isDead == true && spawner.EnemyList[4].isDead == true)
+            {
+                startSpawn = false;
+            }
         }
         //ANIMATION
 

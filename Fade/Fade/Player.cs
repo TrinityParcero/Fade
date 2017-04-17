@@ -110,7 +110,7 @@ namespace Fade
             ground = location.Y;
         }
 
-        public void Attack()
+        public void Attack(Enemy enemy)
         {
             //if char is in attack pose-check for it
             //if enemy is in hitbox while char is attacking-deal damage
