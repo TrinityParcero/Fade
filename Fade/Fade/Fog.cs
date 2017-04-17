@@ -50,7 +50,7 @@ namespace Fade
             //will take 6 ticks to kill
             if(bounds.Intersects(player.location))
             {
-                player.Health -= 0.5;
+                player.takeDamage(0.5);
             }
             
         }

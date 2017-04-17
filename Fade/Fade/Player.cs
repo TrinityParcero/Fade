@@ -37,7 +37,7 @@ namespace Fade
 
         public double Health{ get; set; }
 
-        public bool isDead{ get; set; }
+        public bool isDead { get; set; }
 
         public int Speed{ get; set; }
 
@@ -226,7 +226,7 @@ namespace Fade
             prevPlayerState = playerState;
         }
 
-        public void takeDamage(double dmg,SpriteBatch batch)
+        public void takeDamage(double dmg)
         {
             //if enemy is in hitbox, take const damage
             //if enemy is in attack animation and youre in hitbox- damage

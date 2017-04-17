@@ -344,22 +344,26 @@ namespace Fade
 
                 
                 //player taking damage
-                if (p1.location.Intersects(enemy.location))
+                foreach(Enemy enemy in spawner.EnemyList)
                 {
-                    if (p1.invincibilityFrame <= 0)
+                    if (p1.location.Intersects(enemy.location))
                     {
-                        p1.isHit = true;
-                        p1.takeDamage(enemy.Damage, spriteBatch);
-                        p1.invincibilityFrame = 180;
+                        if (p1.invincibilityFrame <= 0)
+                        {
+                            p1.isHit = true;
+                            p1.takeDamage(enemy.Damage);
+                            p1.invincibilityFrame = 180;
+                        }
                     }
-                }
-                if (p1.invincibilityFrame > 0)
-                {
-                    p1.invincibilityFrame--;
-                }
-                else
-                {
-                    p1.color = Color.White;
+                    if (p1.invincibilityFrame > 0)
+                    {
+                        p1.invincibilityFrame--;
+                    }
+                    else
+                    {
+                        p1.color = Color.White;
+                    }
+
                 }
 
                 //Player Attack
@@ -429,27 +433,28 @@ namespace Fade
                 }
 
                 //update healthstate based on player health
+                
                 if(p1.Health == 3.0)
                 {
                     p1.healthState = HealthState.ThreeFull;
                 }
-                if(p1.Health == 2.5)
+                else if(p1.Health == 2.5)
                 {
                     p1.healthState = HealthState.FiveHalves;
                 }
-                if(p1.Health == 2.0)
+                else if(p1.Health == 2.0)
                 {
                     p1.healthState = HealthState.TwoFull;
                 }
-                if(p1.Health == 1.5)
+                else if(p1.Health == 1.5)
                 {
                     p1.healthState = HealthState.ThreeHalves;
                 }
-                if(p1.Health == 1.0)
+                else if(p1.Health == 1.0)
                 {
                     p1.healthState = HealthState.OneFull;
                 }
-                if(p1.Health == 0.5)
+                else if(p1.Health == 0.5)
                 {
                     p1.healthState = HealthState.OneHalf;
                 }
@@ -644,7 +649,7 @@ namespace Fade
                 heart,
                 location,
                 new Rectangle(
-                    0,
+                    36,
                     0,
                     36,
                     34),
@@ -866,6 +871,7 @@ namespace Fade
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 10), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
 
+                    spriteBatch.DrawString(textFont, p1.Health.ToString(), new Vector2(camera.Position.X + 200, 10), Color.White);
                     if (startSpawn == true)
                     {
                         DrawWave();
@@ -949,6 +955,7 @@ namespace Fade
             fog.location = new Rectangle(-600, 0, 800, 480);
             fog.bounds = new Rectangle(-500, 0, 300, 700);
             fog.Speed = 1;
+            startSpawn = false;
         }
 
 
