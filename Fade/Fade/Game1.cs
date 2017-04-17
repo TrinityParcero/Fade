@@ -90,6 +90,8 @@ namespace Fade
         double timePerFrame;
         double longTimePerFrame; //longer time per frame for slow animations    
         Vector2 playerLoc;
+        Vector2 swordPos;
+        Rectangle swordBox;
 
         // player rectangle
         const int WALK_FRAME_COUNT = 6;         // The number of frames in the animation
@@ -332,7 +334,7 @@ namespace Fade
                      p1.Jump();
 
                 }
-                //if the bool jumping frmo the player class is true then the below method will move the player
+                //if the bool jumping from the player class is true then the below method will move the player
                 p1.JumpUpdate();
                 fog.Move(p1);
                 //
@@ -495,48 +497,58 @@ namespace Fade
             if (spawner.EnemyList[0] is Grunt)
             {
                 DrawGruntHopping(0, spawner.EnemyList[0]);
+                spawner.EnemyList[0].Run(fog.bounds, p1);
             }
             else if (spawner.EnemyList[0] is Tank)
             {
                 DrawTankRunning(0, spawner.EnemyList[0]);
+                spawner.EnemyList[0].Run(fog.bounds, p1);
             }
 
             if (spawner.EnemyList[1] is Grunt)
             {
                 DrawGruntHopping(0, spawner.EnemyList[1]);
+                spawner.EnemyList[1].Run(fog.bounds, p1);
             }
             else if (spawner.EnemyList[1] is Tank)
             {
                 DrawTankRunning(0, spawner.EnemyList[1]);
+                spawner.EnemyList[1].Run(fog.bounds, p1);
             }
 
             if (spawner.EnemyList[2] is Grunt)
             {
                 DrawGruntHopping(0, spawner.EnemyList[2]);
+                spawner.EnemyList[2].Run(fog.bounds, p1);
             }
             else if (spawner.EnemyList[2] is Tank)
             {
                 DrawTankRunning(0, spawner.EnemyList[2]);
+                spawner.EnemyList[2].Run(fog.bounds, p1);
             }
 
             if (spawner.EnemyList[3] is Grunt)
             {
                 DrawGruntHopping(0, spawner.EnemyList[3]);
+                spawner.EnemyList[3].Run(fog.bounds, p1);
             }
             else if (spawner.EnemyList[3] is Tank)
             {
                 DrawTankRunning(0, spawner.EnemyList[3]);
+                spawner.EnemyList[3].Run(fog.bounds, p1);
             }
 
             if (spawner.EnemyList[4] is Grunt)
             {
                 DrawGruntHopping(0, spawner.EnemyList[4]);
+                spawner.EnemyList[4].Run(fog.bounds, p1);
             }
             else if (spawner.EnemyList[4] is Tank)
             {
                 DrawTankRunning(0, spawner.EnemyList[4]);
+                spawner.EnemyList[4].Run(fog.bounds, p1);
             }
-
+           
             if (spawner.EnemyList[0].isDead == true && spawner.EnemyList[1].isDead == true && spawner.EnemyList[2].isDead == true && 
                 spawner.EnemyList[3].isDead == true && spawner.EnemyList[4].isDead == true)
             {
@@ -582,7 +594,7 @@ namespace Fade
         }
         private void DrawSword(SpriteEffects flipSprite)
         {
-            Vector2 swordPos = new Vector2();
+            
             if (flipSprite != 0)
             {
                 swordPos.X = (playerLoc.X - 40);
@@ -606,7 +618,7 @@ namespace Fade
         }
         private void SwordSwing(SpriteEffects flipSprite)
         {
-            Vector2 swordPos = new Vector2();
+            
             if(flipSprite != 0)
             {
                 swordPos.X = (playerLoc.X - 40);
