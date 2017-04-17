@@ -365,7 +365,7 @@ namespace Fade
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
-                    p1.Attack();
+                    p1.Attack(enemy);
                 }
 
                //animation timing
@@ -487,13 +487,21 @@ namespace Fade
 
         private void DrawWave()
         {
-            spawner.CreateSpawn("values.txt", sword, sword, p1.location);
-            DrawGruntHopping(0, spawner.EnemyList[0]);
-            DrawGruntHopping(0, spawner.EnemyList[1]);
-            DrawGruntHopping(0, spawner.EnemyList[2]);
-            DrawGruntHopping(0, spawner.EnemyList[3]);
-            DrawGruntHopping(0, spawner.EnemyList[4]);
+            spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
+            if (spawner.EnemyList[0] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[0]);
+            }
+            else
+            {
+                DrawTankRunning(0, spawner.EnemyList[0]);
+            }
             //startSpawn = false;
+            if (spawner.EnemyList[0].isDead == true && spawner.EnemyList[1].isDead == true && spawner.EnemyList[2].isDead == true && 
+                spawner.EnemyList[3].isDead == true && spawner.EnemyList[4].isDead == true)
+            {
+                startSpawn = false;
+            }
         }
         //ANIMATION
 
