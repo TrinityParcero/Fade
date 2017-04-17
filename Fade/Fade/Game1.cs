@@ -348,6 +348,7 @@ namespace Fade
                 {
                     if (p1.invincibilityFrame <= 0)
                     {
+                        p1.isHit = true;
                         p1.takeDamage(enemy.Damage, spriteBatch);
                         p1.invincibilityFrame = 180;
                     }
@@ -557,7 +558,7 @@ namespace Fade
                 sword,
                 new Vector2(playerLoc.X + 10, playerLoc.Y - 40),
                 new Rectangle(0, 0, 140, 140),
-                p1.color,
+                Color.White,
                 0,
                 Vector2.Zero,
                 1.0f,
@@ -629,23 +630,6 @@ namespace Fade
                 0);                             // - Layer depth (unused)
         }
 
-        private void DrawPlayerDMG(SpriteEffects flipSprite)
-        {
-            spriteBatch.Draw(
-                spriteSheet,                    // - The texture to draw
-                playerLoc,                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    0,                          //   - This rectangle specifies
-                    PLAYER_RECT_Y_OFFSET,        //	   where "inside" the texture
-                    PLAYER_RECT_WIDTH,           //     to get pixels (We don't want to
-                    PLAYER_RECT_HEIGHT),         //     draw the whole thing)
-                Color.Red,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
 
         private void DrawFullHeart(Vector2 location)
         {
@@ -845,13 +829,8 @@ namespace Fade
                         default:
                             break;
 
-                         //TAKE_DAMAGE
-                            if (p1.isHit == true)
-                            {
-                                DrawPlayerDMG(0);
-                                p1.isHit = false;
-                            }
                     }
+                    
 
                     spriteBatch.Draw(fogSprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 

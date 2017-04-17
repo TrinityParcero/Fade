@@ -520,8 +520,40 @@ namespace Fade
 
                     spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
-                    //spriteBatch.Draw(UI bar goes here);
-                    //spriteBatch.Draw(hearts go here);
+                    /  //check health state and draw hearts
+                    switch (p1.healthState)
+                    {
+                        case HealthState.ThreeFull:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 100, 5));
+                            break;
+
+                        case HealthState.FiveHalves:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            DrawHalfHeart(new Vector2(camera.Position.X + 100, 5));
+                            break;
+
+                        case HealthState.TwoFull:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            break;
+
+                        case HealthState.ThreeHalves:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawHalfHeart(new Vector2(camera.Position.X + 60, 5));
+                            break;
+
+                        case HealthState.OneFull:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            break;
+
+                        case HealthState.OneHalf:
+                            DrawHalfHeart(new Vector2(camera.Position.X + 20, 5));
+                            break;
+
+                    }
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 20), Color.White);
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 40), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 20), Color.White); //current score num
