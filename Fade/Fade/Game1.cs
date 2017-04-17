@@ -462,9 +462,7 @@ namespace Fade
                         
                     }
                     else
-                    {
                         camera.LookAt(new Vector2(p1.location.X + 200, 240));
-                    }
                         
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
@@ -493,11 +491,47 @@ namespace Fade
             {
                 DrawGruntHopping(0, spawner.EnemyList[0]);
             }
-            else
+            else if (spawner.EnemyList[0] is Tank)
             {
                 DrawTankRunning(0, spawner.EnemyList[0]);
             }
-            //startSpawn = false;
+
+            if (spawner.EnemyList[1] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[1]);
+            }
+            else if (spawner.EnemyList[1] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[1]);
+            }
+
+            if (spawner.EnemyList[2] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[2]);
+            }
+            else if (spawner.EnemyList[2] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[2]);
+            }
+
+            if (spawner.EnemyList[3] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[3]);
+            }
+            else if (spawner.EnemyList[3] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[3]);
+            }
+
+            if (spawner.EnemyList[4] is Grunt)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[4]);
+            }
+            else if (spawner.EnemyList[4] is Tank)
+            {
+                DrawTankRunning(0, spawner.EnemyList[4]);
+            }
+
             if (spawner.EnemyList[0].isDead == true && spawner.EnemyList[1].isDead == true && spawner.EnemyList[2].isDead == true && 
                 spawner.EnemyList[3].isDead == true && spawner.EnemyList[4].isDead == true)
             {
