@@ -19,7 +19,7 @@ namespace Fade
 
         void Run(Rectangle fogBounds);
         void Jump();
-        void Attack();
-        void takeDamage(double dmg,SpriteBatch batch);
+        void Attack(Enemy enemy);
+        void takeDamage(double dmg);
     }
 }

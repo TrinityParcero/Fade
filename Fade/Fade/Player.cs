@@ -37,7 +37,7 @@ namespace Fade
 
         public double Health{ get; set; }
 
-        public bool isDead{ get; set; }
+        public bool isDead { get; set; }
 
         public int Speed{ get; set; }
 
@@ -110,7 +110,7 @@ namespace Fade
             ground = location.Y;
         }
 
-        public void Attack()
+        public void Attack(Enemy enemy)
         {
             //if char is in attack pose-check for it
             //if enemy is in hitbox while char is attacking-deal damage
@@ -226,7 +226,7 @@ namespace Fade
             prevPlayerState = playerState;
         }
 
-        public void takeDamage(double dmg,SpriteBatch batch)
+        public void takeDamage(double dmg)
         {
             //if enemy is in hitbox, take const damage
             //if enemy is in attack animation and youre in hitbox- damage
