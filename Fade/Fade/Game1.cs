@@ -341,7 +341,6 @@ namespace Fade
                 //
                 fog.consumeEnemy(enemy);
                 fog.damagePlayer(p1);
-
                 
                 //player taking damage
                 if (p1.location.Intersects(enemy.location))
