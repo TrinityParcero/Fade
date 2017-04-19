@@ -48,6 +48,7 @@ namespace Fade
             location = loc;
             //ground = location.Y;
             sprite = asset;
+            color = Color.White;
             //jumping = false;
             //falling = false;
 

@@ -71,6 +71,8 @@ namespace Fade
 
         private int totalFrames;
 
+        public Rectangle swordBox { get; set; }
+
         int MAX_HEIGHT = 150;
         int jumpSpeed = 0;
         int startY = 300;
@@ -112,36 +114,27 @@ namespace Fade
 
         public void Attack(Enemy enemy, Game1 game)
         {
-            if (attacking)
-            {
-                Rectangle swordBox;
+            attacking = true;
                 //if char is in attack pose-check for it
                 //if enemy is in hitbox while char is attacking-deal damage
                 if(game.swordFrame == 1)
                 {
                     swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
+                    
                 }
                 else if(game.swordFrame == 2)
                 {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
+                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 80, 80);
                 }
                 else if(game.swordFrame == 3)
                 {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
-                }
-                else
-                {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
+                    swordBox = new Rectangle((int)game.swordPos.X, ((int)game.swordPos.Y + 40), 102, 30);
                 }
 
                 if (swordBox.Intersects(enemy.location))
                 {
-                    //deal damage
+                    enemy.takeDamage(1);
                 }
-                
-                attacking = true;
-            }
-
         }
 
         public void Jump()

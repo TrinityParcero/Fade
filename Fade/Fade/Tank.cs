@@ -39,6 +39,7 @@ namespace Fade
             ground = location.Y;
             tankRect = loc;
             tankSprite = asset;
+            color = Color.White;
             //initialize the chargePrep
             chargePrep = true;
             ///define a stopping distance = player location.x - a length of the tank himself;
