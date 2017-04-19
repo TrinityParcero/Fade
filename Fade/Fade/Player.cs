@@ -31,7 +31,7 @@ namespace Fade
 
     }
 
-    class Player : Character
+    class Player
     {
         public int Damage{ get; set; }
 
@@ -110,12 +110,38 @@ namespace Fade
             ground = location.Y;
         }
 
-        public void Attack(Enemy enemy)
+        public void Attack(Enemy enemy, Game1 game)
         {
-            //if char is in attack pose-check for it
-            //if enemy is in hitbox while char is attacking-deal damage
-            attacking = true;
-            //deal damage here
+            if (attacking)
+            {
+                Rectangle swordBox;
+                //if char is in attack pose-check for it
+                //if enemy is in hitbox while char is attacking-deal damage
+                if(game.swordFrame == 1)
+                {
+                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
+                }
+                else if(game.swordFrame == 2)
+                {
+                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
+                }
+                else if(game.swordFrame == 3)
+                {
+                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
+                }
+                else
+                {
+                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
+                }
+
+                if (swordBox.Intersects(enemy.location))
+                {
+                    //deal damage
+                }
+                
+                attacking = true;
+            }
+
         }
 
         public void Jump()

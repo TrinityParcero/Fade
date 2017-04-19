@@ -81,7 +81,7 @@ namespace Fade
 
         //ANIMATION
         int frame;
-        int swordFrame;
+        public int swordFrame{get; set;}//has to be public so we can access it for player attack method
         int gruntFrame;
         int tankFrame;
         double timeCounter;     
@@ -90,8 +90,7 @@ namespace Fade
         double timePerFrame;
         double longTimePerFrame; //longer time per frame for slow animations    
         Vector2 playerLoc;
-        Vector2 swordPos;
-        Rectangle swordBox;
+        public Vector2 swordPos;
 
         // player rectangle
         const int WALK_FRAME_COUNT = 6;         // The number of frames in the animation
@@ -186,6 +185,7 @@ namespace Fade
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 300, 700), 1, 0);
             enemy = new Enemy(gruntSheet, new Rectangle(600,380,0,0), 1, 3, 0.5);
             testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
+            
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -371,7 +371,7 @@ namespace Fade
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
-                    p1.Attack(enemy);
+                    p1.Attack(enemy, this);
                 }
 
                //animation timing
