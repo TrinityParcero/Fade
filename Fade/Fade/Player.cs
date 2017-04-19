@@ -115,26 +115,41 @@ namespace Fade
         public void Attack(Enemy enemy, Game1 game)
         {
             attacking = true;
+            int colFrame = 0;
                 //if char is in attack pose-check for it
                 //if enemy is in hitbox while char is attacking-deal damage
-                if(game.swordFrame == 1)
-                {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
-                    
-                }
-                else if(game.swordFrame == 2)
-                {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 80, 80);
-                }
-                else if(game.swordFrame == 3)
-                {
-                    swordBox = new Rectangle((int)game.swordPos.X, ((int)game.swordPos.Y + 40), 102, 30);
-                }
-
+            if(game.swordFrame == 1)
+            {
+                colFrame = 1;
+                swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
                 if (swordBox.Intersects(enemy.location))
                 {
                     enemy.takeDamage(1);
                 }
+
+            }
+
+            if(colFrame == 1)
+            {
+                colFrame = 2;
+                swordBox = new Rectangle((int)game.swordPos.X + 60, (int)game.swordPos.Y + 40, 100, 80);
+                if (swordBox.Intersects(enemy.location))
+                {
+                    enemy.takeDamage(1);
+                }
+            }
+
+            if(colFrame == 2)
+            {
+                colFrame = 1;
+                swordBox = new Rectangle((int)game.swordPos.X + 60, ((int)game.swordPos.Y + 90), 110, 30);
+                if (swordBox.Intersects(enemy.location))
+                {
+                    enemy.takeDamage(1);
+                }
+            }
+
+
         }
 
         public void Jump()

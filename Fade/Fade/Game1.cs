@@ -931,13 +931,6 @@ namespace Fade
                         DrawWave();
                     }
 
-                    //TEST CODE REMOVE LATER
-                    if (p1.attacking)
-                    {
-                        spriteBatch.Draw(fogSprite, p1.swordBox, Color.White);
-                    }
-                    
-
 
                     break;
 
