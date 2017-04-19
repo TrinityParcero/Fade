@@ -24,6 +24,8 @@ namespace Fade
 
         public int Speed{ get; set; }
 
+        public Color color { get; set; }
+
         public Texture2D sprite { get; set; }
 
         public Rectangle location;
@@ -73,6 +75,7 @@ namespace Fade
             else
             {
                 Health -= dmg;
+                color = Color.Red;
             }
         }
     }
