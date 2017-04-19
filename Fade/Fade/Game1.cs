@@ -343,7 +343,7 @@ namespace Fade
                 //
                 fog.consumeEnemy(enemy);
                 fog.damagePlayer(p1);
-                
+
                 //player taking damage
                 foreach(Enemy enemy in spawner.EnemyList)
                 {
@@ -364,7 +364,24 @@ namespace Fade
                     {
                         p1.color = Color.White;
                     }
+                }
 
+                if (p1.location.Intersects(fog.bounds))
+                {
+                    if (p1.invincibilityFrame <= 0)
+                    {
+                        p1.isHit = true;
+                        fog.damagePlayer(p1);
+                        p1.invincibilityFrame = 180;
+                    }
+                }
+                if (p1.invincibilityFrame > 0)
+                {
+                    p1.invincibilityFrame--;
+                }
+                else
+                {
+                    p1.color = Color.White;
                 }
 
                 //Player Attack
@@ -428,7 +445,7 @@ namespace Fade
                 }
                 
                 currentScore = (farPoint/4) - 50;
-                if(currentScore == 200)
+                if(currentScore%500 == 0)
                 {
                     startSpawn = true;
                 }
