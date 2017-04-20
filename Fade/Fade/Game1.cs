@@ -374,11 +374,11 @@ namespace Fade
                     p1.Attack(enemy, this, spawner);
                     if (startSpawn == true)
                     {
-                        p1.Attack(spawner.EnemyList[0], this, spawner);
-                        p1.Attack(spawner.EnemyList[1], this, spawner);
-                        p1.Attack(spawner.EnemyList[2], this, spawner);
-                        p1.Attack(spawner.EnemyList[3], this, spawner);
-                        p1.Attack(spawner.EnemyList[4], this, spawner);
+                        for (int i = 0; i < spawner.EnemyList.Count; i++)
+                        {
+                            p1.Attack(spawner.EnemyList[i], this, spawner);
+
+                        }
                     }
 
                 }
@@ -505,7 +505,7 @@ namespace Fade
         private void DrawWave()
         {
             //spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
-            if (spawner.EnemyList[0].isDead == false)
+            if (spawner.EnemyList[0] != null)
             {
                 if (spawner.EnemyList[0] is Grunt)
                 {
@@ -519,7 +519,7 @@ namespace Fade
                 }
             }
 
-            if (spawner.EnemyList[1].isDead == false)
+            if (spawner.EnemyList[1] != null)
             {
                 if (spawner.EnemyList[1] is Grunt)
                 {
@@ -532,8 +532,8 @@ namespace Fade
                     spawner.EnemyList[1].Run(fog.bounds, p1);
                 }
             }
-            
-            if (spawner.EnemyList[2].isDead == false)
+
+            if (spawner.EnemyList[2] != null)
             {
                 if (spawner.EnemyList[2] is Grunt)
                 {
@@ -546,8 +546,8 @@ namespace Fade
                     spawner.EnemyList[2].Run(fog.bounds, p1);
                 }
             }
-            
-            if (spawner.EnemyList[3].isDead == false)
+
+            if (spawner.EnemyList[3] != null)
             {
                 if (spawner.EnemyList[3] is Grunt)
                 {
@@ -561,7 +561,7 @@ namespace Fade
                 }
             }
 
-            if (spawner.EnemyList[4].isDead == false)
+            if (spawner.EnemyList[4] != null)
             {
                 if (spawner.EnemyList[4] is Grunt)
                 {
