@@ -446,7 +446,7 @@ namespace Fade
                 }
                 
                 currentScore = (farPoint/4) - 50;
-                if(currentScore%500 == 0)
+                if(currentScore != 0 && currentScore%500 == 0)
                 {
                     startSpawn = true;
                 }

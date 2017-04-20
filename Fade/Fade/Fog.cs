@@ -61,6 +61,7 @@ namespace Fade
                 enemiesConsumed += 1;
                 enemy.isDead = true;
             }
+            Speed += enemiesConsumed;
         }
     }
 }
