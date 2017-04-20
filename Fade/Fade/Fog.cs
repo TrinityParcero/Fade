@@ -33,8 +33,8 @@ namespace Fade
             if(bounds.Intersects(player.location))
             {
                 //for now the fog stops but i want to change this
-                location.X += Speed / 2;
-                bounds.X += Speed / 2;
+                location.X += Speed/2;
+                bounds.X += Speed/2;
             }
             else
             {
@@ -48,11 +48,25 @@ namespace Fade
         public void damagePlayer(Player player)
         {
             //will take 6 ticks to kill
-            if(bounds.Intersects(player.location))
+
+            if (player.location.Intersects(bounds))
             {
-                player.takeDamage(0.5);
+                if (player.invincibilityFrame <= 0)
+                {
+                    player.isHit = true;
+                    player.invincibilityFrame = 150;
+                    player.takeDamage(0.5);
+                }
             }
-            
+            if (player.invincibilityFrame > 0)
+            {
+                player.invincibilityFrame--;
+            }
+            else
+            {
+                player.color = Color.White;
+            }
+
         }
         public void consumeEnemy(Enemy enemy)
         {

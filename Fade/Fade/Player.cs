@@ -223,6 +223,10 @@ namespace Fade
         KeyboardState previous = new KeyboardState();
         public void Run(Rectangle fogBounds)
         {
+            if (Health <= 0)
+            {
+                isDead = true;
+            }
             KeyboardState keystate = Keyboard.GetState();
             var ks = Keyboard.GetState();
             if (ks.IsKeyDown(Keys.A))
