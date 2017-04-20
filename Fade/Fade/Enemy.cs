@@ -53,13 +53,17 @@ namespace Fade
 
         public void Run(Rectangle fogBounds, Player p)
         {
+            if (Health <= 0)
+            {
+                isDead = true;
+            }
             if (p.location.Intersects(location))
             {
                 if (p.invincibilityFrame <= 0)
                 {
                     p.isHit = true;
                     p.takeDamage(Damage);
-                    p.invincibilityFrame = 180;
+                    p.invincibilityFrame = 200;
                 }
 
             }

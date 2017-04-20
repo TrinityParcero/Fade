@@ -112,7 +112,7 @@ namespace Fade
             ground = location.Y;
         }
 
-        public void Attack(Enemy enemy, Game1 game)
+        public void Attack(Enemy enemy, Game1 game, EnemySpawner list)
         {
             attacking = true;
             int colFrame = 0;
@@ -124,7 +124,11 @@ namespace Fade
                 swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
                 if (swordBox.Intersects(enemy.location))
                 {
-                    enemy.takeDamage(1);
+                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == true)
+                    {
+                        list.EnemyList.Remove(enemy);
+                    }
                 }
 
             }
@@ -135,7 +139,11 @@ namespace Fade
                 swordBox = new Rectangle((int)game.swordPos.X + 60, (int)game.swordPos.Y + 40, 100, 80);
                 if (swordBox.Intersects(enemy.location))
                 {
-                    enemy.takeDamage(1);
+                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == true)
+                    {
+                        list.EnemyList.Remove(enemy);
+                    }
                 }
             }
 
@@ -145,7 +153,11 @@ namespace Fade
                 swordBox = new Rectangle((int)game.swordPos.X + 60, ((int)game.swordPos.Y + 90), 110, 30);
                 if (swordBox.Intersects(enemy.location))
                 {
-                    enemy.takeDamage(1);
+                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == true)
+                    {
+                        list.EnemyList.Remove(enemy);
+                    }
                 }
             }
 

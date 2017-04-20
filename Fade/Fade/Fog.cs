@@ -49,12 +49,12 @@ namespace Fade
         {
             //will take 6 ticks to kill
 
-            if (player.location.Intersects(bounds))
+            if (player.location.Intersects(location))
             {
                 if (player.invincibilityFrame <= 0)
                 {
                     player.isHit = true;
-                    player.invincibilityFrame = 150;
+                    player.invincibilityFrame = 300;
                     player.takeDamage(0.5);
                 }
             }
