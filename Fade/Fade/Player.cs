@@ -71,6 +71,8 @@ namespace Fade
 
         private int totalFrames;
 
+        public Rectangle swordBox { get; set; }
+
         int MAX_HEIGHT = 150;
         int jumpSpeed = 0;
         int startY = 300;
@@ -112,35 +114,41 @@ namespace Fade
 
         public void Attack(Enemy enemy, Game1 game)
         {
-            if (attacking)
-            {
-                Rectangle swordBox;
+            attacking = true;
+            int colFrame = 0;
                 //if char is in attack pose-check for it
                 //if enemy is in hitbox while char is attacking-deal damage
-                if(game.swordFrame == 1)
-                {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
-                }
-                else if(game.swordFrame == 2)
-                {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
-                }
-                else if(game.swordFrame == 3)
-                {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
-                }
-                else
-                {
-                    swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
-                }
-
+            if(game.swordFrame == 1)
+            {
+                colFrame = 1;
+                swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
                 if (swordBox.Intersects(enemy.location))
                 {
-                    //deal damage
+                    enemy.takeDamage(1);
                 }
-                
-                attacking = true;
+
             }
+
+            if(colFrame == 1)
+            {
+                colFrame = 2;
+                swordBox = new Rectangle((int)game.swordPos.X + 60, (int)game.swordPos.Y + 40, 100, 80);
+                if (swordBox.Intersects(enemy.location))
+                {
+                    enemy.takeDamage(1);
+                }
+            }
+
+            if(colFrame == 2)
+            {
+                colFrame = 1;
+                swordBox = new Rectangle((int)game.swordPos.X + 60, ((int)game.swordPos.Y + 90), 110, 30);
+                if (swordBox.Intersects(enemy.location))
+                {
+                    enemy.takeDamage(1);
+                }
+            }
+
 
         }
 

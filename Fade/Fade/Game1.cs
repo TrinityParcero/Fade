@@ -135,6 +135,7 @@ namespace Fade
             // TODO: Add your initialization logic here
             camera = new Camera2D(GraphicsDevice.Viewport);
             fps = 8.0;
+            swordFrame = 1;
             timePerFrame = 1.0 / fps;
             startPoint = 200;
             farPoint = 200;
@@ -183,7 +184,7 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 300, 700), 1, 0);
-            enemy = new Enemy(gruntSheet, new Rectangle(600,380,0,0), 1, 3, 0.5);
+            enemy = new Grunt(gruntSheet, new Rectangle(600,380,0,0), 1, 3, 0.5);
             testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
             
         }
@@ -343,7 +344,7 @@ namespace Fade
                 //
                 fog.consumeEnemy(enemy);
                 fog.damagePlayer(p1);
-                
+
                 //player taking damage
                 foreach(Enemy enemy in spawner.EnemyList)
                 {
@@ -364,7 +365,24 @@ namespace Fade
                     {
                         p1.color = Color.White;
                     }
+                }
 
+                if (p1.location.Intersects(fog.bounds))
+                {
+                    if (p1.invincibilityFrame <= 0)
+                    {
+                        p1.isHit = true;
+                        fog.damagePlayer(p1);
+                        p1.invincibilityFrame = 180;
+                    }
+                }
+                if (p1.invincibilityFrame > 0)
+                {
+                    p1.invincibilityFrame--;
+                }
+                else
+                {
+                    p1.color = Color.White;
                 }
 
                 //Player Attack
@@ -428,7 +446,7 @@ namespace Fade
                 }
                 
                 currentScore = (farPoint/4) - 50;
-                if(currentScore == 200)
+                if(currentScore%500 == 0)
                 {
                     startSpawn = true;
                 }
@@ -654,7 +672,7 @@ namespace Fade
                     GRUNT_RECT_Y_OFFSET,        //	   where "inside" the texture
                     GRUNT_RECT_WIDTH,           //     to get pixels (We don't want to
                     GRUNT_RECT_HEIGHT),         //     draw the whole thing)
-                Color.White,                    // - The color
+                grunt.color,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 1.0f,                           // - Scale (100% - no change)
@@ -672,7 +690,7 @@ namespace Fade
                     TANK_RECT_Y_OFFSET,        //	   where "inside" the texture
                     TANK_RECT_WIDTH,           //     to get pixels (We don't want to
                     TANK_RECT_HEIGHT),         //     draw the whole thing)
-                Color.White,                    // - The color
+                tank.color,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 1.0f,                           // - Scale (100% - no change)
@@ -929,7 +947,8 @@ namespace Fade
                     {
                         DrawWave();
                     }
-                    
+
+
                     break;
 
                 //GAME PAUSE
