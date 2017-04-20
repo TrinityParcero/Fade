@@ -41,7 +41,7 @@ namespace Fade
             tankSprite = asset;
             color = Color.White;
             //initialize the chargePrep
-            chargePrep = true;
+            chargePrep = false;
             ///define a stopping distance = player location.x - a length of the tank himself;
         }
 
@@ -53,7 +53,7 @@ namespace Fade
         /// <param name="playerX">the x int position of the player rectangle</param>
         public void chargeCheck(int playerX)
         {
-        if(tankRect.X - playerX == 6 )//some distance we want to charge from
+        if(tankRect.X - playerX == 100 )//some distance we want to charge from
            chargePrep = true;
          
          
@@ -68,9 +68,11 @@ namespace Fade
         /// <param name="playerX">the x int position of the player rectangle</param>
         public void chargeUpdate(int chargeSpeed, int playerX)
         {
+            chargeCheck(playerX);
+
           if(chargePrep == true)
           {
-            tankRect.X -= 3;
+            tankRect.X -= chargeSpeed;
           }
           if(tankRect.X - playerX == 0)
           {
