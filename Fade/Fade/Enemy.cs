@@ -116,6 +116,7 @@ namespace Fade
         {
             if (Health <= 0)
             {
+               
                 isDead = true;
             }
             else
