@@ -52,11 +52,11 @@ namespace Fade
                     {
                         if (line[i] == 'g')
                         {
-                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance*(i+2)), (playerLoc.Y+42), 100, 100), 1, 1, 0.5));
+                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance*(i+2)), 372, 100, 100), 2, 1, 0.5));
                         }
                         else if (line[i] == 't')
                         {
-                            enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X+(Distance*(i+2)), playerLoc.Y+20, 100, 100),1,3,1));
+                            enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X+(Distance*(i+2)), 340, 100, 100),2,3,1));
                         }
                     }//end of for loop
                 }
