@@ -69,6 +69,7 @@ namespace Fade
         Enemy enemy;
         Tank testTank;
         EnemySpawner spawner = new EnemySpawner();
+        FadeData data;
 
         //ENUMS
         GameState currentState = GameState.Menu;
@@ -134,6 +135,7 @@ namespace Fade
         {
             // TODO: Add your initialization logic here
             camera = new Camera2D(GraphicsDevice.Viewport);
+            data = new FadeData();
             fps = 8.0;
             swordFrame = 1;
             timePerFrame = 1.0 / fps;
@@ -1118,6 +1120,11 @@ namespace Fade
         //ResetGame. resets game to initial state
         public void ResetGame()
         {
+            int hs = data.loadHighScore();
+            if (currentScore > hs)
+            {
+                data.newHighScore(hs);
+            }
             camera.Position = new Vector2(0, 0); //reset camera so it doesnt stay off-centered in other states
             p1.location = new Rectangle(200, 350, 120, 140);
             p1.isDead = false;

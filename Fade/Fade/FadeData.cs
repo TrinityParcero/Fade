@@ -12,13 +12,30 @@ namespace Fade
         public int Score { get; set; }
         public int HighScore { get; set; }
 
-        public void loadHighScore(string file)
+        public int loadHighScore()
         {
-
+            int hs = 0;
+            string line = "";
+            StreamReader reader = new StreamReader("HighScore.txt");
+            while ((line = reader.ReadLine()) != null)
+            {
+                hs = Convert.ToInt32(line);
+            }
+            reader.Close();
+            return hs;
         }
-        public void newHighScore()
+        public void newHighScore(int score)
         {
-
+            try
+            {
+                StreamWriter writer = new StreamWriter("HighScore.txt");
+                writer.WriteLine(score);
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }
