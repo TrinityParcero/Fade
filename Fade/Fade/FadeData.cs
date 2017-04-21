@@ -22,6 +22,7 @@ namespace Fade
                 hs = Convert.ToInt32(line);
             }
             reader.Close();
+            HighScore = hs;
             return hs;
         }
         public void newHighScore(int score)

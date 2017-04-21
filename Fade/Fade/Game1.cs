@@ -140,6 +140,7 @@ namespace Fade
             // TODO: Add your initialization logic here
             camera = new Camera2D(GraphicsDevice.Viewport);
             data = new FadeData();
+            data.newHighScore(0);
             fps = 8.0;
             swordFrame = 1;
             timePerFrame = 1.0 / fps;
@@ -1062,7 +1063,7 @@ namespace Fade
 
                     }
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 500, 10), Color.White);
-                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 10), Color.White); //high score num
+                    spriteBatch.DrawString(textFont, data.loadHighScore().ToString(), new Vector2(camera.Position.X + 720, 10), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
 
                     spriteBatch.DrawString(textFont, p1.Health.ToString(), new Vector2(camera.Position.X + 200, 10), Color.White);
@@ -1100,7 +1101,7 @@ namespace Fade
                     spriteBatch.Draw(gameOverImage, new Vector2(0, 0));
                     gRetry.DrawSelectText(spriteBatch, textFont, "RETRY", new Vector2(camera.Position.X + 330, 250));
                     gMenu.DrawSelectText(spriteBatch, textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 300));
-                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(625, 60), Color.White); //high score num
+                    spriteBatch.DrawString(textFont, data.loadHighScore().ToString(), new Vector2(625, 60), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(20, 20), Color.White); //current score num
 
                     break;
@@ -1134,14 +1135,14 @@ namespace Fade
         //ResetGame. resets game to initial state
         public void ResetGame()
         {
-            int hs = data.loadHighScore();
-            if (currentScore > hs)
+            if (currentScore > data.loadHighScore())
             {
-                data.newHighScore(hs);
+                data.newHighScore(currentScore);
             }
             camera.Position = new Vector2(0, 0); //reset camera so it doesnt stay off-centered in other states
             p1.location = new Rectangle(200, 350, 120, 140);
             p1.isDead = false;
+            p1.color = Color.White;
             p1.Health = 3;
             currentScore = 0;
             farPoint = 0;
