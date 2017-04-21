@@ -53,31 +53,47 @@ namespace Fade
         /// <param name="playerX">the x int position of the player rectangle</param>
         public void chargeCheck(int playerX)
         {
-        if(tankRect.X - playerX == 100 )//some distance we want to charge from
-           chargePrep = true;
-         
-         
+            if (tankRect.X - playerX <= 300)
+            {
+                //some distance we want to charge from
+                chargePrep = true;
+            }
+
+            else if (tankRect.X - playerX <= 0)
+            {
+                chargePrep = false;
+            }
          
         }
-        
+
         /// <summary>
         /// check to see if the chargePrep is true, and if it is then incerement the tanks position by a lrger number than its usual speed so that it eventually catches up to the player
         /// and once it has (the distance between the tank and player is 0, the n set the charge prep to false)
         /// </summary>
         /// <param name="chargeSpeed">the amount of speed that the tank increments</param>
         /// <param name="playerX">the x int position of the player rectangle</param>
-        public void chargeUpdate(int chargeSpeed, int playerX)
+        public void chargeUpdate(int chargeSpeed, Player p )
         {
-            chargeCheck(playerX);
+            //chargeCheck(p.location.X);
 
-          if(chargePrep == true)
+            if (location.X - p.location.X <= 450)
+            {
+                //some distance we want to charge from
+                //chargePrep = true;
+                location.X -= chargeSpeed;
+            }
+
+            else if (location.X - p.location.X >= 0)
+            {
+                //chargePrep = false;
+            }
+
+            if (chargePrep == true)
           {
-            tankRect.X -= chargeSpeed;
+                //tankRect.X -= chargeSpeed;
+                
           }
-          if(tankRect.X - playerX == 0)
-          {
-           chargePrep = false;
-          }
+         
          
         }
 
