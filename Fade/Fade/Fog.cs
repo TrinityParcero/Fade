@@ -49,7 +49,7 @@ namespace Fade
         {
             //will take 6 ticks to kill
 
-            if (player.location.Intersects(location))
+            if (player.location.X <= location.X + 600)
             {
                 if (player.invincibilityFrame <= 0)
                 {

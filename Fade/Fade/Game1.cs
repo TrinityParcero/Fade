@@ -183,7 +183,7 @@ namespace Fade
             pMenu = new SelectText(false, Color.Black, Color.Magenta);
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
-            fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 400, 700), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-600, 0, 350, 700), 1, 0);
             enemy = new Grunt(gruntSheet, new Rectangle(600, 380, 0, 0), 1, 3, 0.5);
             testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
 
