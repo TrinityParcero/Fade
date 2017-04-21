@@ -185,7 +185,7 @@ namespace Fade
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 400, 700), 1, 0);
             enemy = new Grunt(gruntSheet, new Rectangle(600, 380, 0, 0), 1, 3, 0.5);
-            //testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
+            testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
 
         }
 
@@ -342,7 +342,7 @@ namespace Fade
                 enemy.Run(fog.location, p1);
                 testTank.Run(fog.location, p1);
                 //test the tank charge
-                testTank.chargeUpdate(50, p1.location.X);
+                testTank.chargeUpdate(10, p1);
                 //
                 //fog.consumeEnemy(enemy);
                 fog.damagePlayer(p1);
@@ -978,6 +978,8 @@ namespace Fade
                             break;
 
                     }
+                    //testing the tank
+                    DrawTankRunning(0, testTank);
 
                     if (startSpawn == true)
                     {
