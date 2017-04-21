@@ -15,7 +15,7 @@ namespace Fade
     enum TankState
     {
       
-      ChargeUpR,
+      BuildUp,
       ChargeUpL
      }
      
@@ -30,7 +30,9 @@ namespace Fade
         TankState tState = TankState.ChargeUpL;
         //make a bool for checking the tank's charge
         bool chargePrep;
-        
+        //have a property for the charge build up frames
+        public int chargeFrame { get; set; } = 50;
+
         public Tank(Texture2D asset, Rectangle loc, int speed, double hp, double dmg) : base(asset,loc,speed,hp,dmg)
         {
             //save off the tank's current x position this will be used in
@@ -51,20 +53,35 @@ namespace Fade
         /// and set the boolean chargePrep to true
         /// </summary>
         /// <param name="playerX">the x int position of the player rectangle</param>
-        public void chargeCheck(int playerX)
-        {
-            if (tankRect.X - playerX <= 300)
-            {
-                //some distance we want to charge from
-                chargePrep = true;
-            }
+        //public void chargeCheck(int playerX)
+        //{
+        //    if (tankRect.X - playerX <= 300)
+        //    {
+        //        //some distance we want to charge from
+                
 
-            else if (tankRect.X - playerX <= 0)
-            {
-                chargePrep = false;
-            }
+        //        if (chargeFrame > 0)
+        //        {
+        //            chargeFrame--;
+        //            chargePrep = false;
+        //        }
+               
+                
+        //        if (chargeFrame <= 0)
+        //        {
+        //            chargePrep = true;
+                    
+        //            chargeFrame = 200;
+        //        }
+                
+        //    }
+
+        //    else if (tankRect.X - playerX <= 0)
+        //    {
+        //        chargePrep = false;
+        //    }
          
-        }
+        //}
 
         /// <summary>
         /// check to see if the chargePrep is true, and if it is then incerement the tanks position by a lrger number than its usual speed so that it eventually catches up to the player
