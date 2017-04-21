@@ -79,16 +79,36 @@ namespace Fade
             {
                 p.color = Color.White;
             }
+
+            location.X -= Speed;
+            eState = EnemyState.FaceLeft;
             //basic idea of motion
             if (location.X > p.location.X)
             {
-                location.X -= Speed;
-                eState = EnemyState.FaceLeft;
+                //location.X -= Speed;
+                //eState = EnemyState.FaceLeft;
             }
-            else if (location.X < p.location.X - 20)
+            /*else if (location.X < p.location.X - 600)
             {
-                location.X += Speed;
+                //location.X += Speed;
                 eState = EnemyState.FaceRight;
+            }*/
+        }
+
+        public void chargeUpdate(int chargeSpeed, Player p)
+        {
+            //chargeCheck(p.location.X);
+
+            if (location.X - p.location.X <= 450)
+            {
+                //some distance we want to charge from
+                //chargePrep = true;
+                location.X -= chargeSpeed;
+            }
+
+            else if (location.X - p.location.X >= 0)
+            {
+                //chargePrep = false;
             }
         }
 
