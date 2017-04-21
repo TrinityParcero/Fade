@@ -154,7 +154,7 @@ namespace Fade
             //textures
             //playerSprite = Content.Load<Texture2D>("char1sword");
             fogSprite = Content.Load<Texture2D>("fogfull");
-            bg = Content.Load<Texture2D>("bg");
+            bg = Content.Load<Texture2D>("bg2");
             mainMenuImage = Content.Load<Texture2D>("menus/menu2");
             pauseImage = Content.Load<Texture2D>("menus/pausebg");
             controlsImage = Content.Load<Texture2D>("menus/controls");
@@ -854,15 +854,15 @@ namespace Fade
                 case GameState.Game:
                     GraphicsDevice.Clear(Color.Black);
                     spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
-                    spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX + 20, 0, 2000, GraphicsDevice.Viewport.Height));
+                    //spriteBatch.Draw(bg, destinationRectangle: new Rectangle(1800, 0, 2000, GraphicsDevice.Viewport.Height));
 
-                    for (int i = 2; i < 50; i++) //temporary fix to bg cut off
+                    for (int i = 2; i < 50; i+=2) //temporary fix to bg cut off
                     {
-                        spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
+                        spriteBatch.Draw(bg, new Rectangle((i * 999 - p1.currentX), 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
 
                     }
 
-                    spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X, 450, 861, 30), Color.White);
+                    spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X -5, 450, 861, 30), Color.White);
 
 
                     switch (p1.playerState)
