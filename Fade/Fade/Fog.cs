@@ -11,14 +11,14 @@ namespace Fade
 {
     class Fog
     {
-        public int Speed { get; set; }
+        public double Speed { get; set; }
         public int enemiesConsumed { get; set; }
 
         public Texture2D sprite { get; set; }
         public Rectangle location;
         public Rectangle bounds;
 
-        public Fog(Texture2D texture, Rectangle loc, Rectangle bound, int speed, int consumed)
+        public Fog(Texture2D texture, Rectangle loc, Rectangle bound, double speed, int consumed)
         {
             sprite = texture;
             location = loc;
@@ -30,18 +30,19 @@ namespace Fade
         public void Move(Player player)
         {
             //move at about half player speed by default
-            if(bounds.Intersects(player.location))
+            if (bounds.Intersects(player.location))
             {
+                Speed = 1;
                 //for now the fog stops but i want to change this
-                location.X += Speed/2;
-                bounds.X += Speed/2;
+                location.X += (int)Speed / 2;
+                bounds.X += (int)Speed / 2;
             }
             else
             {
-                location.X += Speed;
-                bounds.X += Speed;
+                location.X += (int)Speed;
+                bounds.X += (int)Speed;
             }
-            
+
         }
 
 
@@ -70,12 +71,12 @@ namespace Fade
         }
         public void consumeEnemy(Enemy enemy)
         {
-            if(location.Intersects(enemy.location))
+            //enemy.isDead = true;
+            if (enemy.isDead == false)
             {
-                enemiesConsumed += 1;
-                enemy.isDead = true;
+                Speed += 0.25;
             }
-            Speed += enemiesConsumed;
+            
         }
     }
 }

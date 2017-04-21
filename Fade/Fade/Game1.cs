@@ -333,13 +333,12 @@ namespace Fade
                 {
                     //below method sets player class bool jumping = true
                     p1.Jump();
-
                 }
                 //if the bool jumping from the player class is true then the below method will move the player
                 p1.JumpUpdate();
                 fog.Move(p1);
                 //
-                enemy.Run(fog.location, p1);
+                //enemy.Run(fog.location, p1);
                 testTank.Run(fog.location, p1);
                 //test the tank charge
                 testTank.chargeUpdate(10, p1);
@@ -347,9 +346,20 @@ namespace Fade
                 //fog.consumeEnemy(enemy);
                 fog.damagePlayer(p1);
 
+                if (testTank.location.X <= fog.location.X+100 && testTank.location.X > fog.location.X)
+                {
+                    fog.consumeEnemy(testTank);
+                    testTank.isDead = true;
+                }
+                //fog.consumeEnemy(testTank);
                 for (int i = 0; i < spawner.EnemyList.Count; i++)
                 {
-                    fog.consumeEnemy(spawner.EnemyList[i]);
+                    if (spawner.EnemyList[i].location.X <= fog.location.X+600 && spawner.EnemyList[i].location.X > fog.location.X)
+                    {
+                        fog.consumeEnemy(spawner.EnemyList[i]);
+                        spawner.EnemyList[i].isDead = true;
+                    }
+                   
                 }
 
                 //player taking damage
