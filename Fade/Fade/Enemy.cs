@@ -31,6 +31,9 @@ namespace Fade
         public Rectangle location;
         public EnemyState eState = EnemyState.FaceLeft;
 
+        //make a property to check if enemies should be moving
+        //public bool shouldMove { get; set; } = true;
+
         public Enemy(Texture2D texture, Rectangle loc, int speed, double hp, double dmg)
         {
             sprite = texture;
