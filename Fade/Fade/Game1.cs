@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Threading;
 
 namespace Fade
@@ -40,9 +42,11 @@ namespace Fade
         SelectText gMenu;
 
         //SOUND
-        //Song backgroundMusic;
-        //SoundEffect hitSound;
-        //we will uncomment these when we're ready to use them
+        Song backgroundMusic;
+        SoundEffect swordSwing;
+        SoundEffect gruntDie;
+        SoundEffect tankDie;
+        SoundEffect roar;
 
         //IMAGES
         Texture2D mainMenuImage;
@@ -173,6 +177,12 @@ namespace Fade
             textFont = Content.Load<SpriteFont>("textFont");
             titleFont = Content.Load<SpriteFont>("titleFont");
 
+            //SOUND
+            backgroundMusic = Content.Load<Song>("audio/Amelita");
+            swordSwing = Content.Load<SoundEffect>("audio/swordSwing");
+            gruntDie = Content.Load<SoundEffect>("audio/gruntDie");
+            roar = Content.Load<SoundEffect>("audio/tankRoar");
+
             //objects
             p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140));
             mStart = new SelectText(true, Color.White, Color.Black);
@@ -187,6 +197,8 @@ namespace Fade
             enemy = new Grunt(gruntSheet, new Rectangle(600, 380, 0, 0), 1, 3, 0.5);
             testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
 
+
+            MediaPlayer.Play(backgroundMusic);
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -404,6 +416,7 @@ namespace Fade
                     if (p1.attacking)
                     {
                         swordFrame += 1;                     // Adjust the frame
+                        swordSwing.Play();
 
                         if (swordFrame > SWORD_FRAME_COUNT)
                         {
@@ -879,6 +892,7 @@ namespace Fade
                                 else
                                 {
                                     DrawSword(SpriteEffects.FlipHorizontally);
+                                    
                                 }
                             }
                             else

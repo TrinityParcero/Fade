@@ -253,3 +253,33 @@
 /processorParam:TextureFormat=Color
 /build:bg2.png
 
+#begin audio/gruntDie.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/gruntDie.wav
+
+#begin audio/swordSwing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/swordSwing.wav
+
+#begin audio/tankDie.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/tankDie.wav
+
+#begin audio/tankRoar.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/tankRoar.wav
+
+#begin audio/Amelita.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:audio/Amelita.wav
+
