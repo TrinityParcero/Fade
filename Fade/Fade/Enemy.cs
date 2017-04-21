@@ -16,13 +16,15 @@ namespace Fade
     }
     class Enemy
     {
-        public double Damage{ get; set; }
+        public double Damage { get; set; }
 
-        public double Health{ get; set; }
+        public double Health { get; set; }
 
-        public bool isDead{ get; set; }
+        public bool isDead { get; set; }
 
-        public int Speed{ get; set; }
+        public int Speed { get; set; }
+
+        public Color color { get; set; }
 
         public Texture2D sprite { get; set; }
 
@@ -51,13 +53,36 @@ namespace Fade
 
         public void Run(Rectangle fogBounds, Player p)
         {
+            if (Health <= 0)
+            {
+                isDead = true;
+            }
+            if (p.location.Intersects(location))
+            {
+                if (p.invincibilityFrame <= 0)
+                {
+                    p.isHit = true;
+                    p.takeDamage(Damage);
+                    p.invincibilityFrame = 200;
+                }
+
+            }
+            if (p.invincibilityFrame > 0)
+            {
+                p.invincibilityFrame--;
+            }
+
+            else
+            {
+                p.color = Color.White;
+            }
             //basic idea of motion
-            if(location.X > p.location.X)
+            if (location.X > p.location.X)
             {
                 location.X -= Speed;
                 eState = EnemyState.FaceLeft;
             }
-            else if(location.X < p.location.X-20)
+            else if (location.X < p.location.X - 20)
             {
                 location.X += Speed;
                 eState = EnemyState.FaceRight;
@@ -73,6 +98,7 @@ namespace Fade
             else
             {
                 Health -= dmg;
+                color = Color.Red;
             }
         }
     }

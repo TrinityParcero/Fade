@@ -65,7 +65,7 @@ namespace Fade
         Player p1;
         Fog fog;
         Camera2D camera;
-        ExternalTool tool;
+        ExternalTool tool = new ExternalTool();
         Enemy enemy;
         Tank testTank;
         EnemySpawner spawner = new EnemySpawner();
@@ -81,15 +81,16 @@ namespace Fade
 
         //ANIMATION
         int frame;
-        int swordFrame;
+        public int swordFrame { get; set; }//has to be public so we can access it for player attack method
         int gruntFrame;
         int tankFrame;
-        double timeCounter;     
+        double timeCounter;
         double fps;
-        int count;          
+        int count;
         double timePerFrame;
         double longTimePerFrame; //longer time per frame for slow animations    
         Vector2 playerLoc;
+        public Vector2 swordPos;
 
         // player rectangle
         const int WALK_FRAME_COUNT = 6;         // The number of frames in the animation
@@ -98,7 +99,7 @@ namespace Fade
         const int PLAYER_RECT_WIDTH = 137;        // The width of a single frame
 
         // grunt rectangle
-        const int GRUNT_FRAME_COUNT = 7;         // The number of frames in the animation
+        const int GRUNT_FRAME_COUNT = 6;         // The number of frames in the animation
         const int GRUNT_RECT_Y_OFFSET = 0;    // How far down in the image are the frames?
         const int GRUNT_RECT_HEIGHT = 102;       // The height of a single frame
         const int GRUNT_RECT_WIDTH = 150;        // The width of a single frame
@@ -134,6 +135,7 @@ namespace Fade
             // TODO: Add your initialization logic here
             camera = new Camera2D(GraphicsDevice.Viewport);
             fps = 8.0;
+            swordFrame = 1;
             timePerFrame = 1.0 / fps;
             startPoint = 200;
             farPoint = 200;
@@ -181,8 +183,10 @@ namespace Fade
             pMenu = new SelectText(false, Color.Black, Color.Magenta);
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
-            fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 300, 700), 1, 0);
-            enemy = new Enemy(enemySheet, new Rectangle(600,380,0,0), 1, 3, 1);
+            fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-500, 0, 400, 700), 1, 0);
+            enemy = new Grunt(gruntSheet, new Rectangle(600, 380, 0, 0), 1, 3, 0.5);
+            testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
+
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -209,13 +213,13 @@ namespace Fade
             }
             else if (currentState == GameState.Menu && mControls.IsSelected && SingleKeyPress(Keys.Enter))
             {
-                currentState = GameState.Controls; 
+                currentState = GameState.Controls;
             }
             else if (currentState == GameState.Menu && mQuit.IsSelected && SingleKeyPress(Keys.Enter))
             {
-                Exit(); 
+                Exit();
             }
-            else if(currentState == GameState.Controls && SingleKeyPress(Keys.Enter))
+            else if (currentState == GameState.Controls && SingleKeyPress(Keys.Enter))
             {
                 currentState = GameState.Menu;
             }
@@ -242,41 +246,41 @@ namespace Fade
                 currentState = GameState.Menu;
             }
 
-            
+
             //MAIN MENU
-            if(currentState == GameState.Menu)
+            if (currentState == GameState.Menu)
             {
-                if(mStart.IsSelected && SingleKeyPress(Keys.S)) //down start to controls
+                if (mStart.IsSelected && SingleKeyPress(Keys.S)) //down start to controls
                 {
                     mControls.IsSelected = true;
                     mQuit.IsSelected = false;
                     mStart.IsSelected = false;
                 }
-                else if(mControls.IsSelected && SingleKeyPress(Keys.S)) //down controls to quit
+                else if (mControls.IsSelected && SingleKeyPress(Keys.S)) //down controls to quit
                 {
                     mControls.IsSelected = false;
                     mStart.IsSelected = false;
                     mQuit.IsSelected = true;
                 }
-                else if(mQuit.IsSelected && SingleKeyPress(Keys.S)) //down quit to start
+                else if (mQuit.IsSelected && SingleKeyPress(Keys.S)) //down quit to start
                 {
                     mQuit.IsSelected = false;
                     mControls.IsSelected = false;
                     mStart.IsSelected = true;
                 }
-                else if(mStart.IsSelected && SingleKeyPress(Keys.W)) //up start to quit
+                else if (mStart.IsSelected && SingleKeyPress(Keys.W)) //up start to quit
                 {
                     mStart.IsSelected = false;
                     mControls.IsSelected = false;
                     mQuit.IsSelected = true;
                 }
-                else if(mControls.IsSelected && SingleKeyPress(Keys.W)) //up controls to start
+                else if (mControls.IsSelected && SingleKeyPress(Keys.W)) //up controls to start
                 {
                     mControls.IsSelected = false;
                     mQuit.IsSelected = false;
                     mStart.IsSelected = true;
                 }
-                else if(mQuit.IsSelected && SingleKeyPress(Keys.W)) //up quit to controls
+                else if (mQuit.IsSelected && SingleKeyPress(Keys.W)) //up quit to controls
                 {
                     mQuit.IsSelected = false;
                     mStart.IsSelected = false;
@@ -287,12 +291,12 @@ namespace Fade
             //PAUSE MENU
             if (currentState == GameState.GamePause)
             {
-                if (pContinue.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W))) 
+                if (pContinue.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
                     pContinue.IsSelected = false;
                     pMenu.IsSelected = true;
                 }
-                else if (pMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W))) 
+                else if (pMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
                     pMenu.IsSelected = false;
                     pContinue.IsSelected = true;
@@ -300,21 +304,21 @@ namespace Fade
             }
 
             //GAME OVER MENU
-            if(currentState == GameState.GameOver)
+            if (currentState == GameState.GameOver)
             {
-                if(gRetry.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
+                if (gRetry.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
                     gRetry.IsSelected = false;
                     gMenu.IsSelected = true;
                 }
-                else if(gMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
+                else if (gMenu.IsSelected && (SingleKeyPress(Keys.S) || SingleKeyPress(Keys.W)))
                 {
                     gMenu.IsSelected = false;
                     gRetry.IsSelected = true;
                 }
             }
 
-            
+
 
             //GAMEPLAY
             if (currentState == GameState.Game)
@@ -324,49 +328,64 @@ namespace Fade
                 playerLoc.X = p1.location.X;
                 playerLoc.Y = p1.location.Y;
                 //checks to see if spacebar is pressed, as well as if the player is not falling, 
-                //as to only allow the spacebar to be pressed when the player is on the grounf or "not falling"
+                //as to only allow the spacebar to be pressed when the player is on the ground or "not falling"
                 if (ks.IsKeyDown(Keys.Space) && !p1.falling)
                 {
                     //below method sets player class bool jumping = true
-                     p1.Jump();
+                    p1.Jump();
 
                 }
-                //if the bool jumping frmo the player class is true then the below method will move the player
+                //if the bool jumping from the player class is true then the below method will move the player
                 p1.JumpUpdate();
                 fog.Move(p1);
-                enemy.Run(fog.location,p1);
                 //
-                fog.consumeEnemy(enemy);
+                enemy.Run(fog.location, p1);
+                testTank.Run(fog.location, p1);
+                //
+                //fog.consumeEnemy(enemy);
+                fog.damagePlayer(p1);
 
-                
                 //player taking damage
-                if (p1.location.Intersects(enemy.location))
+                /*foreach(Enemy enemy in spawner.EnemyList)
                 {
-                    if (p1.invincibilityFrame <= 0)
+                    if (p1.location.Intersects(enemy.location))
                     {
-                        p1.takeDamage(enemy.Damage, spriteBatch);
-                        p1.invincibilityFrame = 180;
+                        if (p1.invincibilityFrame <= 0)
+                        {
+                            p1.isHit = true;
+                            p1.takeDamage(enemy.Damage);
+                            p1.invincibilityFrame = 180;
+                        }
                     }
-                }
-                if (p1.invincibilityFrame > 0)
-                {
-                    p1.invincibilityFrame--;
-                }
-                else
-                {
-                    p1.color = Color.White;
-                }
+                    if (p1.invincibilityFrame > 0)
+                    {
+                        p1.invincibilityFrame--;
+                    }
+                    else
+                    {
+                        p1.color = Color.White;
+                    }
+                }*/
 
                 //Player Attack
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
-                    p1.Attack();
+                    p1.Attack(enemy, this, spawner);
+                    if (startSpawn == true)
+                    {
+                        for (int i = 0; i < spawner.EnemyList.Count; i++)
+                        {
+                            p1.Attack(spawner.EnemyList[i], this, spawner);
+
+                        }
+                    }
+
                 }
 
-               //animation timing
+                //animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
-                
+
                 if (timeCounter >= timePerFrame)
                 {
                     frame += 1;                     // Adjust the frame
@@ -416,35 +435,37 @@ namespace Fade
                 {
                     farPoint = p1.location.X;
                 }
-                
-                currentScore = (farPoint/4) - 50;
-                if(currentScore == 200)
+
+                currentScore = (farPoint / 4) - 50;
+                if (currentScore != 0 && currentScore % 500 == 0)
                 {
                     startSpawn = true;
+                    spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
                 }
 
                 //update healthstate based on player health
-                if(p1.Health == 3.0)
+
+                if (p1.Health == 3.0)
                 {
                     p1.healthState = HealthState.ThreeFull;
                 }
-                if(p1.Health == 2.5)
+                else if (p1.Health == 2.5)
                 {
                     p1.healthState = HealthState.FiveHalves;
                 }
-                if(p1.Health == 2.0)
+                else if (p1.Health == 2.0)
                 {
                     p1.healthState = HealthState.TwoFull;
                 }
-                if(p1.Health == 1.5)
+                else if (p1.Health == 1.5)
                 {
                     p1.healthState = HealthState.ThreeHalves;
                 }
-                if(p1.Health == 1.0)
+                else if (p1.Health == 1.0)
                 {
                     p1.healthState = HealthState.OneFull;
                 }
-                if(p1.Health == 0.5)
+                else if (p1.Health == 0.5)
                 {
                     p1.healthState = HealthState.OneHalf;
                 }
@@ -452,44 +473,112 @@ namespace Fade
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    if(startSpawn == true)
+                    /*if(startSpawn == true)
                     {
                         
                     }
-                    else
-                    {
-                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
-                    }
-                        
+                    else*/
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
+
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    if (startSpawn == true)
+                    /*if (startSpawn == true)
                     {
                         
                     }
-                    else
-                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
+                    else*/
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
             }
-            
+
             previousState = ks;
             oldState = ms;
 
             base.Update(gameTime);
         }
 
+
+
         private void DrawWave()
         {
-            spawner.CreateSpawn("values.txt", sword, sword, p1.location);
-            DrawGruntHopping(0, spawner.EnemyList[0]);
-            DrawGruntHopping(0, spawner.EnemyList[1]);
-            DrawGruntHopping(0, spawner.EnemyList[2]);
-            DrawGruntHopping(0, spawner.EnemyList[3]);
-            DrawGruntHopping(0, spawner.EnemyList[4]);
-            //startSpawn = false;
+            //spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
+            if (spawner.EnemyList[0] != null)
+            {
+                if (spawner.EnemyList[0] is Grunt)
+                {
+                    DrawGruntHopping(0, spawner.EnemyList[0]);
+                    spawner.EnemyList[0].Run(fog.bounds, p1);
+                }
+                else if (spawner.EnemyList[0] is Tank)
+                {
+                    DrawTankRunning(0, spawner.EnemyList[0]);
+                    spawner.EnemyList[0].Run(fog.bounds, p1);
+                }
+            }
+
+            if (spawner.EnemyList[1] != null)
+            {
+                if (spawner.EnemyList[1] is Grunt)
+                {
+                    DrawGruntHopping(0, spawner.EnemyList[1]);
+                    spawner.EnemyList[1].Run(fog.bounds, p1);
+                }
+                else if (spawner.EnemyList[1] is Tank)
+                {
+                    DrawTankRunning(0, spawner.EnemyList[1]);
+                    spawner.EnemyList[1].Run(fog.bounds, p1);
+                }
+            }
+
+            if (spawner.EnemyList[2] != null)
+            {
+                if (spawner.EnemyList[2] is Grunt)
+                {
+                    DrawGruntHopping(0, spawner.EnemyList[2]);
+                    spawner.EnemyList[2].Run(fog.bounds, p1);
+                }
+                else if (spawner.EnemyList[2] is Tank)
+                {
+                    DrawTankRunning(0, spawner.EnemyList[2]);
+                    spawner.EnemyList[2].Run(fog.bounds, p1);
+                }
+            }
+
+            if (spawner.EnemyList[3] != null)
+            {
+                if (spawner.EnemyList[3] is Grunt)
+                {
+                    DrawGruntHopping(0, spawner.EnemyList[3]);
+                    spawner.EnemyList[3].Run(fog.bounds, p1);
+                }
+                else if (spawner.EnemyList[3] is Tank)
+                {
+                    DrawTankRunning(0, spawner.EnemyList[3]);
+                    spawner.EnemyList[3].Run(fog.bounds, p1);
+                }
+            }
+
+            if (spawner.EnemyList[4] != null)
+            {
+                if (spawner.EnemyList[4] is Grunt)
+                {
+                    DrawGruntHopping(0, spawner.EnemyList[4]);
+                    spawner.EnemyList[4].Run(fog.bounds, p1);
+                }
+                else if (spawner.EnemyList[4] is Tank)
+                {
+                    DrawTankRunning(0, spawner.EnemyList[4]);
+                    spawner.EnemyList[4].Run(fog.bounds, p1);
+                }
+            }
+
+            if (spawner.EnemyList.Count == 0)
+            {
+                startSpawn = false;
+            }
         }
         //ANIMATION
 
@@ -530,7 +619,7 @@ namespace Fade
         }
         private void DrawSword(SpriteEffects flipSprite)
         {
-            Vector2 swordPos = new Vector2();
+
             if (flipSprite != 0)
             {
                 swordPos.X = (playerLoc.X - 40);
@@ -545,7 +634,7 @@ namespace Fade
                 sword,
                 new Vector2(playerLoc.X + 10, playerLoc.Y - 40),
                 new Rectangle(0, 0, 140, 140),
-                p1.color,
+                Color.White,
                 0,
                 Vector2.Zero,
                 1.0f,
@@ -554,8 +643,8 @@ namespace Fade
         }
         private void SwordSwing(SpriteEffects flipSprite)
         {
-            Vector2 swordPos = new Vector2();
-            if(flipSprite != 0)
+
+            if (flipSprite != 0)
             {
                 swordPos.X = (playerLoc.X - 40);
                 swordPos.Y = (playerLoc.Y - 30);
@@ -571,7 +660,7 @@ namespace Fade
                 new Rectangle(                  // - The "source" rectangle
                     swordFrame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
                     SWORD_RECT_Y_OFFSET,        //	   where "inside" the texture
-                    SWORD_RECT_WIDTH,           //     to get pixels (We don't want to                      
+                    SWORD_RECT_WIDTH,           //     to get pixels (We don't want to
                     SWORD_RECT_HEIGHT),         //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -591,7 +680,7 @@ namespace Fade
                     GRUNT_RECT_Y_OFFSET,        //	   where "inside" the texture
                     GRUNT_RECT_WIDTH,           //     to get pixels (We don't want to
                     GRUNT_RECT_HEIGHT),         //     draw the whole thing)
-                Color.White,                    // - The color
+                grunt.color,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 1.0f,                           // - Scale (100% - no change)
@@ -609,7 +698,7 @@ namespace Fade
                     TANK_RECT_Y_OFFSET,        //	   where "inside" the texture
                     TANK_RECT_WIDTH,           //     to get pixels (We don't want to
                     TANK_RECT_HEIGHT),         //     draw the whole thing)
-                Color.White,                    // - The color
+                tank.color,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 1.0f,                           // - Scale (100% - no change)
@@ -617,35 +706,18 @@ namespace Fade
                 0);                             // - Layer depth (unused)
         }
 
-        private void DrawPlayerDMG(SpriteEffects flipSprite)
-        {
-            spriteBatch.Draw(
-                spriteSheet,                    // - The texture to draw
-                playerLoc,                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    0,                          //   - This rectangle specifies
-                    PLAYER_RECT_Y_OFFSET,        //	   where "inside" the texture
-                    PLAYER_RECT_WIDTH,           //     to get pixels (We don't want to
-                    PLAYER_RECT_HEIGHT),         //     draw the whole thing)
-                Color.Red,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
 
         private void DrawFullHeart(Vector2 location)
         {
 
             spriteBatch.Draw(
-                heart,         
-                location, 
-                new Rectangle(    
-                    0,       
-                    0,      
-                    36,    
-                    34),     
+                heart,
+                location,
+                new Rectangle(
+                    0,
+                    0,
+                    36,
+                    34),
                 Color.White);
         }
 
@@ -656,7 +728,7 @@ namespace Fade
                 heart,
                 location,
                 new Rectangle(
-                    0,
+                    36,
                     0,
                     36,
                     34),
@@ -695,7 +767,7 @@ namespace Fade
                     GraphicsDevice.Clear(Color.Black);
                     spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
                     spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX + 20, 0, 2000, GraphicsDevice.Viewport.Height));
-         
+
                     for (int i = 2; i < 50; i++) //temporary fix to bg cut off
                     {
                         spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
@@ -703,8 +775,23 @@ namespace Fade
                     }
 
                     spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X, 450, 861, 30), Color.White);
-                    DrawGruntHopping(0, enemy);
-                    DrawTankRunning(0, testTank);
+
+                    if (enemy.eState == EnemyState.FaceRight)
+                    {
+                        DrawGruntHopping(SpriteEffects.FlipHorizontally, enemy);
+                    }
+                    else
+                    {
+                        DrawGruntHopping(0, enemy);
+                    }
+                    if (testTank.eState == EnemyState.FaceRight)
+                    {
+                        DrawTankRunning(SpriteEffects.FlipHorizontally, testTank);
+                    }
+                    else
+                    {
+                        DrawTankRunning(0, testTank);
+                    }
 
                     switch (p1.playerState)
                     {
@@ -789,7 +876,7 @@ namespace Fade
                                 DrawSword(0);
                             }
                             break;
-                        
+
                         //JUMP_LEFT
                         case PlayerState.JumpLeft:
                             DrawPlayerStanding(SpriteEffects.FlipHorizontally);
@@ -814,26 +901,22 @@ namespace Fade
                                 DrawSword(0);
                             }
                             break;
-                            
+
                         default:
                             break;
-                            //TAKE_DAMAGE
-                            if (p1.isHit == true)
-                            {
-                                DrawPlayerDMG(0);
-                                p1.isHit = false;
-                            }
+
                     }
+
 
                     spriteBatch.Draw(fogSprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
-                    spriteBatch.Draw(uIBar, new Rectangle((int)camera.Position.X -20, 0, 888, 50), Color.White);
+                    spriteBatch.Draw(uIBar, new Rectangle((int)camera.Position.X - 20, 0, 888, 50), Color.White);
 
                     //check health state and draw hearts
                     switch (p1.healthState)
                     {
                         case HealthState.ThreeFull:
-                            DrawFullHeart(new Vector2(camera.Position.X+20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
                             DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
                             DrawFullHeart(new Vector2(camera.Position.X + 100, 5));
                             break;
@@ -867,11 +950,13 @@ namespace Fade
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 720, 10), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
 
+                    spriteBatch.DrawString(textFont, p1.Health.ToString(), new Vector2(camera.Position.X + 200, 10), Color.White);
                     if (startSpawn == true)
                     {
                         DrawWave();
                     }
-                    
+
+
                     break;
 
                 //GAME PAUSE
@@ -903,7 +988,7 @@ namespace Fade
                 case GameState.GameOver:
 
                     GraphicsDevice.Clear(Color.Black);
-                    spriteBatch.Draw(gameOverImage, new Vector2(0,0));
+                    spriteBatch.Draw(gameOverImage, new Vector2(0, 0));
                     gRetry.DrawSelectText(spriteBatch, textFont, "RETRY", new Vector2(camera.Position.X + 330, 250));
                     gMenu.DrawSelectText(spriteBatch, textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 300));
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(625, 60), Color.White); //high score num
@@ -950,6 +1035,7 @@ namespace Fade
             fog.location = new Rectangle(-600, 0, 800, 480);
             fog.bounds = new Rectangle(-500, 0, 300, 700);
             fog.Speed = 1;
+            startSpawn = false;
         }
 
 

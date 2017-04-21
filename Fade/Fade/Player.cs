@@ -31,13 +31,13 @@ namespace Fade
 
     }
 
-    class Player : Character
+    class Player
     {
         public int Damage{ get; set; }
 
         public double Health{ get; set; }
 
-        public bool isDead{ get; set; }
+        public bool isDead { get; set; }
 
         public int Speed{ get; set; }
 
@@ -70,6 +70,8 @@ namespace Fade
         private int currentFrame;
 
         private int totalFrames;
+
+        public Rectangle swordBox { get; set; }
 
         int MAX_HEIGHT = 150;
         int jumpSpeed = 0;
@@ -110,12 +112,56 @@ namespace Fade
             ground = location.Y;
         }
 
-        public void Attack()
+        public void Attack(Enemy enemy, Game1 game, EnemySpawner list)
         {
-            //if char is in attack pose-check for it
-            //if enemy is in hitbox while char is attacking-deal damage
             attacking = true;
-            //deal damage here
+            int colFrame = 0;
+                //if char is in attack pose-check for it
+                //if enemy is in hitbox while char is attacking-deal damage
+            if(game.swordFrame == 1)
+            {
+                colFrame = 1;
+                swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
+                if (swordBox.Intersects(enemy.location))
+                {
+                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == true)
+                    {
+                        list.EnemyList.Remove(enemy);
+                    }
+                }
+
+            }
+
+            if(colFrame == 1)
+            {
+                colFrame = 2;
+                swordBox = new Rectangle((int)game.swordPos.X + 60, (int)game.swordPos.Y + 40, 100, 80);
+                if (swordBox.Intersects(enemy.location))
+                {
+                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == true)
+                    {
+                        list.EnemyList.Remove(enemy);
+                    }
+                }
+            }
+
+            if(colFrame == 2)
+            {
+                colFrame = 1;
+                swordBox = new Rectangle((int)game.swordPos.X + 60, ((int)game.swordPos.Y + 90), 110, 30);
+                if (swordBox.Intersects(enemy.location))
+                {
+                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == true)
+                    {
+                        list.EnemyList.Remove(enemy);
+                    }
+                }
+            }
+
+
         }
 
         public void Jump()
@@ -189,6 +235,10 @@ namespace Fade
         KeyboardState previous = new KeyboardState();
         public void Run(Rectangle fogBounds)
         {
+            if (Health <= 0)
+            {
+                isDead = true;
+            }
             KeyboardState keystate = Keyboard.GetState();
             var ks = Keyboard.GetState();
             if (ks.IsKeyDown(Keys.A))
@@ -226,7 +276,7 @@ namespace Fade
             prevPlayerState = playerState;
         }
 
-        public void takeDamage(double dmg,SpriteBatch batch)
+        public void takeDamage(double dmg)
         {
             //if enemy is in hitbox, take const damage
             //if enemy is in attack animation and youre in hitbox- damage
