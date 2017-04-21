@@ -125,10 +125,7 @@ namespace Fade
                 if (swordBox.Intersects(enemy.location))
                 {
                     enemy.takeDamage(Damage);
-                    if (enemy.isDead == true)
-                    {
-                        list.EnemyList.Remove(enemy);
-                    }
+                    
                 }
 
             }
@@ -140,10 +137,7 @@ namespace Fade
                 if (swordBox.Intersects(enemy.location))
                 {
                     enemy.takeDamage(Damage);
-                    if (enemy.isDead == true)
-                    {
-                        list.EnemyList.Remove(enemy);
-                    }
+                    
                 }
             }
 
@@ -154,10 +148,7 @@ namespace Fade
                 if (swordBox.Intersects(enemy.location))
                 {
                     enemy.takeDamage(Damage);
-                    if (enemy.isDead == true)
-                    {
-                        list.EnemyList.Remove(enemy);
-                    }
+                    
                 }
             }
 
