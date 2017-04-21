@@ -341,6 +341,8 @@ namespace Fade
                 //
                 enemy.Run(fog.location, p1);
                 testTank.Run(fog.location, p1);
+                //test the tank charge
+                testTank.chargeUpdate(50, p1.location.X);
                 //
                 //fog.consumeEnemy(enemy);
                 fog.damagePlayer(p1);
