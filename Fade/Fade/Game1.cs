@@ -542,12 +542,14 @@ namespace Fade
                     if (spawner.EnemyList[0].eState == EnemyState.FaceRight)
                     {
                         DrawTankRunning(SpriteEffects.FlipHorizontally, spawner.EnemyList[0]);
-                        spawner.EnemyList[0].Run(fog.bounds, p1);
+                        spawner.EnemyList[0].Run(fog.location, p1);
+                        spawner.EnemyList[0].chargeUpdate(7, p1);
                     }
                     else
                     {
                         DrawTankRunning(0, spawner.EnemyList[0]);
-                        spawner.EnemyList[0].Run(fog.bounds, p1);
+                        spawner.EnemyList[0].Run(fog.location, p1);
+                        spawner.EnemyList[0].chargeUpdate(7, p1);
                     }
                 }
             }
@@ -572,12 +574,14 @@ namespace Fade
                     if (spawner.EnemyList[1].eState == EnemyState.FaceRight)
                     {
                         DrawTankRunning(SpriteEffects.FlipHorizontally, spawner.EnemyList[1]);
-                        spawner.EnemyList[1].Run(fog.bounds, p1);
+                        spawner.EnemyList[1].Run(fog.location, p1);
+                        spawner.EnemyList[1].chargeUpdate(7, p1);
                     }
                     else
                     {
                         DrawTankRunning(0, spawner.EnemyList[1]);
-                        spawner.EnemyList[1].Run(fog.bounds, p1);
+                        spawner.EnemyList[1].Run(fog.location, p1);
+                        spawner.EnemyList[1].chargeUpdate(7, p1);
                     }
                 }
             }
@@ -602,12 +606,14 @@ namespace Fade
                     if (spawner.EnemyList[2].eState == EnemyState.FaceRight)
                     {
                         DrawTankRunning(SpriteEffects.FlipHorizontally, spawner.EnemyList[2]);
-                        spawner.EnemyList[2].Run(fog.bounds, p1);
+                        spawner.EnemyList[2].Run(fog.location, p1);
+                        spawner.EnemyList[2].chargeUpdate(7, p1);
                     }
                     else
                     {
                         DrawTankRunning(0, spawner.EnemyList[2]);
-                        spawner.EnemyList[2].Run(fog.bounds, p1);
+                        spawner.EnemyList[2].Run(fog.location, p1);
+                        spawner.EnemyList[2].chargeUpdate(7, p1);
                     }
                 }
             }
@@ -632,12 +638,14 @@ namespace Fade
                     if (spawner.EnemyList[3].eState == EnemyState.FaceRight)
                     {
                         DrawTankRunning(SpriteEffects.FlipHorizontally, spawner.EnemyList[3]);
-                        spawner.EnemyList[3].Run(fog.bounds, p1);
+                        spawner.EnemyList[3].Run(fog.location, p1);
+                        spawner.EnemyList[3].chargeUpdate(7, p1);
                     }
                     else
                     {
                         DrawTankRunning(0, spawner.EnemyList[3]);
-                        spawner.EnemyList[3].Run(fog.bounds, p1);
+                        spawner.EnemyList[3].Run(fog.location, p1);
+                        spawner.EnemyList[3].chargeUpdate(7, p1);
                     }
                 }
             }
@@ -662,12 +670,14 @@ namespace Fade
                     if (spawner.EnemyList[4].eState == EnemyState.FaceRight)
                     {
                         DrawTankRunning(SpriteEffects.FlipHorizontally, spawner.EnemyList[4]);
-                        spawner.EnemyList[4].Run(fog.bounds, p1);
+                        spawner.EnemyList[4].Run(fog.location, p1);
+                        spawner.EnemyList[4].chargeUpdate(7, p1);
                     }
                     else
                     {
                         DrawTankRunning(0, spawner.EnemyList[4]);
-                        spawner.EnemyList[4].Run(fog.bounds, p1);
+                        spawner.EnemyList[4].Run(fog.location, p1);
+                        spawner.EnemyList[4].chargeUpdate(7, p1);
                     }
                 }
             }
