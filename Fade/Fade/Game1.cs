@@ -148,8 +148,6 @@ namespace Fade
             farPoint = 200;
             count = 0;
             tool.writeFile();
-            //tool = new ExternalTool();
-            //tool.writeFile();
             base.Initialize();
         }
 
@@ -200,7 +198,7 @@ namespace Fade
             enemy = new Grunt(gruntSheet, new Rectangle(600, 380, 0, 0), 1, 3, 0.5);
             testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
 
-
+            MediaPlayer.Volume = 0.05f;
             MediaPlayer.Play(backgroundMusic);
         }
 
@@ -1151,6 +1149,7 @@ namespace Fade
             fog.bounds = new Rectangle(-500, 0, 300, 700);
             fog.Speed = 1;
             startSpawn = false;
+            MediaPlayer.Play(backgroundMusic);
         }
 
 
