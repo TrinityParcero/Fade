@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Fade
 {
@@ -35,8 +36,6 @@ namespace Fade
         public GruntState gruntState = GruntState.WalkLeft;//initialized grunt state
         public GruntState prevGruntState;
 
-
-
         //note: when spawning the grunt make sure to pass in rectangle of player
         //constructor for grunt class
         public Grunt(Texture2D asset, Rectangle loc, int speed, double hp, double dmg) : base(asset,loc,speed,hp,dmg)
@@ -51,7 +50,6 @@ namespace Fade
             color = Color.White;
             //jumping = false;
             //falling = false;
-
 
         }
         /// <summary>
