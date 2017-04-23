@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
 using System.Threading;
 
 namespace Fade
@@ -147,7 +148,7 @@ namespace Fade
             startPoint = 200;
             farPoint = 200;
             count = 0;
-            tool.writeFile();
+            //tool.writeFile();
             base.Initialize();
         }
 
@@ -352,27 +353,27 @@ namespace Fade
                 fog.Move(p1);
                 //
                 //enemy.Run(fog.location, p1);
-                testTank.Run(fog.location, p1);
+                //testTank.Run(fog.location, p1);
                 //test the tank charge
-                testTank.chargeUpdate(7, p1);
+                //testTank.chargeUpdate(7, p1);
                 //
                 //fog.consumeEnemy(enemy);
                 fog.damagePlayer(p1);
 
-                if (testTank.location.X <= fog.location.X+100 && testTank.location.X > fog.location.X)
+                /*if (testTank.location.X <= fog.location.X+100 && testTank.location.X > fog.location.X)
                 {
                     fog.consumeEnemy(testTank);
                     testTank.isDead = true;
-                }
+                }*/
                 //fog.consumeEnemy(testTank);
                 for (int i = 0; i < spawner.EnemyList.Count; i++)
                 {
-                    if (spawner.EnemyList[i].location.X <= fog.location.X+600 && spawner.EnemyList[i].location.X > fog.location.X)
+                    if (spawner.EnemyList[i].location.X <= fog.location.X + 600 && spawner.EnemyList[i].location.X > fog.location.X)
                     {
                         fog.consumeEnemy(spawner.EnemyList[i]);
                         spawner.EnemyList[i].isDead = true;
                     }
-                   
+
                 }
 
                 //player taking damage
@@ -467,7 +468,7 @@ namespace Fade
                 }
 
                 currentScore = (farPoint / 4) - 50;
-                if (currentScore != 0 && currentScore % 500 == 0)
+                if (currentScore != 0 && currentScore % 250 == 0)
                 {
                     spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
                     startSpawn = true;
@@ -503,12 +504,12 @@ namespace Fade
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    if(startSpawn == true)
+                    if (startSpawn == true)
                     {
-                        
+
                     }
                     else
-                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
+                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
 
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
@@ -516,10 +517,10 @@ namespace Fade
                 {
                     if (startSpawn == true)
                     {
-                        
+
                     }
                     else
-                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
+                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
             }
@@ -530,7 +531,19 @@ namespace Fade
             base.Update(gameTime);
         }
 
-
+        /*private void RandomSpawn()
+        {
+            if (spawner.EnemyList[0].isDead == false)
+            {
+                DrawGruntHopping(0, spawner.EnemyList[0]);
+                spawner.EnemyList[0].Run(fog.bounds, p1);
+            }
+            else
+            {
+                spawnRandom = false;
+            }
+           
+        }*/
 
         private void DrawWave()
         {
@@ -549,7 +562,7 @@ namespace Fade
                         DrawGruntHopping(0, spawner.EnemyList[0]);
                         spawner.EnemyList[0].Run(fog.bounds, p1);
                     }
-                    
+
                 }
                 else if (spawner.EnemyList[0] is Tank)
                 {
@@ -890,13 +903,13 @@ namespace Fade
                     spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
                     //spriteBatch.Draw(bg, destinationRectangle: new Rectangle(1800, 0, 2000, GraphicsDevice.Viewport.Height));
 
-                    for (int i = 2; i < 50; i+=2) //temporary fix to bg cut off
+                    for (int i = 2; i < 50; i += 2) //temporary fix to bg cut off
                     {
                         spriteBatch.Draw(bg, new Rectangle((i * 999 - p1.currentX), 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
 
                     }
 
-                    spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X -5, 450, 861, 30), Color.White);
+                    spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X - 5, 450, 861, 30), Color.White);
 
 
                     switch (p1.playerState)
@@ -913,7 +926,7 @@ namespace Fade
                                 else
                                 {
                                     DrawSword(SpriteEffects.FlipHorizontally);
-                                    
+
                                 }
                             }
                             else
@@ -1014,7 +1027,7 @@ namespace Fade
 
                     }
                     //testing the tank
-                    DrawTankRunning(0, testTank);
+                    //DrawTankRunning(0, testTank);
 
                     if (startSpawn == true)
                     {

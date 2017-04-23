@@ -44,7 +44,7 @@ namespace Fade
                     //parsing the string for enemy wave number
                     int.TryParse(line, out Wave);
                 }
-                else if (count == 2)
+                else if(count == 2)
                 {
                     //creates a new enemy for each respective char in string
                     //& places enemy certain distance away from player
@@ -52,7 +52,7 @@ namespace Fade
                     {
                         if (line[i] == 'g')
                         {
-                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance*(i+2)), 372, 100, 100), 2, 1, 0.5));
+                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance*(i+2)), 372, 100, 100), 3, 1, 0.5));
                         }
                         else if (line[i] == 't')
                         {
