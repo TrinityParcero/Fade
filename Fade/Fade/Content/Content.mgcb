@@ -277,9 +277,9 @@
 /processorParam:Quality=Best
 /build:audio/tankRoar.wav
 
-#begin audio/Amelita.wav
-/importer:WavImporter
+#begin audio/Amelita.mp3
+/importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:audio/Amelita.wav
+/build:audio/Amelita.mp3
 

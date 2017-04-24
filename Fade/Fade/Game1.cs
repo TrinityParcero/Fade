@@ -201,6 +201,15 @@ namespace Fade
 
             MediaPlayer.Volume = 0.05f;
             MediaPlayer.Play(backgroundMusic);
+            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
+        }
+
+        private void MediaPlayer_MediaStateChanged(object sender, EventArgs e)
+        {
+            if (MediaPlayer.State == MediaState.Stopped)
+            {
+                MediaPlayer.Play(backgroundMusic);
+            }
         }
 
         //UNLOAD /////////////////////////////////////////
@@ -468,7 +477,7 @@ namespace Fade
                 }
 
                 currentScore = (farPoint / 4) - 50;
-                if (currentScore != 0 && currentScore % 250 == 0)
+                if (currentScore != 0 && currentScore % 300 == 0)
                 {
                     spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
                     startSpawn = true;

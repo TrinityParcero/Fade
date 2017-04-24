@@ -55,7 +55,7 @@ namespace Fade
                 if (player.invincibilityFrame <= 0)
                 {
                     player.isHit = true;
-                    player.invincibilityFrame = 180;
+                    player.invincibilityFrame = 90;
                     player.takeDamage(0.5);
                 }
             }
