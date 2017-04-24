@@ -30,7 +30,7 @@ namespace Fade
         SpriteFont textFont;
 
         int hiScore = 0;
-        int currentScore = 0;
+        int currentScore;
 
         //SELECTABLES
         SelectText mStart;
@@ -250,9 +250,8 @@ namespace Fade
             {
                 currentState = GameState.GamePause;
             }
-            else if (currentState == GameState.Game && (p1.isDead || SingleKeyPress(Keys.B)))  //B key is temp for testing til we have damage going
+            else if (currentState == GameState.Game && (p1.isDead))  //B key is temp for testing til we have damage going
             {
-                ResetGame();
                 currentState = GameState.GameOver;
             }
             else if (currentState == GameState.GamePause && pContinue.IsSelected && SingleKeyPress(Keys.Enter))
@@ -264,9 +263,15 @@ namespace Fade
                 ResetGame();
                 currentState = GameState.Menu;
             }
-            else if (currentState == GameState.GameOver && SingleKeyPress(Keys.Enter))
+            else if (currentState == GameState.GameOver && gRetry.IsSelected && SingleKeyPress(Keys.Enter))
             {
-                currentState = GameState.Menu;
+                ResetGame();
+                currentState = GameState.Game;
+            }
+            else if(currentState == GameState.GameOver && gMenu.IsSelected && SingleKeyPress(Keys.Enter))
+            {
+                ResetGame();
+                currentState = GameState.Game;
             }
 
 
@@ -910,7 +915,6 @@ namespace Fade
                 case GameState.Game:
                     GraphicsDevice.Clear(Color.Black);
                     spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
-                    //spriteBatch.Draw(bg, destinationRectangle: new Rectangle(1800, 0, 2000, GraphicsDevice.Viewport.Height));
 
                     for (int i = 2; i < 50; i += 2) //temporary fix to bg cut off
                     {
@@ -1035,8 +1039,6 @@ namespace Fade
                             break;
 
                     }
-                    //testing the tank
-                    //DrawTankRunning(0, testTank);
 
                     if (startSpawn == true)
                     {
@@ -1085,26 +1087,58 @@ namespace Fade
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 500, 10), Color.White);
                     spriteBatch.DrawString(textFont, data.loadHighScore().ToString(), new Vector2(camera.Position.X + 720, 10), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
-
-                    spriteBatch.DrawString(textFont, p1.Health.ToString(), new Vector2(camera.Position.X + 200, 10), Color.White);
+                    
                     break;
 
                 //GAME PAUSE
                 case GameState.GamePause:
                     GraphicsDevice.Clear(Color.Black);
                     spriteBatch.Draw(bg, new Rectangle(-p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
-                    spriteBatch.Draw(bg, destinationRectangle: new Rectangle(GraphicsDevice.Viewport.Width - p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height));
-                    for (int i = 2; i < 50; i++) //temporary fix to bg cut off
+
+                    for (int i = 2; i < 50; i += 2) //temporary fix to bg cut off
                     {
-                        spriteBatch.Draw(bg, new Rectangle(i * GraphicsDevice.Viewport.Width - p1.currentX, 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
+                        spriteBatch.Draw(bg, new Rectangle((i * 999 - p1.currentX), 0, 2000, GraphicsDevice.Viewport.Height), Color.White);
 
                     }
 
-                    spriteBatch.Draw(p1.sprite, new Rectangle(p1.location.X, p1.location.Y, p1.location.Width, p1.location.Height), Color.White);
-                    spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
+                    spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X - 5, 450, 861, 30), Color.White);
+
+                            spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
                     spriteBatch.Draw(uIBar, new Rectangle((int)camera.Position.X - 20, 0, 888, 50), Color.White);
-                    //spriteBatch.Draw(hearts go here);
+                    switch (p1.healthState)
+                    {
+                        case HealthState.ThreeFull:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 100, 5));
+                            break;
+
+                        case HealthState.FiveHalves:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            DrawHalfHeart(new Vector2(camera.Position.X + 100, 5));
+                            break;
+
+                        case HealthState.TwoFull:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                            break;
+
+                        case HealthState.ThreeHalves:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            DrawHalfHeart(new Vector2(camera.Position.X + 60, 5));
+                            break;
+
+                        case HealthState.OneFull:
+                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                            break;
+
+                        case HealthState.OneHalf:
+                            DrawHalfHeart(new Vector2(camera.Position.X + 20, 5));
+                            break;
+
+                    }
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 0), Color.White);
                     spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 0), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 0), Color.White); //current score num
@@ -1118,11 +1152,11 @@ namespace Fade
                 case GameState.GameOver:
 
                     GraphicsDevice.Clear(Color.Black);
-                    spriteBatch.Draw(gameOverImage, new Vector2(0, 0));
+                    spriteBatch.Draw(gameOverImage, new Vector2(camera.Position.X, 0));
                     gRetry.DrawSelectText(spriteBatch, textFont, "RETRY", new Vector2(camera.Position.X + 330, 250));
                     gMenu.DrawSelectText(spriteBatch, textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 300));
-                    spriteBatch.DrawString(textFont, data.loadHighScore().ToString(), new Vector2(625, 60), Color.White); //high score num
-                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(20, 20), Color.White); //current score num
+                    spriteBatch.DrawString(textFont, data.loadHighScore().ToString(), new Vector2(camera.Position.X + 700, 60), Color.White); //high score num
+                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 60, 20), Color.White); //current score num
 
                     break;
 
