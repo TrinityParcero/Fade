@@ -186,20 +186,18 @@ namespace Fade
         /// </summary>
         public void JumpUpdate()
         {
-            //set a certain bool to true if the player attacks and have it be true until the player is not falling and is not jumping and for as long as the attack button is pressed
-            ///if(jumping == true && falling == true)
+            //set a certain bool to true if the player attacks and have it be true until the player is not falling and is not jumping 
+            ///if((jumping == true || falling == true)&&(attack==true))
             ///{
-            ///     if(attack == true)
-            ///     {
+            ///    //include this below pseudo code in its own method and call it
             ///        then certain bool for air attack = true;
-            ///        //and then the visual change would occur for the sword
+            ///        //and then the visual change would occur for the sword, swordSprite should turn invisible
             ///        //also possibly move the swords rectangle in this spot
-            ///        if(sword intersect with enemy)
+            ///        if(player intersect with enemy)
             ///        {
             ///          deal damage, possibly twice as much as normal
-            ///          and player y goues u[, but since its monogame y - some increment and then continue to fall
+            ///          and player y goues up, but since its monogame y - some increment and then continue to fall
             ///        }
-            ///     }
             ///}
             ///
             if (jumping == true)
