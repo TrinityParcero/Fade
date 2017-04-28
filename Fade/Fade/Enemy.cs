@@ -45,6 +45,7 @@ namespace Fade
             Speed = speed;
             Health = hp;
             Damage = dmg;
+            
         }
 
         public void Attack()
@@ -115,11 +116,10 @@ namespace Fade
             }
         }
 
-        public void takeDamage(double dmg)
+       public void takeDamage(double dmg)
         {  
             if (Health <= 0)
             {
-                Death.Play();
                 isDead = true;
             }
             else

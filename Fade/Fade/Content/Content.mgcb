@@ -283,3 +283,15 @@
 /processorParam:Quality=Best
 /build:audio/Amelita.mp3
 
+#begin audio/playerDamaged.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/playerDamaged.wav
+
+#begin audio/playerDie.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/playerDie.wav
+

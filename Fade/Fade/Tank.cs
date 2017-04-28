@@ -49,7 +49,6 @@ namespace Fade
             ///define a stopping distance = player location.x - a length of the tank himself;
         }
 
-
         /// <summary>
         /// have a check to see if the tank is a distance 6 from the player
         /// and set the boolean chargePrep to true
@@ -60,29 +59,29 @@ namespace Fade
         //    if (tankRect.X - playerX <= 300)
         //    {
         //        //some distance we want to charge from
-                
+
 
         //        if (chargeFrame > 0)
         //        {
         //            chargeFrame--;
         //            chargePrep = false;
         //        }
-               
-                
+
+
         //        if (chargeFrame <= 0)
         //        {
         //            chargePrep = true;
-                    
+
         //            chargeFrame = 200;
         //        }
-                
+
         //    }
 
         //    else if (tankRect.X - playerX <= 0)
         //    {
         //        chargePrep = false;
         //    }
-         
+
         //}
 
         /// <summary>

@@ -48,6 +48,8 @@ namespace Fade
         SoundEffect gruntDie;
         SoundEffect tankDie;
         SoundEffect roar;
+        SoundEffect playerDamage;
+        SoundEffect playerDeath;
 
         //IMAGES
         Texture2D mainMenuImage;
@@ -148,7 +150,7 @@ namespace Fade
             startPoint = 200;
             farPoint = 200;
             count = 0;
-            //tool.writeFile();
+            tool.writeFile();
             base.Initialize();
         }
 
@@ -185,9 +187,11 @@ namespace Fade
             gruntDie = Content.Load<SoundEffect>("audio/gruntDie");
             roar = Content.Load<SoundEffect>("audio/tankRoar");
             tankDie = Content.Load<SoundEffect>("audio/tankDie");
+            playerDamage = Content.Load<SoundEffect>("audio/playerDamaged");
+            playerDeath = Content.Load<SoundEffect>("audio/playerDie");
 
             //objects
-            p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140));
+            p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140),playerDamage,playerDeath);
             mStart = new SelectText(true, Color.White, Color.Black);
             mQuit = new SelectText();
             mControls = new SelectText();
@@ -253,6 +257,7 @@ namespace Fade
             }
             else if (currentState == GameState.Game && (p1.isDead))  //B key is temp for testing til we have damage going
             {
+                playerDeath.Play();
                 currentState = GameState.GameOver;
             }
             else if (currentState == GameState.GamePause && pContinue.IsSelected && SingleKeyPress(Keys.Enter))
@@ -272,7 +277,7 @@ namespace Fade
             else if(currentState == GameState.GameOver && gMenu.IsSelected && SingleKeyPress(Keys.Enter))
             {
                 ResetGame();
-                currentState = GameState.Game;
+                currentState = GameState.Menu;
             }
 
 
@@ -427,7 +432,7 @@ namespace Fade
                         p1.Attack(enemy, this);
                     if (startSpawn == true)
                     {
-                        for (int i = 0; i < spawner.EnemyList.Count; i++)
+                       for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
                             
                             if ((p1.jumping == true || p1.falling == true) && (p1.attacking == true))
