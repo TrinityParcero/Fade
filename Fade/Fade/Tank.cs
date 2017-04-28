@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Fade
 {
@@ -33,7 +34,7 @@ namespace Fade
         //have a property for the charge build up frames
         public int chargeFrame { get; set; } = 50;
 
-        public Tank(Texture2D asset, Rectangle loc, int speed, double hp, double dmg) : base(asset,loc,speed,hp,dmg)
+        public Tank(Texture2D asset, Rectangle loc, int speed, double hp, double dmg, SoundEffect sound) : base(asset,loc,speed,hp,dmg,sound)
         {
             //save off the tank's current x position this will be used in
             int tankCurrLoc = tankRect.Y;
@@ -44,6 +45,7 @@ namespace Fade
             color = Color.White;
             //initialize the chargePrep
             chargePrep = false;
+            Death = sound;
             ///define a stopping distance = player location.x - a length of the tank himself;
         }
 
@@ -97,6 +99,7 @@ namespace Fade
             {
                 //some distance we want to charge from
                 //chargePrep = true;
+                //Death.Play();
                 location.X -= chargeSpeed;
             }
 

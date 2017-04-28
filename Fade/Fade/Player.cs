@@ -112,7 +112,7 @@ namespace Fade
             ground = location.Y;
         }
 
-        public void Attack(Enemy enemy, Game1 game, EnemySpawner list)
+        public void Attack(Enemy enemy, Game1 game)
         {
             attacking = true;
             int colFrame = 0;
@@ -125,7 +125,6 @@ namespace Fade
                 if (swordBox.Intersects(enemy.location))
                 {
                     enemy.takeDamage(Damage);
-                    
                 }
 
             }
@@ -137,7 +136,6 @@ namespace Fade
                 if (swordBox.Intersects(enemy.location))
                 {
                     enemy.takeDamage(Damage);
-                    
                 }
             }
 
@@ -148,7 +146,6 @@ namespace Fade
                 if (swordBox.Intersects(enemy.location))
                 {
                     enemy.takeDamage(Damage);
-                    
                 }
             }
 

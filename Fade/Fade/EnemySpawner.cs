@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Fade
 {
@@ -26,7 +27,7 @@ namespace Fade
         private int Wave = 1;
         private int Amount = 1;
 
-        public void CreateSpawn(string file, Texture2D grunt, Texture2D tank, Rectangle playerLoc)
+        public void CreateSpawn(string file, Texture2D grunt, Texture2D tank, Rectangle playerLoc, SoundEffect gruntDie, SoundEffect tankDie)
         {
             
             string line = "";
@@ -52,11 +53,11 @@ namespace Fade
                     {
                         if (line[i] == 'g')
                         {
-                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance*(i+2)), 372, 100, 100), 3, 1, 0.5));
+                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance*(i+2)), 372, 100, 100), 3, 1, 0.5,gruntDie));
                         }
                         else if (line[i] == 't')
                         {
-                            enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X+(Distance*(i+2)), 340, 100, 100),2,3,1));
+                            enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X+(Distance*(i+2)), 340, 100, 100),2,3,1,tankDie));
                         }
                     }//end of for loop
                 }

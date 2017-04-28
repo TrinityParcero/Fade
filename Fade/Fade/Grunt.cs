@@ -36,9 +36,10 @@ namespace Fade
         public GruntState gruntState = GruntState.WalkLeft;//initialized grunt state
         public GruntState prevGruntState;
 
+
         //note: when spawning the grunt make sure to pass in rectangle of player
         //constructor for grunt class
-        public Grunt(Texture2D asset, Rectangle loc, int speed, double hp, double dmg) : base(asset,loc,speed,hp,dmg)
+        public Grunt(Texture2D asset, Rectangle loc, int speed, double hp, double dmg,SoundEffect sound) : base(asset,loc,speed,hp,dmg,sound)
         {
             isSpawn = false;
             //gMaxHeight = loc.Height / 2;
@@ -50,7 +51,7 @@ namespace Fade
             color = Color.White;
             //jumping = false;
             //falling = false;
-
+            Death = sound;
         }
         /// <summary>
         /// the grunt starts to move as soon as it spawns
@@ -114,20 +115,5 @@ namespace Fade
             }
          
          }
-        /// <summary>
-        /// check if dead
-        /// </summary>
-        public void isDead( )
-        {
-            if (true)
-            {
-
-            }
-        }
-
-
-        
-
-
     }
 }

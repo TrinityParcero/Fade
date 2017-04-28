@@ -184,6 +184,7 @@ namespace Fade
             swordSwing = Content.Load<SoundEffect>("audio/swordSwing");
             gruntDie = Content.Load<SoundEffect>("audio/gruntDie");
             roar = Content.Load<SoundEffect>("audio/tankRoar");
+            tankDie = Content.Load<SoundEffect>("audio/tankDie");
 
             //objects
             p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140));
@@ -196,8 +197,8 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-600, 0, 350, 700), 1, 0);
-            enemy = new Grunt(gruntSheet, new Rectangle(600, 380, 0, 0), 1, 3, 0.5);
-            testTank = new Tank(tankSheet, new Rectangle(800, 360, 0, 0), 1, 3, 1);
+            enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), 1, 3, 0.5,gruntDie);
+            testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), 1, 3, 1,tankDie);
 
             MediaPlayer.Volume = 0.05f;
             MediaPlayer.Play(backgroundMusic);
@@ -416,12 +417,12 @@ namespace Fade
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
-                    p1.Attack(enemy, this, spawner);
+                    p1.Attack(enemy, this);
                     if (startSpawn == true)
                     {
                         for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
-                            p1.Attack(spawner.EnemyList[i], this, spawner);
+                            p1.Attack(spawner.EnemyList[i], this);
                         }
                     }
 
@@ -484,7 +485,7 @@ namespace Fade
                 currentScore = (farPoint / 4) - 50;
                 if (currentScore != 0 && currentScore % 300 == 0)
                 {
-                    spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
+                    spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location,gruntDie,tankDie);
                     startSpawn = true;
                 }
 

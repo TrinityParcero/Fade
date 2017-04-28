@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Fade
 {
@@ -31,10 +32,12 @@ namespace Fade
         public Rectangle location;
         public EnemyState eState = EnemyState.FaceLeft;
 
+        public SoundEffect Death;
+
         //make a property to check if enemies should be moving
         //public bool shouldMove { get; set; } = true;
 
-        public Enemy(Texture2D texture, Rectangle loc, int speed, double hp, double dmg)
+        public Enemy(Texture2D texture, Rectangle loc, int speed, double hp, double dmg,SoundEffect sound)
         {
             sprite = texture;
             location = loc;
@@ -113,10 +116,10 @@ namespace Fade
         }
 
         public void takeDamage(double dmg)
-        {
+        {  
             if (Health <= 0)
             {
-               
+                Death.Play();
                 isDead = true;
             }
             else
