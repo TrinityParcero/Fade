@@ -204,7 +204,7 @@ namespace Fade
             enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), 1, 3, 0.5,gruntDie);
             testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), 1, 3, 1,tankDie);
 
-            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Volume = 0.08f;
             MediaPlayer.Play(backgroundMusic);
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
         }
@@ -363,7 +363,7 @@ namespace Fade
                 playerLoc.Y = p1.location.Y;
                 //checks to see if spacebar is pressed, as well as if the player is not falling, 
                 //as to only allow the spacebar to be pressed when the player is on the ground or "not falling"
-                if (ks.IsKeyDown(Keys.Space) && !p1.falling)
+                if ((ks.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space)) && !p1.falling)
                 {
                     //below method sets player class bool jumping = true
                     p1.Jump();
@@ -422,9 +422,13 @@ namespace Fade
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
-                    if ((p1.jumping == true || p1.falling == true) && (p1.attacking == true))
+                    if (p1.jumping == true || p1.falling == true)
                     {
-                        p1.airAttack(enemy);
+                        if (p1.attacking == true)
+                        {
+                            p1.airAttack(enemy);
+                        }
+                       
 
 
                     }
@@ -435,9 +439,13 @@ namespace Fade
                        for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
                             
-                            if ((p1.jumping == true || p1.falling == true) && (p1.attacking == true))
+                            if (p1.jumping == true || p1.falling == true)
                             {
-                                p1.airAttack(spawner.EnemyList[i]);
+                                if (p1.attacking == true)
+                                {
+                                    p1.airAttack(spawner.EnemyList[i]);
+                                }
+                                
 
 
                             }
