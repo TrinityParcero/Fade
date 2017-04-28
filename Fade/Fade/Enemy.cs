@@ -30,6 +30,7 @@ namespace Fade
         public Texture2D sprite { get; set; }
 
         public Rectangle location;
+        public Rectangle hitBox;
         public EnemyState eState = EnemyState.FaceLeft;
 
         public SoundEffect Death;
@@ -37,7 +38,7 @@ namespace Fade
         //make a property to check if enemies should be moving
         //public bool shouldMove { get; set; } = true;
 
-        public Enemy(Texture2D texture, Rectangle loc, int speed, double hp, double dmg,SoundEffect sound)
+        public Enemy(Texture2D texture, Rectangle loc, Rectangle hb ,int speed, double hp, double dmg,SoundEffect sound)
         {
             sprite = texture;
             location = loc;
@@ -45,7 +46,7 @@ namespace Fade
             Speed = speed;
             Health = hp;
             Damage = dmg;
-            
+            hitBox = hb;
         }
 
         public void Attack()
@@ -64,13 +65,13 @@ namespace Fade
             {
                 isDead = true;
             }
-            if (p.location.Intersects(location))
+            if (p.location.Intersects(hitBox))
             {
                 if (p.invincibilityFrame <= 0)
                 {
                     p.isHit = true;
                     p.takeDamage(Damage);
-                    p.invincibilityFrame = 200;
+                    p.invincibilityFrame = 300;
                 }
 
             }
@@ -85,6 +86,7 @@ namespace Fade
             }
 
             location.X -= Speed;
+            hitBox.X -= Speed;
             eState = EnemyState.FaceLeft;
             //basic idea of motion
             if (location.X > p.location.X)
@@ -108,6 +110,26 @@ namespace Fade
                 //some distance we want to charge from
                 //chargePrep = true;
                 location.X -= chargeSpeed;
+                hitBox.X -= chargeSpeed;
+                if (p.location.Intersects(hitBox))
+                {
+                    if (p.invincibilityFrame <= 0)
+                    {
+                        p.isHit = true;
+                        p.takeDamage(Damage);
+                        p.invincibilityFrame = 200;
+                    }
+
+                }
+                if (p.invincibilityFrame > 0)
+                {
+                    p.invincibilityFrame--;
+                }
+
+                else
+                {
+                    p.color = Color.White;
+                }
             }
 
             else if (location.X - p.location.X >= 0)
