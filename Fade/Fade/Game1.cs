@@ -427,7 +427,7 @@ namespace Fade
                     if (p1.jumping == true || p1.falling == true)
                     {
                         
-                            p1.airAttack(enemy);
+                            p1.airAttack(enemy,jumpAttack);
                         
 
 
@@ -444,7 +444,7 @@ namespace Fade
                             {
                                 
                                 
-                                    p1.airAttack(spawner.EnemyList[i]);
+                                    p1.airAttack(spawner.EnemyList[i],jumpAttack);
                                 
 
 
