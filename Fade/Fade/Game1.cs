@@ -191,7 +191,7 @@ namespace Fade
             playerDeath = Content.Load<SoundEffect>("audio/playerDie");
 
             //objects
-            p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140),playerDamage,playerDeath);
+            p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140), playerDamage, playerDeath);
             mStart = new SelectText(true, Color.White, Color.Black);
             mQuit = new SelectText();
             mControls = new SelectText();
@@ -201,8 +201,8 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-600, 0, 350, 700), 1, 0);
-            enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 0.5,gruntDie);
-            testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 1,tankDie);
+            enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 0.5, gruntDie);
+            testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 1, tankDie);
 
             MediaPlayer.Volume = 0.08f;
             MediaPlayer.Play(backgroundMusic);
@@ -274,7 +274,7 @@ namespace Fade
                 ResetGame();
                 currentState = GameState.Game;
             }
-            else if(currentState == GameState.GameOver && gMenu.IsSelected && SingleKeyPress(Keys.Enter))
+            else if (currentState == GameState.GameOver && gMenu.IsSelected && SingleKeyPress(Keys.Enter))
             {
                 ResetGame();
                 currentState = GameState.Menu;
@@ -424,11 +424,10 @@ namespace Fade
                 {
                     if (p1.jumping == true || p1.falling == true)
                     {
-                        if (p1.attacking == true)
-                        {
+                        
                             p1.airAttack(enemy);
-                        }
-                       
+                        
+
 
 
                     }
@@ -436,16 +435,16 @@ namespace Fade
                         p1.Attack(enemy, this);
                     if (startSpawn == true)
                     {
-                       for (int i = 0; i < spawner.EnemyList.Count; i++)
+                        for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
-                            
+
                             if (p1.jumping == true || p1.falling == true)
                             {
-                                if (p1.attacking == true)
-                                {
-                                    p1.airAttack(spawner.EnemyList[i]);
-                                }
                                 
+                                
+                                    p1.airAttack(spawner.EnemyList[i]);
+                                
+
 
 
                             }
@@ -453,11 +452,11 @@ namespace Fade
                                 p1.Attack(spawner.EnemyList[i], this);
                         }
 
-                        
+
                     }
 
                 }
-               
+
                 //animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -515,7 +514,7 @@ namespace Fade
                 currentScore = (farPoint / 4) - 50;
                 if (currentScore != 0 && currentScore % 300 == 0)
                 {
-                    spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location,gruntDie,tankDie);
+                    spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location, gruntDie, tankDie);
                     startSpawn = true;
                 }
 
@@ -1124,7 +1123,7 @@ namespace Fade
                     spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 500, 10), Color.White);
                     spriteBatch.DrawString(textFont, data.loadHighScore().ToString(), new Vector2(camera.Position.X + 720, 10), Color.White); //high score num
                     spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
-                    
+
                     break;
 
                 //GAME PAUSE
@@ -1140,7 +1139,7 @@ namespace Fade
 
                     spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X - 5, 450, 861, 30), Color.White);
 
-                            spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
+                    spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
                     spriteBatch.Draw(uIBar, new Rectangle((int)camera.Position.X - 20, 0, 888, 50), Color.White);
                     switch (p1.healthState)

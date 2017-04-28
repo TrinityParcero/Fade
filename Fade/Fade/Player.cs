@@ -198,23 +198,20 @@ namespace Fade
         //Air Attack
         public void airAttack(Enemy enemy)
         {
-            if ((jumping == true || falling == true) && (attacking == true))
-            {
+            
                 //the air attack bool does absolutley nothing right now
                 AirAttack = true;
-                //set the animaiton, the sword should aim down, smash bros link down smash
-                
+            //set the animaiton, the sword should aim down, smash bros link down smash
+            color = Color.Blue;
                 //if the enemy is touched when the player touched them, then the enemy takes twice the damage
-                if (location.Intersects(enemy.location))
+                if (location.Intersects(enemy.hitBox))
                 {
                     enemy.takeDamage(2 * Damage);
                     //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
                     location.Y -= 5;
                     
                 }
-
-
-            }
+                
         }
 
 
