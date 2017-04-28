@@ -29,7 +29,10 @@ namespace Fade
 
         public void CreateSpawn(string file, Texture2D grunt, Texture2D tank, Rectangle playerLoc, SoundEffect gruntDie, SoundEffect tankDie)
         {
-            
+            if (Wave > 3)
+            {
+                Wave = 1;
+            }
             string line = "";
             int count = 0;//to help with specific lines
             StreamReader reader = new StreamReader(file);
@@ -45,7 +48,7 @@ namespace Fade
                     //parsing the string for enemy wave number
                     int.TryParse(line, out Wave);
                 }
-                else if(count == 2)
+                else if(count == 2 && Wave == 1)
                 {
                     //creates a new enemy for each respective char in string
                     //& places enemy certain distance away from player
@@ -61,8 +64,41 @@ namespace Fade
                         }
                     }//end of for loop
                 }
+                else if (count == 3 && Wave == 2)
+                {
+                    //creates a new enemy for each respective char in string
+                    //& places enemy certain distance away from player
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        if (line[i] == 'g')
+                        {
+                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 100), 3, 1, 0.5, gruntDie));
+                        }
+                        else if (line[i] == 't')
+                        {
+                            enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X + (Distance * (i + 2)), 340, 100, 100), 2, 3, 1, tankDie));
+                        }
+                    }//end of for loop
+                }
+                else if (count == 4 && Wave == 3)
+                {
+                    //creates a new enemy for each respective char in string
+                    //& places enemy certain distance away from player
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        if (line[i] == 'g')
+                        {
+                            enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 100), 3, 1, 0.5, gruntDie));
+                        }
+                        else if (line[i] == 't')
+                        {
+                            enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X + (Distance * (i + 2)), 340, 100, 100), 2, 3, 1, tankDie));
+                        }
+                    }//end of for loop
+                }
                 count++;
             }//end of while loop
+            Wave++;
         }
     }
 }

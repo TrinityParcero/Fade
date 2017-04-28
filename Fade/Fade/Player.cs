@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Fade
 {
@@ -78,6 +79,8 @@ namespace Fade
         int startY = 300;
 
         public int invincibilityFrame = 180;
+        SoundEffect DeathSound;
+        SoundEffect DmgSound;
 
         //attributes for jumping
 
@@ -91,7 +94,7 @@ namespace Fade
         private int timeSinceLastFrame = 0;
         private int millisecondsPerFrame = 0;
 
-        public Player(Texture2D asset, Rectangle loc)
+        public Player(Texture2D asset, Rectangle loc,SoundEffect damage, SoundEffect death)
         {
             Damage = 1;
             Health = 3.0;
@@ -108,6 +111,9 @@ namespace Fade
             
             jumping = false;
             jumpIncrement = 5;
+
+            DmgSound = damage;
+            DeathSound = death;
             
             ground = location.Y;
         }
@@ -124,9 +130,14 @@ namespace Fade
                 swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
                 if (swordBox.Intersects(enemy.location))
                 {
-                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == false)
+                    {
+                        enemy.takeDamage(Damage);
+                        enemy.playSound();
+                        return;
+                    }
+                    
                 }
-
             }
 
             if(colFrame == 1)
@@ -135,7 +146,12 @@ namespace Fade
                 swordBox = new Rectangle((int)game.swordPos.X + 60, (int)game.swordPos.Y + 40, 100, 80);
                 if (swordBox.Intersects(enemy.location))
                 {
-                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == false)
+                    {
+                        enemy.takeDamage(Damage);
+                        enemy.playSound();
+                        return;
+                    }
                 }
             }
 
@@ -145,7 +161,12 @@ namespace Fade
                 swordBox = new Rectangle((int)game.swordPos.X + 60, ((int)game.swordPos.Y + 90), 110, 30);
                 if (swordBox.Intersects(enemy.location))
                 {
-                    enemy.takeDamage(Damage);
+                    if (enemy.isDead == false)
+                    {
+                        enemy.takeDamage(Damage);
+                        enemy.playSound();
+                        return;
+                    }
                 }
             }
 
@@ -289,6 +310,7 @@ namespace Fade
             else
             {
                 Health -= dmg;
+                DmgSound.Play();
                 color = Color.Red;
             }
         }
