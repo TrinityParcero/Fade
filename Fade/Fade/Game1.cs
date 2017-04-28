@@ -67,6 +67,7 @@ namespace Fade
         Texture2D sword;
         Texture2D swordSprite;
         Texture2D heart;
+        Texture2D jumpAttack;
 
         //OBJECTS
         Player p1;
@@ -176,6 +177,7 @@ namespace Fade
             sword = Content.Load<Texture2D>("characters/sword");
             floor = Content.Load<Texture2D>("floor");
             heart = Content.Load<Texture2D>("menus/hearts");
+            jumpAttack = Content.Load<Texture2D>("characters/jumpAttack");
 
             //type
             textFont = Content.Load<SpriteFont>("textFont");
