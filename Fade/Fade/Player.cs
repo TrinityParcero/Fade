@@ -34,13 +34,13 @@ namespace Fade
 
     class Player
     {
-        public int Damage{ get; set; }
+        public int Damage { get; set; }
 
-        public double Health{ get; set; }
+        public double Health { get; set; }
 
         public bool isDead { get; set; }
 
-        public int Speed{ get; set; }
+        public int Speed { get; set; }
 
         public Texture2D sprite { get; set; }
 
@@ -59,7 +59,7 @@ namespace Fade
         public bool jumping { get; set; }
 
         public bool falling { get; set; }
-        
+
         public bool attacking { get; set; }
 
         public HealthState healthState = HealthState.ThreeFull;
@@ -76,6 +76,7 @@ namespace Fade
 
         //have a bool for the air attack
         public bool AirAttack { get; set; }
+        bool bouncing = false;
 
         int MAX_HEIGHT = 150;
         int jumpSpeed = 0;
@@ -88,16 +89,16 @@ namespace Fade
         //attributes for jumping
 
 
-         int g;
-         int jumpIncrement;
-         int ground;
+        int g;
+        int jumpIncrement;
+        int ground;
 
-       
+
         //Slow down frame animation
         private int timeSinceLastFrame = 0;
         private int millisecondsPerFrame = 0;
 
-        public Player(Texture2D asset, Rectangle loc,SoundEffect damage, SoundEffect death)
+        public Player(Texture2D asset, Rectangle loc, SoundEffect damage, SoundEffect death)
         {
             Damage = 1;
             Health = 3.0;
@@ -117,7 +118,7 @@ namespace Fade
 
             DmgSound = damage;
             DeathSound = death;
-            
+
             ground = location.Y;
         }
 
@@ -125,9 +126,9 @@ namespace Fade
         {
             attacking = true;
             int colFrame = 0;
-                //if char is in attack pose-check for it
-                //if enemy is in hitbox while char is attacking-deal damage
-            if(game.swordFrame == 1)
+            //if char is in attack pose-check for it
+            //if enemy is in hitbox while char is attacking-deal damage
+            if (game.swordFrame == 1)
             {
                 colFrame = 1;
                 swordBox = new Rectangle((int)game.swordPos.X, (int)game.swordPos.Y, 30, 102);
@@ -138,11 +139,11 @@ namespace Fade
                         enemy.takeDamage(Damage);
                         enemy.Death.Play();
                     }
-                    
+
                 }
             }
 
-            if(colFrame == 1)
+            if (colFrame == 1)
             {
                 colFrame = 2;
                 swordBox = new Rectangle((int)game.swordPos.X + 60, (int)game.swordPos.Y + 40, 100, 80);
@@ -156,7 +157,7 @@ namespace Fade
                 }
             }
 
-            if(colFrame == 2)
+            if (colFrame == 2)
             {
                 colFrame = 1;
                 swordBox = new Rectangle((int)game.swordPos.X + 60, ((int)game.swordPos.Y + 90), 110, 30);
@@ -177,13 +178,13 @@ namespace Fade
         {
 
             //jumping over tank is absolute limit of jump distance
-            
-            
-            
+
+
+
             if (!jumping && !falling && playerState == PlayerState.FaceLeft || playerState == PlayerState.WalkLeft)
             {
                 playerState = PlayerState.JumpLeft;
-         
+
             }
             else if (!jumping && !falling && playerState == PlayerState.FaceRight || playerState == PlayerState.WalkRight)
             {
@@ -198,20 +199,28 @@ namespace Fade
         //Air Attack
         public void airAttack(Enemy enemy)
         {
-            
-                //the air attack bool does absolutley nothing right now
-                AirAttack = true;
+            //bool bouncing = false;
+            //the air attack bool does absolutley nothing right now
+            AirAttack = true;
+
             //set the animaiton, the sword should aim down, smash bros link down smash
-            color = Color.Blue;
-                //if the enemy is touched when the player touched them, then the enemy takes twice the damage
-                if (location.Intersects(enemy.hitBox))
+            //color = Color.Blue;
+            //if the enemy is touched when the player touched them, then the enemy takes twice the damage
+            if (location.Intersects(enemy.hitBox) && enemy.isDead == false)
+            {
+                enemy.takeDamage(2 * Damage);
+                if (bouncing == false)
                 {
-                    enemy.takeDamage(2 * Damage);
-                    //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
-                    location.Y -= 5;
-                    
+                    location.Y -= 50;
                 }
-                
+                bouncing = true;
+                //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
+                //location.Y -= 50;
+
+
+            }
+            bouncing = false;
+
         }
 
 
@@ -237,13 +246,13 @@ namespace Fade
             ///}
             ///
 
-            
+
 
             if (jumping == true)
             {
                 location.Y -= jumpIncrement;
-                
-              
+
+
                 /*
                 g -= -(i * i) + 10 * i;
                 i += 1;
@@ -262,7 +271,7 @@ namespace Fade
             }
             if (falling)
             {
-                
+
                 location.Y += 5;
             }
 
@@ -316,7 +325,7 @@ namespace Fade
             {
                 playerState = PlayerState.FaceRight;
             }
-            
+
             previous = ks;
             prevPlayerState = playerState;
         }
