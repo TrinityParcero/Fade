@@ -202,12 +202,30 @@ namespace Fade
             //bool bouncing = false;
             //the air attack bool does absolutley nothing right now
             AirAttack = true;
+            if (invincibilityFrame <= 0)
+            {
+                //isHit = true;
+                //takeDamage(Damage);
+                invincibilityFrame = 300;
+            }
+
+            if (invincibilityFrame > 0)
+            {
+                invincibilityFrame--;
+            }
+
+            else
+            {
+                color = Color.White;
+            }
 
             //set the animaiton, the sword should aim down, smash bros link down smash
             //color = Color.Blue;
             //if the enemy is touched when the player touched them, then the enemy takes twice the damage
-            if (location.Intersects(enemy.hitBox) && enemy.isDead == false)
+            if (swordBox.Intersects(enemy.hitBox) && enemy.isDead == false)
             {
+
+
                 enemy.takeDamage(2 * Damage);
                 if (bouncing == false)
                 {
