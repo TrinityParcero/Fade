@@ -78,7 +78,7 @@ namespace Fade
         public bool AirAttack { get; set; }
         bool bouncing = false;
 
-        int MAX_HEIGHT = 150;
+        int MAX_HEIGHT = 100;
         int jumpSpeed = 0;
         int startY = 300;
 
@@ -229,7 +229,7 @@ namespace Fade
                 enemy.takeDamage(2 * Damage);
                 if (bouncing == false)
                 {
-                    location.Y -= 50;
+                    location.Y -= 100;
                 }
                 bouncing = true;
                 //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
