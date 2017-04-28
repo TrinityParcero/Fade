@@ -128,10 +128,5 @@ namespace Fade
                 color = Color.Red;
             }
         }
-
-        public void playSound()
-        {
-            Death.Play();
-        }
     }
 }

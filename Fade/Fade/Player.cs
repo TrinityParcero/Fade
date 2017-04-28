@@ -133,8 +133,7 @@ namespace Fade
                     if (enemy.isDead == false)
                     {
                         enemy.takeDamage(Damage);
-                        enemy.playSound();
-                        return;
+                        enemy.Death.Play();
                     }
                     
                 }
@@ -149,8 +148,7 @@ namespace Fade
                     if (enemy.isDead == false)
                     {
                         enemy.takeDamage(Damage);
-                        enemy.playSound();
-                        return;
+                        enemy.Death.Play();
                     }
                 }
             }
@@ -164,8 +162,7 @@ namespace Fade
                     if (enemy.isDead == false)
                     {
                         enemy.takeDamage(Damage);
-                        enemy.playSound();
-                        return;
+                        enemy.Death.Play();
                     }
                 }
             }
