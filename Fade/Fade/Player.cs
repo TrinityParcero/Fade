@@ -197,7 +197,7 @@ namespace Fade
         }
 
         //Air Attack
-        public void airAttack(Enemy enemy)
+        public void airAttack(Enemy enemy, Texture2D jumpAttack)
         {
             //bool bouncing = false;
             //the air attack bool does absolutley nothing right now
@@ -206,7 +206,7 @@ namespace Fade
             {
                 //isHit = true;
                 //takeDamage(Damage);
-                invincibilityFrame = 300;
+                invincibilityFrame = 400;
             }
 
             if (invincibilityFrame > 0)
@@ -222,10 +222,8 @@ namespace Fade
             //set the animaiton, the sword should aim down, smash bros link down smash
             //color = Color.Blue;
             //if the enemy is touched when the player touched them, then the enemy takes twice the damage
-            if (swordBox.Intersects(enemy.hitBox) && enemy.isDead == false)
+            if (location.Intersects(enemy.hitBox) && enemy.isDead == false)
             {
-
-
                 enemy.takeDamage(2 * Damage);
                 if (bouncing == false)
                 {
