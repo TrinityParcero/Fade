@@ -34,7 +34,7 @@ namespace Fade
         //have a property for the charge build up frames
         public int chargeFrame { get; set; } = 50;
 
-        public Tank(Texture2D asset, Rectangle loc, int speed, double hp, double dmg, SoundEffect sound) : base(asset,loc,speed,hp,dmg,sound)
+        public Tank(Texture2D asset, Rectangle loc, Rectangle hb ,int speed, double hp, double dmg, SoundEffect sound) : base(asset,loc,hb,speed,hp,dmg,sound)
         {
             //save off the tank's current x position this will be used in
             int tankCurrLoc = tankRect.Y;
@@ -100,6 +100,26 @@ namespace Fade
                 //chargePrep = true;
                 //Death.Play();
                 location.X -= chargeSpeed;
+                hitBox.X -= chargeSpeed;
+                if (p.location.Intersects(hitBox))
+                {
+                    if (p.invincibilityFrame <= 0)
+                    {
+                        p.isHit = true;
+                        p.takeDamage(Damage);
+                        p.invincibilityFrame = 200;
+                    }
+
+                }
+                if (p.invincibilityFrame > 0)
+                {
+                    p.invincibilityFrame--;
+                }
+
+                else
+                {
+                    p.color = Color.White;
+                }
             }
 
             else if (location.X - p.location.X >= 0)

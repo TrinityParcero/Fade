@@ -201,8 +201,8 @@ namespace Fade
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
             fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-600, 0, 350, 700), 1, 0);
-            enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), 1, 3, 0.5,gruntDie);
-            testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), 1, 3, 1,tankDie);
+            enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 0.5,gruntDie);
+            testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 1,tankDie);
 
             MediaPlayer.Volume = 0.05f;
             MediaPlayer.Play(backgroundMusic);

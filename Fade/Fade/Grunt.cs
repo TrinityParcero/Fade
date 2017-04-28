@@ -39,7 +39,7 @@ namespace Fade
 
         //note: when spawning the grunt make sure to pass in rectangle of player
         //constructor for grunt class
-        public Grunt(Texture2D asset, Rectangle loc, int speed, double hp, double dmg,SoundEffect sound) : base(asset,loc,speed,hp,dmg,sound)
+        public Grunt(Texture2D asset, Rectangle loc, Rectangle hb,int speed, double hp, double dmg,SoundEffect sound) : base(asset,loc,hb,speed,hp,dmg,sound)
         {
             isSpawn = false;
             //gMaxHeight = loc.Height / 2;
