@@ -962,7 +962,7 @@ namespace Fade
 
                     spriteBatch.Draw(floor, new Rectangle((int)camera.Position.X - 5, 450, 861, 30), Color.White);
 
-                    if(p1.AirAttack == true)
+                    if (p1.AirAttack == true)
                     {
                         spriteBatch.Draw(jumpAttack, new Rectangle(p1.location.X, p1.location.Y, 140, 200), Color.White);
                     }
@@ -1082,7 +1082,10 @@ namespace Fade
                                 break;
 
                         }
-                    }
+
+                        }
+                    
+                    
                    
 
                     if (startSpawn == true)
@@ -1151,47 +1154,167 @@ namespace Fade
                     spriteBatch.Draw(fog.sprite, new Rectangle(fog.location.X, fog.location.Y, fog.location.Width, fog.location.Height), Color.White);
 
                     spriteBatch.Draw(uIBar, new Rectangle((int)camera.Position.X - 20, 0, 888, 50), Color.White);
-                    switch (p1.healthState)
+
+                    if (p1.AirAttack == true)
                     {
-                        case HealthState.ThreeFull:
-                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
-                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
-                            DrawFullHeart(new Vector2(camera.Position.X + 100, 5));
-                            break;
-
-                        case HealthState.FiveHalves:
-                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
-                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
-                            DrawHalfHeart(new Vector2(camera.Position.X + 100, 5));
-                            break;
-
-                        case HealthState.TwoFull:
-                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
-                            DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
-                            break;
-
-                        case HealthState.ThreeHalves:
-                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
-                            DrawHalfHeart(new Vector2(camera.Position.X + 60, 5));
-                            break;
-
-                        case HealthState.OneFull:
-                            DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
-                            break;
-
-                        case HealthState.OneHalf:
-                            DrawHalfHeart(new Vector2(camera.Position.X + 20, 5));
-                            break;
-
+                        spriteBatch.Draw(jumpAttack, new Rectangle(p1.location.X, p1.location.Y, 140, 200), Color.White);
+                        break;
                     }
-                    spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 0), Color.White);
-                    spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 0), Color.White); //high score num
-                    spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 0), Color.White); //current score num
+                    else
+                    {
+                        switch (p1.playerState)
+                        {
+                            //FACELEFT
+                            case PlayerState.FaceLeft:
+                                if ((p1.prevPlayerState == PlayerState.FaceRight) || (p1.prevPlayerState == PlayerState.WalkRight))
+                                {
+                                    DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                                    if (p1.attacking)
+                                    {
+                                        SwordSwing(SpriteEffects.FlipHorizontally);
+                                    }
+                                    else
+                                    {
+                                        DrawSword(SpriteEffects.FlipHorizontally);
+                                    }
+                                }
+                                else
+                                {
+                                    DrawPlayerStanding(SpriteEffects.FlipHorizontally); //if he wasnt facing or walking right, draw him standing facing left
+                                    if (p1.attacking)
+                                    {
+                                        SwordSwing(SpriteEffects.FlipHorizontally);
+                                    }
+                                    else
+                                    {
+                                        DrawSword(SpriteEffects.FlipHorizontally);
+                                    }
+                                }
+                                break;
 
-                    spriteBatch.Draw(pauseImage, new Vector2(camera.Position.X, 0));
-                    pContinue.DrawSelectText(spriteBatch, textFont, "CONTINUE", new Vector2(camera.Position.X + 335, 205));
-                    pMenu.DrawSelectText(spriteBatch, textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 245));
-                    break;
+                            //WALKLEFT
+                            case PlayerState.WalkLeft:
+                                DrawPlayerWalking(SpriteEffects.FlipHorizontally);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(SpriteEffects.FlipHorizontally);
+                                }
+                                else
+                                {
+                                    DrawSword(SpriteEffects.FlipHorizontally);
+                                }
+                                break;
+
+                            //FACERIGHT
+                            case PlayerState.FaceRight:
+                                if ((p1.prevPlayerState == PlayerState.FaceLeft) || (p1.prevPlayerState == PlayerState.WalkLeft))
+                                {
+                                    DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                                    if (p1.attacking)
+                                    {
+                                        SwordSwing(SpriteEffects.FlipHorizontally);
+                                    }
+                                    else
+                                    {
+                                        DrawSword(SpriteEffects.FlipHorizontally);
+                                    }
+                                }
+                                else
+                                {
+                                    DrawPlayerStanding(0);
+                                    if (p1.attacking)
+                                    {
+                                        SwordSwing(0);
+                                    }
+                                    else
+                                    {
+                                        DrawSword(0);
+                                    }
+                                }
+                                break;
+
+                            //WALKRIGHT
+                            case PlayerState.WalkRight:
+                                DrawPlayerWalking(0);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(0);
+                                }
+                                else
+                                {
+                                    DrawSword(0);
+                                }
+                                break;
+
+                            //JUMP_LEFT
+                            case PlayerState.JumpLeft:
+                                DrawPlayerStanding(SpriteEffects.FlipHorizontally);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(SpriteEffects.FlipHorizontally);
+                                }
+                                else
+                                {
+                                    DrawSword(SpriteEffects.FlipHorizontally);
+                                }
+                                break;
+                            //JUMP_RIGHT
+                            case PlayerState.JumpRight:
+                                DrawPlayerStanding(0);
+                                if (p1.attacking)
+                                {
+                                    SwordSwing(0);
+                                }
+                                else
+                                {
+                                    DrawSword(0);
+                                }
+                                break;
+                                
+                        }
+
+                        switch (p1.healthState)
+                        {
+                            case HealthState.ThreeFull:
+                                DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                                DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                                DrawFullHeart(new Vector2(camera.Position.X + 100, 5));
+                                break;
+
+                            case HealthState.FiveHalves:
+                                DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                                DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                                DrawHalfHeart(new Vector2(camera.Position.X + 100, 5));
+                                break;
+
+                            case HealthState.TwoFull:
+                                DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                                DrawFullHeart(new Vector2(camera.Position.X + 60, 5));
+                                break;
+
+                            case HealthState.ThreeHalves:
+                                DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                                DrawHalfHeart(new Vector2(camera.Position.X + 60, 5));
+                                break;
+
+                            case HealthState.OneFull:
+                                DrawFullHeart(new Vector2(camera.Position.X + 20, 5));
+                                break;
+
+                            case HealthState.OneHalf:
+                                DrawHalfHeart(new Vector2(camera.Position.X + 20, 5));
+                                break;
+
+                        }
+                        spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 0), Color.White);
+                        spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 0), Color.White); //high score num
+                        spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 0), Color.White); //current score num
+
+                        spriteBatch.Draw(pauseImage, new Vector2(camera.Position.X, 0));
+                        pContinue.DrawSelectText(spriteBatch, textFont, "CONTINUE", new Vector2(camera.Position.X + 335, 205));
+                        pMenu.DrawSelectText(spriteBatch, textFont, "MAIN MENU", new Vector2(camera.Position.X + 330, 245));
+                        break;
+                    }
 
                 //GAME OVER
                 case GameState.GameOver:
