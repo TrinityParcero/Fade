@@ -73,6 +73,9 @@ namespace Fade
 
         public Rectangle swordBox { get; set; }
 
+        //have a bool for the air attack
+        public bool AirAttack { get; set; }
+
         int MAX_HEIGHT = 150;
         int jumpSpeed = 0;
         int startY = 300;
@@ -105,7 +108,7 @@ namespace Fade
             color = Color.White;
 
             isHit = false;
-            
+            AirAttack = false;
             jumping = false;
             jumpIncrement = 5;
             
@@ -174,6 +177,27 @@ namespace Fade
 
         }
 
+        //Air Attack
+        public void airAttack(Enemy enemy)
+        {
+            if ((jumping == true || falling == true) && (attacking == true))
+            {
+                //the air attack bool does absolutley nothing right now
+                AirAttack = true;
+                //set the animaiton, the sword should aim down, smash bros link down smash
+                
+                //if the enemy is touched when the player touched them, then the enemy takes twice the damage
+                if (location.Intersects(enemy.location))
+                {
+                    enemy.takeDamage(2 * Damage);
+                    //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
+                    location.Y -= 5;
+                    
+                }
+
+
+            }
+        }
 
 
         /// <summary>
@@ -197,6 +221,9 @@ namespace Fade
             ///        }
             ///}
             ///
+
+            
+
             if (jumping == true)
             {
                 location.Y -= jumpIncrement;
@@ -229,6 +256,7 @@ namespace Fade
                 jumping = false;
                 falling = false;
                 location.Y = ground;
+                AirAttack = false;
             }
 
         }

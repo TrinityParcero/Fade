@@ -417,17 +417,34 @@ namespace Fade
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
-                    p1.Attack(enemy, this);
+                    if ((p1.jumping == true || p1.falling == true) && (p1.attacking == true))
+                    {
+                        p1.airAttack(enemy);
+
+
+                    }
+                    else
+                        p1.Attack(enemy, this);
                     if (startSpawn == true)
                     {
                         for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
-                            p1.Attack(spawner.EnemyList[i], this);
+                            
+                            if ((p1.jumping == true || p1.falling == true) && (p1.attacking == true))
+                            {
+                                p1.airAttack(spawner.EnemyList[i]);
+
+
+                            }
+                            else
+                                p1.Attack(spawner.EnemyList[i], this);
                         }
+
+                        
                     }
 
                 }
-
+               
                 //animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -769,55 +786,61 @@ namespace Fade
         }
         private void DrawSword(SpriteEffects flipSprite)
         {
+            if (p1.AirAttack == false)
+            {
 
-            if (flipSprite != 0)
-            {
-                swordPos.X = (playerLoc.X - 40);
-                swordPos.Y = (playerLoc.Y - 30);
+
+                if (flipSprite != 0)
+                {
+                    swordPos.X = (playerLoc.X - 40);
+                    swordPos.Y = (playerLoc.Y - 30);
+                }
+                else
+                {
+                    swordPos.X = (playerLoc.X + 30);
+                    swordPos.Y = (playerLoc.Y - 30);
+                }
+                spriteBatch.Draw(
+                    sword,
+                    new Vector2(playerLoc.X + 10, playerLoc.Y - 40),
+                    new Rectangle(0, 0, 140, 140),
+                    Color.White,
+                    0,
+                    Vector2.Zero,
+                    1.0f,
+                    flipSprite,
+                    0);
             }
-            else
-            {
-                swordPos.X = (playerLoc.X + 30);
-                swordPos.Y = (playerLoc.Y - 30);
-            }
-            spriteBatch.Draw(
-                sword,
-                new Vector2(playerLoc.X + 10, playerLoc.Y - 40),
-                new Rectangle(0, 0, 140, 140),
-                Color.White,
-                0,
-                Vector2.Zero,
-                1.0f,
-                flipSprite,
-                0);
         }
         private void SwordSwing(SpriteEffects flipSprite)
         {
-
-            if (flipSprite != 0)
+            if (p1.AirAttack == false)
             {
-                swordPos.X = (playerLoc.X - 40);
-                swordPos.Y = (playerLoc.Y - 30);
+                if (flipSprite != 0)
+                {
+                    swordPos.X = (playerLoc.X - 40);
+                    swordPos.Y = (playerLoc.Y - 30);
+                }
+                else
+                {
+                    swordPos.X = (playerLoc.X + 30);
+                    swordPos.Y = (playerLoc.Y - 30);
+                }
+                spriteBatch.Draw(
+                    swordSprite,                    // - The texture to draw
+                    swordPos, // - The location to draw on the screen
+                    new Rectangle(                  // - The "source" rectangle
+                        swordFrame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
+                        SWORD_RECT_Y_OFFSET,        //	   where "inside" the texture
+                        SWORD_RECT_WIDTH,           //     to get pixels (We don't want to
+                        SWORD_RECT_HEIGHT),         //     draw the whole thing)
+                    Color.White,                    // - The color
+                    0,                              // - Rotation (none currently)
+                    Vector2.Zero,                   // - Origin inside the image (top left)
+                    1.0f,                           // - Scale (100% - no change)
+                    flipSprite,                     // - Can be used to flip the image
+                    0);                             // - Layer depth (unused)
             }
-            else
-            {
-                swordPos.X = (playerLoc.X + 30);
-                swordPos.Y = (playerLoc.Y - 30);
-            }
-            spriteBatch.Draw(
-                swordSprite,                    // - The texture to draw
-                swordPos, // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    swordFrame * SWORD_RECT_WIDTH,   //   - This rectangle specifies
-                    SWORD_RECT_Y_OFFSET,        //	   where "inside" the texture
-                    SWORD_RECT_WIDTH,           //     to get pixels (We don't want to
-                    SWORD_RECT_HEIGHT),         //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
         }
 
         private void DrawGruntHopping(SpriteEffects flipSprite, Enemy grunt)
