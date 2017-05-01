@@ -54,7 +54,7 @@ namespace Fade
             throw new NotImplementedException();
         }
 
-        public void Jump()
+        public void Jump()      
         {
             throw new NotImplementedException();
         }
