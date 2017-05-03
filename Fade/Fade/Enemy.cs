@@ -71,7 +71,7 @@ namespace Fade
                 {
                     p.isHit = true;
                     p.takeDamage(Damage);
-                    p.invincibilityFrame = 300;
+                    p.invincibilityFrame = 400;
                 }
 
             }
