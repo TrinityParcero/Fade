@@ -423,37 +423,30 @@ namespace Fade
                 }*/
 
                 //Player Attack
+               
                 ms = Mouse.GetState();
-                if (ms.LeftButton == ButtonState.Pressed)
-                {
-                    if (startSpawn != true)
-                    {
-                        if (p1.jumping == true || p1.falling == true)
-                        {
-
-                            p1.airAttack(enemy, jumpAttack);
-
-
-                        }
-                        else
-                        {
-                            p1.Attack(enemy, this);
-                        }
-                    }
-
-
-
-                }
-
-                ms = Mouse.GetState();
-                if (ms.LeftButton == ButtonState.Pressed && p1.location.Y < 350)
+                MouseState prevMouseState = ms;
+                if (ms.LeftButton == ButtonState.Pressed && p1.location.Y < 330)
                 {
                     if (startSpawn == true)
                     {
                         for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
-                            p1.airAttack(spawner.EnemyList[i], jumpAttack);
+                            if (p1.falling == true)
+                            {
+                                p1.airAttack(spawner.EnemyList[i], jumpAttack);
+                            }
+                            
                         }
+                    }
+                    else
+                    {
+                        if (p1.falling == true)
+                        {
+                            p1.airAttack(enemy, jumpAttack);
+                        }
+                        
+
                     }
                 }
                 else if (ms.LeftButton == ButtonState.Pressed && p1.location.Y == 330)
@@ -464,6 +457,10 @@ namespace Fade
                         {
                             p1.Attack(spawner.EnemyList[i], this);
                         }
+                    }
+                    else
+                    {
+                        p1.Attack(enemy, this);
                     }
                 }
 
