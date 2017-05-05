@@ -426,7 +426,7 @@ namespace Fade
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed)
                 {
-                    if(startSpawn != true)
+                    if (startSpawn != true)
                     {
                         if (p1.jumping == true || p1.falling == true)
                         {
@@ -440,32 +440,34 @@ namespace Fade
                             p1.Attack(enemy, this);
                         }
                     }
-                    
 
-                       
+
+
+                }
+
+                ms = Mouse.GetState();
+                if (ms.LeftButton == ButtonState.Pressed && p1.location.Y < 350)
+                {
                     if (startSpawn == true)
                     {
                         for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
-
-                            if (p1.jumping == true || p1.falling == true)
-                            {
-                                
-                                
-                                    p1.airAttack(spawner.EnemyList[i],jumpAttack);
-                                
-
-                            }
-                            else
-                                p1.Attack(spawner.EnemyList[i], this);
+                            p1.airAttack(spawner.EnemyList[i], jumpAttack);
                         }
-
-
                     }
-
+                }
+                else if (ms.LeftButton == ButtonState.Pressed && p1.location.Y == 330)
+                {
+                    if (startSpawn == true)
+                    {
+                        for (int i = 0; i < spawner.EnemyList.Count; i++)
+                        {
+                            p1.Attack(spawner.EnemyList[i], this);
+                        }
+                    }
                 }
 
-                
+
 
                 //animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -601,7 +603,7 @@ namespace Fade
 
         private void DrawWave()
         {
-            
+
             //spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
             if (spawner.EnemyList[0].isDead == false)
             {
@@ -773,12 +775,12 @@ namespace Fade
         //ANIMATION
         private void EnemyDie(Enemy enemy, int counter)
         {
-            if(counter < 5)
+            if (counter < 5)
             {
                 //spriteBatch.Draw(deathFog, new Rectangle(enemy.deathLocation, 372, 100, 100), Color.White);
                 //EnemyDie(enemy, counter + 1);
             }
-           
+
         }
 
         private void DrawPlayerStanding(SpriteEffects flipSprite)
@@ -1101,10 +1103,10 @@ namespace Fade
 
                         }
 
-                        }
-                    
-                    
-                   
+                    }
+
+
+
 
                     if (startSpawn == true)
                     {
@@ -1288,7 +1290,7 @@ namespace Fade
                                     DrawSword(0);
                                 }
                                 break;
-                                
+
                         }
 
 
