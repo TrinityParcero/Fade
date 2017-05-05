@@ -221,13 +221,18 @@ namespace Fade
                 color = Color.White;
             }
 
-            Rectangle swordBox = new Rectangle(location.X, location.Y, 250, 200);
+            Rectangle swordBox = new Rectangle(location.X, location.Y, 100, 200);
             //set the animaiton, the sword should aim down, smash bros link down smash
             //color = Color.Blue;
             //if the enemy is touched when the player touched them, then the enemy takes twice the damage
             if (swordBox.Intersects(enemy.hitBox) && enemy.isDead == false && location.Y < 330)
             {
-                enemy.takeDamage(3 * Damage);
+                if (enemy.isDead == false)
+                {
+                    enemy.takeDamage(3 * Damage);
+                    enemy.Death.Play();
+                }
+                
                 if (bouncing == false)
                 {
                     //JumpUpdate();
