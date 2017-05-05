@@ -228,8 +228,8 @@ namespace Fade
                 enemy.takeDamage(3 * Damage);
                 if (bouncing == false)
                 {
-                    JumpUpdate();
-                    //location.Y -= 100;
+                    //JumpUpdate();
+                    location.Y -= 100;
                 }
                 bouncing = true;
                 //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
