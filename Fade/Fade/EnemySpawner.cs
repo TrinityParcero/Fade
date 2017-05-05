@@ -20,12 +20,9 @@ namespace Fade
         {
             get { return enemyList; }
         }
-
-        private int health;
-        private int speed;
+        
         private int Distance = 100;
         private int Wave = 1;
-        private int Amount = 1;
 
         public void CreateSpawn(string file, Texture2D grunt, Texture2D tank, Rectangle playerLoc, SoundEffect gruntDie, SoundEffect tankDie)
         {
