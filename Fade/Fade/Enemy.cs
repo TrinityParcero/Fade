@@ -30,6 +30,9 @@ namespace Fade
         public Texture2D sprite { get; set; }
 
         public Rectangle location;
+
+        public int deathLocation;
+
         public Rectangle hitBox;
         public EnemyState eState = EnemyState.FaceLeft;
 
@@ -142,6 +145,7 @@ namespace Fade
         {  
             if (Health <= 0)
             {
+                deathLocation = location.X;
                 isDead = true;
             }
             else
@@ -150,5 +154,7 @@ namespace Fade
                 color = Color.Red;
             }
         }
+
+ 
     }
 }

@@ -68,6 +68,7 @@ namespace Fade
         Texture2D swordSprite;
         Texture2D heart;
         Texture2D jumpAttack;
+        Texture2D deathFog;
 
         //OBJECTS
         Player p1;
@@ -178,6 +179,7 @@ namespace Fade
             floor = Content.Load<Texture2D>("floor");
             heart = Content.Load<Texture2D>("menus/hearts");
             jumpAttack = Content.Load<Texture2D>("characters/jumpAttack");
+            deathFog = Content.Load<Texture2D>("fogpuff");
 
             //type
             textFont = Content.Load<SpriteFont>("textFont");
@@ -599,6 +601,7 @@ namespace Fade
 
         private void DrawWave()
         {
+            
             //spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
             if (spawner.EnemyList[0].isDead == false)
             {
@@ -768,6 +771,15 @@ namespace Fade
             }
         }
         //ANIMATION
+        private void EnemyDie(Enemy enemy, int counter)
+        {
+            if(counter < 5)
+            {
+                spriteBatch.Draw(deathFog, new Rectangle(enemy.deathLocation, 372, 100, 100), Color.White);
+                EnemyDie(enemy, counter + 1);
+            }
+           
+        }
 
         private void DrawPlayerStanding(SpriteEffects flipSprite)
         {
