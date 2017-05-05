@@ -1388,8 +1388,8 @@ namespace Fade
             currentScore = 0;
             farPoint = 0;
             //enemy.location = new Rectangle(600, 360, 100, 100);
-            fog.location = new Rectangle(-600, 0, 1000, 500);
-            fog.bounds = new Rectangle(-500, 0, 300, 700);
+            fog.location = new Rectangle(-800, 0, 1000, 500);
+            fog.bounds = new Rectangle(-700, 0, 300, 700);
             fog.Speed = 1;
             startSpawn = false;
             MediaPlayer.Play(backgroundMusic);
