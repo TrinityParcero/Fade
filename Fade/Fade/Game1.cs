@@ -202,7 +202,7 @@ namespace Fade
             pMenu = new SelectText(false, Color.Black, Color.Magenta);
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
-            fog = new Fog(fogSprite, new Rectangle(-600, 0, 800, 480), new Rectangle(-600, 0, 350, 700), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-800, 0, 1000, 500), new Rectangle(-600, 0, 350, 700), 1, 0);
             enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 0.5, gruntDie);
             testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 1, tankDie);
 
@@ -424,17 +424,23 @@ namespace Fade
                 ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
                 {
-                    if (p1.jumping == true || p1.falling == true)
+                    if(startSpawn != true)
                     {
-                        
-                            p1.airAttack(enemy,jumpAttack);
-                        
+                        if (p1.jumping == true || p1.falling == true)
+                        {
+
+                            p1.airAttack(enemy, jumpAttack);
 
 
-
+                        }
+                        else
+                        {
+                            p1.Attack(enemy, this);
+                        }
                     }
-                    else
-                        p1.Attack(enemy, this);
+                    
+
+                       
                     if (startSpawn == true)
                     {
                         for (int i = 0; i < spawner.EnemyList.Count; i++)
@@ -447,8 +453,6 @@ namespace Fade
                                     p1.airAttack(spawner.EnemyList[i],jumpAttack);
                                 
 
-
-
                             }
                             else
                                 p1.Attack(spawner.EnemyList[i], this);
@@ -458,6 +462,8 @@ namespace Fade
                     }
 
                 }
+
+                
 
                 //animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -1307,9 +1313,10 @@ namespace Fade
                                 break;
 
                         }
-                        spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 600, 0), Color.White);
-                        spriteBatch.DrawString(textFont, hiScore.ToString(), new Vector2(camera.Position.X + 600, 0), Color.White); //high score num
-                        spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 0), Color.White); //current score num
+
+                        spriteBatch.DrawString(textFont, "HIGH SCORE", new Vector2(camera.Position.X + 500, 10), Color.White);
+                        spriteBatch.DrawString(textFont, data.loadHighScore().ToString(), new Vector2(camera.Position.X + 720, 10), Color.White); //high score num
+                        spriteBatch.DrawString(titleFont, currentScore.ToString(), new Vector2(camera.Position.X + 380, 10), Color.White); //current score num
 
                         spriteBatch.Draw(pauseImage, new Vector2(camera.Position.X, 0));
                         pContinue.DrawSelectText(spriteBatch, textFont, "CONTINUE", new Vector2(camera.Position.X + 335, 205));
@@ -1370,7 +1377,7 @@ namespace Fade
             currentScore = 0;
             farPoint = 0;
             //enemy.location = new Rectangle(600, 360, 100, 100);
-            fog.location = new Rectangle(-600, 0, 800, 480);
+            fog.location = new Rectangle(-600, 0, 1000, 500);
             fog.bounds = new Rectangle(-500, 0, 300, 700);
             fog.Speed = 1;
             startSpawn = false;

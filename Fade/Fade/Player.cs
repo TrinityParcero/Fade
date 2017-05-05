@@ -219,15 +219,17 @@ namespace Fade
                 color = Color.White;
             }
 
+            Rectangle swordBox = new Rectangle(location.X, location.Y, 250, 200);
             //set the animaiton, the sword should aim down, smash bros link down smash
             //color = Color.Blue;
             //if the enemy is touched when the player touched them, then the enemy takes twice the damage
-            if (location.Intersects(enemy.hitBox) && enemy.isDead == false)
+            if (swordBox.Intersects(enemy.hitBox) && enemy.isDead == false && location.Y < 330)
             {
-                enemy.takeDamage(2 * Damage);
+                enemy.takeDamage(3 * Damage);
                 if (bouncing == false)
                 {
-                    location.Y -= 100;
+                    JumpUpdate();
+                    //location.Y -= 100;
                 }
                 bouncing = true;
                 //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
@@ -311,7 +313,7 @@ namespace Fade
             }
             KeyboardState keystate = Keyboard.GetState();
             var ks = Keyboard.GetState();
-            if (ks.IsKeyDown(Keys.A))
+            if (ks.IsKeyDown(Keys.A) && ks.IsKeyUp(Keys.D))
             {
                 if (fogBounds.Intersects(location))
                 {
@@ -328,9 +330,13 @@ namespace Fade
             {
                 playerState = PlayerState.FaceLeft;
             }
+            if (ks.IsKeyDown(Keys.D) && ks.IsKeyDown(Keys.A))
+            {
+                playerState = PlayerState.FaceRight;
+            }
 
 
-            if (ks.IsKeyDown(Keys.D))
+            if (ks.IsKeyDown(Keys.D) && ks.IsKeyUp(Keys.A))
             {
                 playerState = PlayerState.WalkRight;
                 currentX += 2;
@@ -356,6 +362,7 @@ namespace Fade
             }
             else
             {
+
                 Health -= dmg;
                 DmgSound.Play();
                 color = Color.Red;

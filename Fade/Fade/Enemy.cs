@@ -54,7 +54,7 @@ namespace Fade
             throw new NotImplementedException();
         }
 
-        public void Jump()
+        public void Jump()      
         {
             throw new NotImplementedException();
         }
@@ -71,7 +71,7 @@ namespace Fade
                 {
                     p.isHit = true;
                     p.takeDamage(Damage);
-                    p.invincibilityFrame = 300;
+                    p.invincibilityFrame = 400;
                 }
 
             }
