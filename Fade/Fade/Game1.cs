@@ -203,7 +203,7 @@ namespace Fade
             pMenu = new SelectText(false, Color.Black, Color.Magenta);
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
-            fog = new Fog(fogSprite, new Rectangle(-800, 0, 1000, 500), new Rectangle(-600, 0, 350, 700), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-800, 0, 1000, 500), new Rectangle(-600, 0, 350, 700), 2, 0);
             enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 0.5, gruntDie);
             testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 1, tankDie);
 
@@ -422,53 +422,48 @@ namespace Fade
                 }*/
 
                 //Player Attack
+               
                 ms = Mouse.GetState();
-                if (ms.LeftButton == ButtonState.Pressed)
+                MouseState prevMouseState = ms;
+                if (ms.LeftButton == ButtonState.Pressed && p1.location.Y < 330)
                 {
-                    if(startSpawn != true)
-                    {
-                        if (p1.jumping == true || p1.falling == true)
-                        {
-
-                            p1.airAttack(enemy, jumpAttack);
-
-
-                        }
-                        else
-                        {
-                            p1.Attack(enemy, this);
-                        }
-                    }
-                    
-
-                       
                     if (startSpawn == true)
                     {
                         for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
-
-                            if (p1.jumping == true || p1.falling == true)
+                            if (p1.falling == true)
                             {
-                                
-                                
-                                    p1.airAttack(spawner.EnemyList[i],jumpAttack);
-
-                             
-
-
+                                p1.airAttack(spawner.EnemyList[i], jumpAttack);
                             }
-                            else
-                            {
-                                p1.Attack(spawner.EnemyList[i], this);
-                                
-                            }
-
-                            }
+                            
                         }
-
+                    }
+                    else
+                    {
+                        if (p1.falling == true)
+                        {
+                            p1.airAttack(enemy, jumpAttack);
+                        }
+                        
 
                     }
-                
+                }
+                else if (ms.LeftButton == ButtonState.Pressed && p1.location.Y == 330)
+                {
+                    if (startSpawn == true)
+                    {
+                        for (int i = 0; i < spawner.EnemyList.Count; i++)
+                        {
+                            p1.Attack(spawner.EnemyList[i], this);
+                        }
+                    }
+                    else
+                    {
+                        p1.Attack(enemy, this);
+                    }
+                }
+
+
 
                 //animation timing
                 timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -561,22 +556,14 @@ namespace Fade
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    if (startSpawn == true)
-                    {
-
-                    }
-                    else
+                    
                         camera.LookAt(new Vector2(p1.location.X + 200, 240));
 
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    if (startSpawn == true)
-                    {
-
-                    }
-                    else
+                    
                         camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
@@ -1108,10 +1095,10 @@ namespace Fade
 
                         }
 
-                        }
-                    
-                    
-                   
+                    }
+
+
+
 
                     if (startSpawn == true)
                     {
@@ -1295,7 +1282,7 @@ namespace Fade
                                     DrawSword(0);
                                 }
                                 break;
-                                
+
                         }
 
 
@@ -1396,8 +1383,8 @@ namespace Fade
             currentScore = 0;
             farPoint = 0;
             //enemy.location = new Rectangle(600, 360, 100, 100);
-            fog.location = new Rectangle(-600, 0, 1000, 500);
-            fog.bounds = new Rectangle(-500, 0, 300, 700);
+            fog.location = new Rectangle(-800, 0, 1000, 500);
+            fog.bounds = new Rectangle(-700, 0, 300, 700);
             fog.Speed = 1;
             startSpawn = false;
             MediaPlayer.Play(backgroundMusic);

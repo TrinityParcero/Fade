@@ -89,7 +89,7 @@ namespace Fade
                         }
                         else if (line[i] == 't')
                         {
-                            enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X + (Distance * (i + 2)), 340, 100, 100), new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 50), 2, 1, 1, tankDie));
+                            enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X + (Distance * (i + 2)), 340, 100, 100), new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 50), 2, 3, 1, tankDie));
                         }
                     }//end of for loop
                 }

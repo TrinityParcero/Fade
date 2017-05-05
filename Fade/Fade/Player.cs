@@ -199,6 +199,8 @@ namespace Fade
         //Air Attack
         public void airAttack(Enemy enemy, Texture2D jumpAttack)
         {
+            //integer for the max height that the player should bounce to
+            int bounceMax = location.Y - 50;
             //bool bouncing = false;
             //the air attack bool does absolutley nothing right now
             AirAttack = true;
@@ -219,21 +221,40 @@ namespace Fade
                 color = Color.White;
             }
 
-            Rectangle swordBox = new Rectangle(location.X, location.Y, 250, 200);
+            Rectangle swordBox = new Rectangle(location.X, location.Y, 100, 200);
             //set the animaiton, the sword should aim down, smash bros link down smash
             //color = Color.Blue;
             //if the enemy is touched when the player touched them, then the enemy takes twice the damage
             if (swordBox.Intersects(enemy.hitBox) && enemy.isDead == false && location.Y < 330)
             {
-                enemy.takeDamage(Damage);
-
+                if (enemy.isDead == false)
+                {
+                    enemy.takeDamage(3 * Damage);
+                    enemy.Death.Play();
+                }
                 
                 if (bouncing == false)
                 {
                     //JumpUpdate();
-                    location.Y -= 100;
+                    falling = false;
+                    location.Y -= 30;
+                    jumping = true;
+
                 }
                 bouncing = true;
+                if (location.Y <= bounceMax)
+                {
+                    bouncing = false;
+                    falling = true;
+                }
+                //to make sure the player isnt boucing off of dead enemies
+                if (swordBox.Intersects(enemy.hitBox) && enemy.isDead == true)
+                {
+                    jumping = false;
+                    falling = true;
+                }
+                
+                
                 //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
                 //location.Y -= 50;
 
