@@ -98,7 +98,6 @@ namespace Fade
         double fps;
         int count;
         double timePerFrame;
-        double longTimePerFrame; //longer time per frame for slow animations    
         Vector2 playerLoc;
         public Vector2 swordPos;
 
@@ -453,18 +452,22 @@ namespace Fade
                                 
                                 
                                     p1.airAttack(spawner.EnemyList[i],jumpAttack);
-                                
+
+                             
+
 
                             }
                             else
+                            {
                                 p1.Attack(spawner.EnemyList[i], this);
+                                
+                            }
+
+                            }
                         }
 
 
                     }
-
-                }
-
                 
 
                 //animation timing
@@ -601,7 +604,13 @@ namespace Fade
 
         private void DrawWave()
         {
-            
+            for (int i = 0; i < spawner.EnemyList.Count; i++)
+            {
+                if (spawner.EnemyList[i].isDead)
+                {
+                    EnemyDie(spawner.EnemyList[i]);
+                }
+            }
             //spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
             if (spawner.EnemyList[0].isDead == false)
             {
@@ -764,20 +773,18 @@ namespace Fade
                 }
             }
 
+
             else
             {
+
                 spawner.EnemyList.Clear();
                 startSpawn = false;
             }
         }
         //ANIMATION
-        private void EnemyDie(Enemy enemy, int counter)
+        private void EnemyDie(Enemy enemy)
         {
-            if(counter < 5)
-            {
-                //spriteBatch.Draw(deathFog, new Rectangle(enemy.deathLocation, 372, 100, 100), Color.White);
-                //EnemyDie(enemy, counter + 1);
-            }
+                 spriteBatch.Draw(sword, new Rectangle(enemy.deathLocation, 372, 100, 100), Color.White);
            
         }
 

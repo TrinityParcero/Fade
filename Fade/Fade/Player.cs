@@ -225,7 +225,9 @@ namespace Fade
             //if the enemy is touched when the player touched them, then the enemy takes twice the damage
             if (swordBox.Intersects(enemy.hitBox) && enemy.isDead == false && location.Y < 330)
             {
-                enemy.takeDamage(3 * Damage);
+                enemy.takeDamage(Damage);
+
+                
                 if (bouncing == false)
                 {
                     //JumpUpdate();

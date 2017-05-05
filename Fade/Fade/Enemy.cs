@@ -31,7 +31,7 @@ namespace Fade
 
         public Rectangle location;
 
-        public int deathLocation;
+        public int deathLocation { get { return location.X; } }
 
         public Rectangle hitBox;
         public EnemyState eState = EnemyState.FaceLeft;
@@ -145,7 +145,6 @@ namespace Fade
         {  
             if (Health <= 0)
             {
-                deathLocation = location.X;
                 isDead = true;
             }
             else

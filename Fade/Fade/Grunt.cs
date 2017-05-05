@@ -30,7 +30,7 @@ namespace Fade
         bool isSpawn;// states whether or not the grunt has spawned
         int gruntJI; // amount by which the grunt's jump height increments
         //public Rectangle location;// rectangle for the grunt's location
-        public Texture2D sprite { get; set; }
+       // public Texture2D sprite { get; set; }
         public bool jumping { get; set; }//bool to test for grunt jumping
         public bool falling { get; set; }//bool to test for grunt falling
         public GruntState gruntState = GruntState.WalkLeft;//initialized grunt state
