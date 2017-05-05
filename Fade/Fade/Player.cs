@@ -199,6 +199,8 @@ namespace Fade
         //Air Attack
         public void airAttack(Enemy enemy, Texture2D jumpAttack)
         {
+            //integer for the max height that the player should bounce to
+            int bounceMax = location.Y - 50;
             //bool bouncing = false;
             //the air attack bool does absolutley nothing right now
             AirAttack = true;
@@ -229,9 +231,25 @@ namespace Fade
                 if (bouncing == false)
                 {
                     //JumpUpdate();
-                    location.Y -= 100;
+                    falling = false;
+                    location.Y -= 30;
+                    jumping = true;
+
                 }
                 bouncing = true;
+                if (location.Y <= bounceMax)
+                {
+                    bouncing = false;
+                    falling = true;
+                }
+                //to make sure the player isnt boucing off of dead enemies
+                if (swordBox.Intersects(enemy.hitBox) && enemy.isDead == true)
+                {
+                    jumping = false;
+                    falling = true;
+                }
+                
+                
                 //the player should also bounce, the jumpUpdate code should still continue working by moving the player up and/ or down
                 //location.Y -= 50;
 
