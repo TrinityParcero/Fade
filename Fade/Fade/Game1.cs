@@ -86,7 +86,6 @@ namespace Fade
         //KB & MOUSE
         KeyboardState ks;
         KeyboardState previousState = Keyboard.GetState();
-        MouseState ms;
         MouseState oldState = Mouse.GetState();
 
         //ANIMATION
@@ -423,9 +422,9 @@ namespace Fade
                 }*/
 
                 //Player Attack
-               
-                ms = Mouse.GetState();
-                MouseState prevMouseState = ms;
+
+                
+                var ms = Mouse.GetState();
                 if (ms.LeftButton == ButtonState.Pressed && p1.location.Y < 330)
                 {
                     if (startSpawn == true)
@@ -449,7 +448,7 @@ namespace Fade
 
                     }
                 }
-                else if (ms.LeftButton == ButtonState.Pressed && p1.location.Y == 330)
+                else if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released && p1.location.Y == 330)
                 {
                     if (startSpawn == true)
                     {
@@ -463,7 +462,7 @@ namespace Fade
                         p1.Attack(enemy, this);
                     }
                 }
-
+                oldState = ms;
 
 
                 //animation timing
@@ -571,7 +570,7 @@ namespace Fade
             }
 
             previousState = ks;
-            oldState = ms;
+            //oldState = ms;
 
             base.Update(gameTime);
         }

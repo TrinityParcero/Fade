@@ -40,7 +40,7 @@ namespace Fade
 
         public bool isDead { get; set; }
 
-        public int Speed { get; set; }
+        public double Speed { get; set; }
 
         public Texture2D sprite { get; set; }
 
@@ -103,7 +103,7 @@ namespace Fade
             Damage = 1;
             Health = 3.0;
             isDead = false;
-            Speed = 1;
+            Speed = 1.5;
             sprite = asset;
             location = loc;
             currentX = loc.X;
