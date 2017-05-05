@@ -204,7 +204,7 @@ namespace Fade
             pMenu = new SelectText(false, Color.Black, Color.Magenta);
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
-            fog = new Fog(fogSprite, new Rectangle(-800, 0, 1000, 500), new Rectangle(-600, 0, 350, 700), 1, 0);
+            fog = new Fog(fogSprite, new Rectangle(-800, 0, 1000, 500), new Rectangle(-600, 0, 350, 700), 2, 0);
             enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 0.5, gruntDie);
             testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 1, tankDie);
 
@@ -557,22 +557,14 @@ namespace Fade
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    if (startSpawn == true)
-                    {
-
-                    }
-                    else
+                    
                         camera.LookAt(new Vector2(p1.location.X + 200, 240));
 
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    if (startSpawn == true)
-                    {
-
-                    }
-                    else
+                    
                         camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
