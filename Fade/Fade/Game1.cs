@@ -177,7 +177,7 @@ namespace Fade
             floor = Content.Load<Texture2D>("floor");
             heart = Content.Load<Texture2D>("menus/hearts");
             jumpAttack = Content.Load<Texture2D>("characters/jumpAttack");
-            //deathFog = Content.Load<Texture2D>("fogpuff");
+            deathFog = Content.Load<Texture2D>("fogpuff");
 
             //type
             textFont = Content.Load<SpriteFont>("textFont");
@@ -779,7 +779,7 @@ namespace Fade
         //ANIMATION
         private void EnemyDie(Enemy enemy)
         {
-                 spriteBatch.Draw(sword, new Rectangle(enemy.deathLocation, 372, 100, 100), Color.White);
+                 spriteBatch.Draw(deathFog, new Rectangle(enemy.deathLocation, 372, 100, 100), Color.White);
            
         }
 
