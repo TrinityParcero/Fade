@@ -206,7 +206,7 @@ namespace Fade
             enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 0.5, gruntDie);
             testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 1, tankDie);
 
-            MediaPlayer.Volume = 0.08f;
+            MediaPlayer.Volume = 0.05f;
             MediaPlayer.Play(backgroundMusic);
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
         }
@@ -597,8 +597,23 @@ namespace Fade
                     EnemyDie(spawner.EnemyList[i]);
                 }
             }
+            foreach (Enemy item in spawner.EnemyList)
+            {
+                if (item is Grunt)
+                {
+                    DrawGruntHopping(0, item);
+                    item.Run(fog.bounds, p1);
+                }
+                else if (item is Tank)
+                {
+                    DrawTankRunning(0, item);
+                    item.Run(fog.bounds, p1);
+                    item.chargeUpdate(7, p1);
+                }
+                
+            }
             //spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
-            if (spawner.EnemyList[0].isDead == false)
+            /*if (spawner.EnemyList[0].isDead == false)
             {
                 if (spawner.EnemyList[0] is Grunt)
                 {
@@ -630,7 +645,6 @@ namespace Fade
                     }
                 }
             }
-
             if (spawner.EnemyList[1].isDead == false)
             {
                 if (spawner.EnemyList[1] is Grunt)
@@ -662,7 +676,6 @@ namespace Fade
                     }
                 }
             }
-
             if (spawner.EnemyList[2].isDead == false)
             {
                 if (spawner.EnemyList[2] is Grunt)
@@ -694,7 +707,6 @@ namespace Fade
                     }
                 }
             }
-
             if (spawner.EnemyList[3].isDead == false)
             {
                 if (spawner.EnemyList[3] is Grunt)
@@ -726,7 +738,6 @@ namespace Fade
                     }
                 }
             }
-
             if (spawner.EnemyList[4].isDead == false)
             {
                 if (spawner.EnemyList[4] is Grunt)
@@ -759,13 +770,11 @@ namespace Fade
                 }
             }
 
-
             else
             {
-
                 spawner.EnemyList.Clear();
                 startSpawn = false;
-            }
+            }*/
         }
         //ANIMATION
         private void EnemyDie(Enemy enemy)
