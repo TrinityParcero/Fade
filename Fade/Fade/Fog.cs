@@ -32,7 +32,7 @@ namespace Fade
             //move at about half player speed by default
             if (bounds.Intersects(player.location))
             {
-                Speed = 2;
+                Speed = 1.8;
                 //for now the fog stops but i want to change this
                 location.X += (int)Speed / 2;
                 bounds.X += (int)Speed / 2;
@@ -55,7 +55,7 @@ namespace Fade
                 if (player.invincibilityFrame <= 0)
                 {
                     player.isHit = true;
-                    player.invincibilityFrame = 90;
+                    player.invincibilityFrame = 200;
                     player.takeDamage(0.5);
                 }
             }
@@ -74,7 +74,7 @@ namespace Fade
             //enemy.isDead = true;
             if (enemy.isDead == false)
             {
-                Speed += 0.25;
+                Speed += 0.2;
             }
             
         }

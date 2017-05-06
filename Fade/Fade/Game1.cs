@@ -202,7 +202,7 @@ namespace Fade
             pMenu = new SelectText(false, Color.Black, Color.Magenta);
             gRetry = new SelectText(true, Color.White, Color.Magenta);
             gMenu = new SelectText(false, Color.White, Color.Magenta);
-            fog = new Fog(fogSprite, new Rectangle(-800, 0, 1000, 500), new Rectangle(-600, 0, 350, 700), 2, 0);
+            fog = new Fog(fogSprite, new Rectangle(-800, 0, 1000, 500), new Rectangle(-600, 0, 350, 700), 1.8, 0);
             enemy = new Grunt(gruntSheet, new Rectangle(0, 380, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 0.5, gruntDie);
             testTank = new Tank(tankSheet, new Rectangle(0, 360, 0, 0), new Rectangle(0, 372, 50, 50), 1, 3, 1, tankDie);
 
@@ -259,7 +259,7 @@ namespace Fade
             }
             else if (currentState == GameState.Game && (p1.isDead))  //B key is temp for testing til we have damage going
             {
-                playerDeath.Play();
+                playerDeath.Play(0.05f, 0f, 0f);
                 currentState = GameState.GameOver;
             }
             else if (currentState == GameState.GamePause && pContinue.IsSelected && SingleKeyPress(Keys.Enter))
@@ -398,53 +398,22 @@ namespace Fade
 
                 }
 
-                //player taking damage
-                /*foreach(Enemy enemy in spawner.EnemyList)
-                {
-                    if (p1.location.Intersects(enemy.location))
-                    {
-                        if (p1.invincibilityFrame <= 0)
-                        {
-                            p1.isHit = true;
-                            p1.takeDamage(enemy.Damage);
-                            p1.invincibilityFrame = 180;
-                        }
-                    }
-                    if (p1.invincibilityFrame > 0)
-                    {
-                        p1.invincibilityFrame--;
-                    }
-                    else
-                    {
-                        p1.color = Color.White;
-                    }
-                }*/
-
                 //Player Attack
 
-                
+
                 var ms = Mouse.GetState();
-                if (ms.LeftButton == ButtonState.Pressed && p1.location.Y < 330)
+                if (ms.LeftButton == ButtonState.Pressed && p1.falling == true)
                 {
                     if (startSpawn == true)
                     {
                         for (int i = 0; i < spawner.EnemyList.Count; i++)
                         {
-                            if (p1.falling == true)
-                            {
-                                p1.airAttack(spawner.EnemyList[i], jumpAttack);
-                            }
-                            
+                            p1.airAttack(spawner.EnemyList[i], jumpAttack);
                         }
                     }
                     else
                     {
-                        if (p1.falling == true)
-                        {
-                            p1.airAttack(enemy, jumpAttack);
-                        }
-                        
-
+                        p1.airAttack(enemy, jumpAttack);
                     }
                 }
                 else if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released && p1.location.Y == 330)
@@ -521,8 +490,12 @@ namespace Fade
                 currentScore = (farPoint / 4) - 50;
                 if (currentScore != 0 && currentScore % 300 == 0)
                 {
-                    spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location, gruntDie, tankDie);
-                    startSpawn = true;
+                    if (startSpawn == false)
+                    {
+                        spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location, gruntDie, tankDie);
+                        startSpawn = true;
+                    }
+                   
                 }
 
                 //update healthstate based on player health
@@ -555,15 +528,15 @@ namespace Fade
                 //CAMERA
                 if (ks.IsKeyDown(Keys.D))
                 {
-                    
-                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
+
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
 
                     //camera.Position += new Vector2(250, 0) * deltaTime / 2;
                 }
                 if (ks.IsKeyDown(Keys.A))
                 {
-                    
-                        camera.LookAt(new Vector2(p1.location.X + 200, 240));
+
+                    camera.LookAt(new Vector2(p1.location.X + 200, 240));
                     //camera.Position -= new Vector2(250, 0) * deltaTime / 2;
                 }
             }
@@ -597,23 +570,9 @@ namespace Fade
                     EnemyDie(spawner.EnemyList[i]);
                 }
             }
-            foreach (Enemy item in spawner.EnemyList)
-            {
-                if (item is Grunt)
-                {
-                    DrawGruntHopping(0, item);
-                    item.Run(fog.bounds, p1);
-                }
-                else if (item is Tank)
-                {
-                    DrawTankRunning(0, item);
-                    item.Run(fog.bounds, p1);
-                    item.chargeUpdate(7, p1);
-                }
-                
-            }
+
             //spawner.CreateSpawn("values.txt", gruntSheet, tankSheet, p1.location);
-            /*if (spawner.EnemyList[0].isDead == false)
+            if (spawner.EnemyList[0].isDead == false)
             {
                 if (spawner.EnemyList[0] is Grunt)
                 {
@@ -645,6 +604,7 @@ namespace Fade
                     }
                 }
             }
+
             if (spawner.EnemyList[1].isDead == false)
             {
                 if (spawner.EnemyList[1] is Grunt)
@@ -707,6 +667,7 @@ namespace Fade
                     }
                 }
             }
+            
             if (spawner.EnemyList[3].isDead == false)
             {
                 if (spawner.EnemyList[3] is Grunt)
@@ -738,6 +699,7 @@ namespace Fade
                     }
                 }
             }
+           
             if (spawner.EnemyList[4].isDead == false)
             {
                 if (spawner.EnemyList[4] is Grunt)
@@ -769,18 +731,18 @@ namespace Fade
                     }
                 }
             }
+           
 
-            else
+           else
             {
                 spawner.EnemyList.Clear();
                 startSpawn = false;
-            }*/
+            }
         }
         //ANIMATION
         private void EnemyDie(Enemy enemy)
         {
-                 spriteBatch.Draw(deathFog, new Rectangle(enemy.deathLocation, 372, 100, 100), Color.White);
-           
+            spriteBatch.Draw(deathFog, new Rectangle(enemy.deathLocation, 372, 100, 100), Color.White);
         }
 
         private void DrawPlayerStanding(SpriteEffects flipSprite)

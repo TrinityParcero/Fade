@@ -152,7 +152,7 @@ namespace Fade
                     if (enemy.isDead == false)
                     {
                         enemy.takeDamage(Damage);
-                        enemy.Death.Play(0.5f, 0f, 0f);
+                        enemy.Death.Play(0.05f, 0f, 0f);
                     }
                 }
             }
@@ -166,7 +166,7 @@ namespace Fade
                     if (enemy.isDead == false)
                     {
                         enemy.takeDamage(Damage);
-                        enemy.Death.Play(0.5f, 0f, 0f);
+                        enemy.Death.Play(0.05f, 0f, 0f);
                     }
                 }
             }
@@ -221,7 +221,7 @@ namespace Fade
                 color = Color.White;
             }
 
-            Rectangle swordBox = new Rectangle(location.X, location.Y, 100, 200);
+            Rectangle swordBox = new Rectangle(location.X, location.Y, 50, 200);
             //set the animaiton, the sword should aim down, smash bros link down smash
             //color = Color.Blue;
             //if the enemy is touched when the player touched them, then the enemy takes twice the damage
@@ -230,7 +230,7 @@ namespace Fade
                 if (enemy.isDead == false)
                 {
                     enemy.takeDamage(3 * Damage);
-                    enemy.Death.Play();
+                    enemy.Death.Play(0.05f,0f,0f);
                 }
                 
                 if (bouncing == false)
@@ -385,9 +385,8 @@ namespace Fade
             }
             else
             {
-
                 Health -= dmg;
-                DmgSound.Play();
+                DmgSound.Play(0.05f,0,0);
                 color = Color.Red;
             }
         }

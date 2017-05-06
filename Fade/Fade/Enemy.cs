@@ -153,11 +153,6 @@ namespace Fade
                 color = Color.Red;
             }
         }
-
-        public virtual void Draw(SpriteBatch batch)
-        {
-            batch.Draw(sprite, location, Color.White);
-        }
  
     }
 }
