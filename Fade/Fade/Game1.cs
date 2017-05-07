@@ -1346,7 +1346,7 @@ namespace Fade
                 data.newHighScore(currentScore);
             }
             camera.Position = new Vector2(0, 0); //reset camera so it doesnt stay off-centered in other states
-            p1.location = new Rectangle(200, 350, 120, 140);
+            p1.location = new Rectangle(200, 330, 120, 140);
             p1.isDead = false;
             p1.color = Color.White;
             p1.Health = 3;
@@ -1356,6 +1356,10 @@ namespace Fade
             fog.location = new Rectangle(-800, 0, 1000, 500);
             fog.bounds = new Rectangle(-700, 0, 300, 700);
             fog.Speed = 1;
+            if (startSpawn == true)
+            {
+                spawner.EnemyList.Clear();
+            }
             startSpawn = false;
             MediaPlayer.Play(backgroundMusic);
         }
