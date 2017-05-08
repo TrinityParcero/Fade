@@ -135,6 +135,7 @@ namespace Fade
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.IsFullScreen = true;
         }
 
         //INITIALIZE /////////////////////////////////////

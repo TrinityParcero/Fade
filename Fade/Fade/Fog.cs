@@ -32,10 +32,10 @@ namespace Fade
             //move at about half player speed by default
             if (bounds.Intersects(player.location))
             {
-                Speed = 1.8;
+                Speed = 1.5;
                 //for now the fog stops but i want to change this
-                location.X += (int)Speed / 2;
-                bounds.X += (int)Speed / 2;
+                location.X += (int)Speed;
+                bounds.X += (int)Speed;
             }
             else
             {
