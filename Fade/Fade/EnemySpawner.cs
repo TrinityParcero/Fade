@@ -54,12 +54,12 @@ namespace Fade
                         if (line[i] == 'g')
                         {
                             enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance * (i + 2)), 372, 100, 100), 
-                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 50), 3, 1, 0.5,gruntDie));
+                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 25, 50), 3, 1, 0.5,gruntDie));
                         }
                         else if (line[i] == 't')
                         {
                             enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X+(Distance * (i + 2)), 340, 100, 100), 
-                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 50), 2,3,1,tankDie));
+                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 340, 50, 50), 2,3,1,tankDie));
                         }
                     }//end of for loop
                 }
@@ -72,12 +72,12 @@ namespace Fade
                         if (line[i] == 'g')
                         {
                             enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 100), 
-                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 50), 3, 1, 0.5, gruntDie));
+                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 25, 50), 3, 1, 0.5, gruntDie));
                         }
                         else if (line[i] == 't')
                         {
                             enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X + (Distance * (i + 2)), 340, 100, 100), 
-                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 50), 2, 3, 1, tankDie));
+                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 340, 50, 50), 2, 3, 1, tankDie));
                         }
                     }//end of for loop
                 }
@@ -90,12 +90,12 @@ namespace Fade
                         if (line[i] == 'g')
                         {
                             enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 100), 
-                                new Rectangle(((playerLoc.X) + (Distance * (i + 2))), 372, 100, 50), 3, 1, 0.5, gruntDie));
+                                new Rectangle(((playerLoc.X) + (Distance * (i + 2))), 372, 25, 50), 3, 1, 0.5, gruntDie));
                         }
                         else if (line[i] == 't')
                         {
                             enemyList.Add(new Tank(tank, new Rectangle(playerLoc.X + (Distance * (i + 2)), 340, 100, 100), 
-                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 50), 2, 3, 1, tankDie));
+                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 340, 50, 50), 2, 3, 1, tankDie));
                         }
                     }//end of for loop
                 }
