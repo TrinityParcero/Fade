@@ -208,7 +208,7 @@ namespace Fade
             {
                 //isHit = true;
                 //takeDamage(Damage);
-                invincibilityFrame = 400;
+                invincibilityFrame = 200;
             }
 
             if (invincibilityFrame > 0)
