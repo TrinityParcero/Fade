@@ -194,7 +194,7 @@ namespace Fade
             playerDeath = Content.Load<SoundEffect>("audio/playerDie");
 
             //objects
-            p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140), playerDamage, playerDeath);
+            p1 = new Player(spriteSheet, new Rectangle(200, 330, 120, 140), new Rectangle(200,330,80,100), playerDamage, playerDeath);
             mStart = new SelectText(true, Color.White, Color.Black);
             mQuit = new SelectText();
             mControls = new SelectText();
@@ -1348,6 +1348,7 @@ namespace Fade
             }
             camera.Position = new Vector2(0, 0); //reset camera so it doesnt stay off-centered in other states
             p1.location = new Rectangle(200, 330, 120, 140);
+            p1.hitBox = new Rectangle(200, 330, 80, 100);
             p1.isDead = false;
             p1.color = Color.White;
             p1.Health = 3;

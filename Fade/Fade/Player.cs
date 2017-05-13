@@ -51,6 +51,7 @@ namespace Fade
         //will be used for iframes
 
         public Rectangle location;
+        public Rectangle hitBox;
 
         public Color color { get; set; }
 
@@ -98,7 +99,7 @@ namespace Fade
         private int timeSinceLastFrame = 0;
         private int millisecondsPerFrame = 0;
 
-        public Player(Texture2D asset, Rectangle loc, SoundEffect damage, SoundEffect death)
+        public Player(Texture2D asset, Rectangle loc, Rectangle hb,SoundEffect damage, SoundEffect death)
         {
             Damage = 1;
             Health = 3.0;
@@ -106,6 +107,7 @@ namespace Fade
             Speed = 1.5;
             sprite = asset;
             location = loc;
+            hitBox = hb;
             currentX = loc.X;
             currentFrame = 0;
             totalFrames = loc.X * loc.Y;
@@ -238,6 +240,7 @@ namespace Fade
                     //JumpUpdate();
                     falling = false;
                     location.Y -= 30;
+                    hitBox.Y -= 30;
                     jumping = true;
 
                 }
@@ -292,7 +295,7 @@ namespace Fade
             if (jumping == true)
             {
                 location.Y -= jumpIncrement;
-
+                hitBox.Y -= jumpIncrement;
 
                 /*
                 g -= -(i * i) + 10 * i;
@@ -314,6 +317,7 @@ namespace Fade
             {
 
                 location.Y += 5;
+                hitBox.Y += 5;
             }
 
             if (location.Y >= ground)
@@ -321,6 +325,7 @@ namespace Fade
                 jumping = false;
                 falling = false;
                 location.Y = ground;
+                hitBox.Y = ground;
                 AirAttack = false;
             }
 
@@ -347,6 +352,7 @@ namespace Fade
                     playerState = PlayerState.WalkLeft;
                     currentX -= 2;
                     location.X -= 2;
+                    hitBox.X -= 2;
                 }
             }
             if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkLeft)
@@ -364,6 +370,7 @@ namespace Fade
                 playerState = PlayerState.WalkRight;
                 currentX += 2;
                 location.X += 2;
+                hitBox.X += 2;
             }
 
             if (ks.IsKeyUp(Keys.A) && previous.IsKeyUp(Keys.D) && playerState == PlayerState.WalkRight)

@@ -101,7 +101,7 @@ namespace Fade
                 //Death.Play();
                 location.X -= chargeSpeed;
                 hitBox.X -= chargeSpeed;
-                if (p.location.Intersects(hitBox))
+                if (p.hitBox.Intersects(hitBox))
                 {
                     if (p.invincibilityFrame <= 0)
                     {
