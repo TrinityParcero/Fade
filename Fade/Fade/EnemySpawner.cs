@@ -54,7 +54,7 @@ namespace Fade
                         if (line[i] == 'g')
                         {
                             enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X)+(Distance * (i + 2)), 372, 100, 100), 
-                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 25, 50), 3, 1, 0.5,gruntDie));
+                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 20, 50), 3, 1, 0.5,gruntDie));
                         }
                         else if (line[i] == 't')
                         {
@@ -72,7 +72,7 @@ namespace Fade
                         if (line[i] == 'g')
                         {
                             enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 100), 
-                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 25, 50), 3, 1, 0.5, gruntDie));
+                                new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 20, 50), 3, 1, 0.5, gruntDie));
                         }
                         else if (line[i] == 't')
                         {
@@ -90,7 +90,7 @@ namespace Fade
                         if (line[i] == 'g')
                         {
                             enemyList.Add(new Grunt(grunt, new Rectangle((playerLoc.X) + (Distance * (i + 2)), 372, 100, 100), 
-                                new Rectangle(((playerLoc.X) + (Distance * (i + 2))), 372, 25, 50), 3, 1, 0.5, gruntDie));
+                                new Rectangle(((playerLoc.X) + (Distance * (i + 2))), 372, 20, 50), 3, 1, 0.5, gruntDie));
                         }
                         else if (line[i] == 't')
                         {
